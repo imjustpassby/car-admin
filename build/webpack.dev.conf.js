@@ -57,7 +57,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       favicon: resolve('favicon.ico'),
-      title: '星愿汽车服务管理系统'
+      title: '优车助手汽车服务管理系统'
     })
   ]
 })

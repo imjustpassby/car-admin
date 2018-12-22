@@ -1,13 +1,13 @@
 <template>
   <div>
-      this is customers point page.
+    this is point mall page.
   </div>
 </template>
 
 <script>
 
   export default {
-    name:'CusPoint',
+    name:'',
     props:[''],
     data () {
       return {
@@ -25,7 +25,7 @@
 
     mounted() {},
 
-    methods: {},
+    methods: {}
 
   }
 

@@ -1,30 +1,26 @@
 <template>
   <div class="dashboard-container">
-    <!-- 
-    <div class="dashboard-text">name:{{ name }}</div>
-    <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>
-    -->
-    <h1>星愿汽车服务管理系统</h1>
+    <h1>优车助手汽车服务管理系统</h1>
     <div class="dashboard-quick">
-      <div class="quickfunc">
+      <div class="quick-func">
         <svg class="icon" aria-hidden="true" @click="push('/order/create-order')">
           <use xlink:href="#icon-gongdanguanli"></use>
         </svg>
         <router-link to="/order/create-order">创建订单</router-link>
       </div>
-      <div class="quickfunc">
+      <div class="quick-func">
         <svg class="icon" aria-hidden="true" @click="push('/storage/check-storage')">
           <use xlink:href="#icon-peijianjisong"></use>
         </svg>
         <router-link to="/storage/check-storage">库存盘点</router-link>
       </div>
-      <div class="quickfunc">
+      <div class="quick-func">
         <svg class="icon" aria-hidden="true" @click="push('/customers/cus-info')">
           <use xlink:href="#icon-icons-man-in-white-"></use>
         </svg>
-        <router-link to="/customers/cus-info">客户信息</router-link>
+        <router-link to="/customers/cus-info">会员资料</router-link>
       </div>
-      <div class="quickfunc">
+      <div class="quick-func">
         <svg class="icon" aria-hidden="true" @click="push('/report/report-finance')">
           <use xlink:href="#icon-balance"></use>
         </svg>
@@ -35,12 +31,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "Dashboard",
   components: {},
   computed: {
-    ...mapGetters(["name", "roles"])
   },
   methods: {
     push(path) {
@@ -80,14 +74,14 @@ $quick: #2c2c2c;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: flex-end;
-    .quickfunc {
+    .quick-func {
       width: 200px;
       height: 300px;
       padding: 20px;
-      margin-top: 50px;
+      margin-top: 7%;
       border: 2px solid $quick;
       border-radius: 10px;
-      font-size: 24px;
+      font-size: 28px;
       text-align: center;
       &:hover {
         border: 1px solid $hoverblue;
@@ -102,6 +96,7 @@ $quick: #2c2c2c;
       cursor: pointer;
     }
     a {
+      font-family: 'weiruan';
       line-height: 1;
       position: relative;
     }

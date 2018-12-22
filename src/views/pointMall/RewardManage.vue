@@ -1,13 +1,13 @@
 <template>
   <div>
-    this is customs info manage page.
+    this is reward manage page.
   </div>
 </template>
 
 <script>
 
   export default {
-    name:'CusInfoManage',
+    name:'',
     props:[''],
     data () {
       return {
@@ -25,7 +25,7 @@
 
     mounted() {},
 
-    methods: {},
+    methods: {}
 
   }
 
