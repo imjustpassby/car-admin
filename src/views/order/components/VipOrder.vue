@@ -56,7 +56,7 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <span class="form-item">业务花费</span>
+      <span class="form-item">项目花费</span>
       <el-form-item
         v-for="(item, index) in content"
         :label="'项目' + (index+1)"
@@ -349,7 +349,7 @@ export default {
       this.content.push({
         item: "",
         cost: 0,
-        key: 1545468633009
+        key: Date.now()
       });
     },
     removeContent(item) {
@@ -451,6 +451,7 @@ export default {
           }
         );
       } else {
+        // deal cus balance & point
         this.$alert("订单提交完成！", "完成", {
           confirmButtonText: "确定",
           center: true,
@@ -474,11 +475,6 @@ export default {
 }
 .content-margin {
   margin: 0 12px;
-}
-.form-item {
-  color: #1890ff;
-  font-size: 20px;
-  border-bottom: 2px solid #e0eef8;
 }
 .total-price {
   color: orange;

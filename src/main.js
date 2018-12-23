@@ -6,6 +6,7 @@ import animate from 'animate.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
+import moment from 'moment'
 import Echarts from 'echarts'
 
 import '@/styles/index.scss' // global css
@@ -17,6 +18,8 @@ import store from './store'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+
+Vue.prototype.$moment = moment;
 
 Vue.use(ElementUI, {locale})
 Vue.use(Router)

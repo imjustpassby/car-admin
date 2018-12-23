@@ -101,7 +101,7 @@ export const constantRouterMap = [{
         name: 'RetrieveOrder',
         component: () => import('@/views/order/RetrieveOrder'),
         meta: {
-          title: '订单查询',
+          title: '历史订单',
           icon: 'find'
         }
       }
@@ -156,21 +156,13 @@ export const constantRouterMap = [{
       title: '财务支出',
       icon: 'payment'
     },
-    children: [{
-        path: 'pay-daily',
-        name: 'DailyPay',
-        component: () => import('@/views/payment/DailyPay'),
-        meta: {
-          title: '日常支出',
-          icon: 'daily'
-        }
-      },
+    children: [
       {
         path: 'pay-salary',
         name: 'salaryPay',
-        component: () => import('@/views/payment/SalaryPay'),
+        component: () => import('@/views/payment/MonthlyPay'),
         meta: {
-          title: '工资支出',
+          title: '每月支出',
           icon: 'salary'
         }
       },

@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-form :model="staffInfo" :rules="rules" ref="updateInfo" :label-position="labelPosition" label-width="120px">
+      <span class="form-item">员工信息更新</span>
       <el-form-item label="员工姓名" prop="name">
         <span style="margin-left:16px;color:#409EFF">{{ staffInfo.name }}</span>
       </el-form-item>

@@ -7,6 +7,13 @@
       :label-position="labelPosition"
       label-width="120px"
     >
+      <span class="form-item">车辆信息</span>
+      <el-form-item label="车牌" required>
+        <el-input v-model="commonOrder.cusInfo[0].plate"></el-input>
+      </el-form-item>
+      <el-form-item label="汽车品牌" required>
+        <el-input v-model="commonOrder.cusInfo[0].brand"></el-input>
+      </el-form-item>
       <span class="form-item">业务选择</span>
       <el-form-item label="日期" prop="date">
         <el-date-picker
@@ -28,7 +35,7 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <span class="form-item">业务花费</span>
+      <span class="form-item">项目花费</span>
       <el-form-item v-for="(item, index) in content" :label="'项目' + (index+1)" :key="item.key">
         <el-input v-model="item.item" style="width:50%"></el-input>
         <span style="margin:0 16px 0 36px">金额</span>
@@ -97,7 +104,9 @@ export default {
     return {
       labelPosition: "right",
       rules: {
-        date: [{ required: true, message: "请选择日期", trigger: "blur" }],
+        date: [
+          { required: true, message: '请选择日期', trigger: 'blur' }
+        ],
         services: [
           { required: true, message: "业务选择不能为空", trigger: "blur" }
         ]
@@ -151,7 +160,7 @@ export default {
         orderType: "普通客户",
         cusInfo: [
           {
-            name: '普通客户',
+            name: "普通客户",
             phone: null,
             plate: null,
             brand: null,
@@ -258,7 +267,7 @@ export default {
       this.content.push({
         item: "",
         cost: 0,
-        key: 1545468633009
+        key: Date.now()
       });
     },
     removeContent(item) {
@@ -316,11 +325,6 @@ export default {
 }
 .content-margin {
   margin: 0 12px;
-}
-.form-item {
-  color: #1890ff;
-  font-size: 20px;
-  border-bottom: 2px solid #e0eef8;
 }
 .total-price {
   color: orange;

@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-form :model="newStaff" :rules="rules" ref="createStaff" :label-position="labelPosition" label-width="120px">
+      <span class="form-item">新员工加入</span>
       <el-form-item label="员工姓名" prop="name">
         <el-input v-model="newStaff.name"></el-input>
       </el-form-item>

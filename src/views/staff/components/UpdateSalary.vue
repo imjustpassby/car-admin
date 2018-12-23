@@ -7,6 +7,7 @@
       :label-position="labelPosition"
       label-width="120px"
     >
+      <span class="form-item">工资更新</span>
       <el-form-item label="员工姓名" prop="name">
         <span style="margin-left:16px;color:#409EFF">{{ staffSalary.name }}</span>
       </el-form-item>

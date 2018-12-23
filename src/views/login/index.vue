@@ -291,6 +291,9 @@ $lg_input: #3f3736;
   background-color: $bg;
   background: url("../../assets/backgrounds/login-bg.jpg") center no-repeat;
   background-size: 100%;
+  .el-form{
+    border: none;
+  }
   .el-form-item {
     width: 75%;
     margin-left: 10%;

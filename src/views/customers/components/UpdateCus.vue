@@ -7,6 +7,7 @@
       :label-position="labelPosition"
       label-width="120px"
     >
+      <span class="form-item">信息更改</span>
       <el-form-item label="姓名" prop="name">
         <span style="margin-left:16px;color:#409EFF">{{ cusInfo.name }}</span>
       </el-form-item>

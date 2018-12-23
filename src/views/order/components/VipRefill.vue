@@ -228,11 +228,6 @@ export default {
 .content-margin {
   margin: 0 12px;
 }
-.form-item {
-  color: #1890ff;
-  font-size: 20px;
-  border-bottom: 2px solid #e0eef8;
-}
 .total-price {
   color: orange;
   font-size: 30px;
