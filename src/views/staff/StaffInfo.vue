@@ -5,7 +5,7 @@
           <el-table
             :data="tableData"
             style="width: 100%;"
-            stripe
+            highlight-current-row
           >
             <el-table-column prop="date" label="入职日期" fit align="center"></el-table-column>
             <el-table-column prop="name" label="姓名" fit align="center"></el-table-column>

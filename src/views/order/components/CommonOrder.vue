@@ -9,20 +9,29 @@
     >
       <span class="form-item">车辆信息</span>
       <el-form-item label="车牌" required>
-        <el-input v-model="commonOrder.cusInfo[0].plate"></el-input>
+        <el-col :span="8">
+          <el-input v-model="commonOrder.cusInfo[0].plate"></el-input>
+        </el-col>
       </el-form-item>
+      
       <el-form-item label="汽车品牌" required>
-        <el-input v-model="commonOrder.cusInfo[0].brand"></el-input>
+        <el-col :span="8">
+          <el-input v-model="commonOrder.cusInfo[0].brand"></el-input>
+        </el-col>
       </el-form-item>
+
       <span class="form-item">业务选择</span>
       <el-form-item label="日期" prop="date">
-        <el-date-picker
+        <el-col :span="8">
+          <el-date-picker
           v-model="commonOrder.date"
           type="date"
           placeholder="请选择日期"
           value-format="yyyy-MM-dd"
-        ></el-date-picker>
+          ></el-date-picker>
+        </el-col>
       </el-form-item>
+
       <el-form-item label="请选择业务" prop="services">
         <el-col :span="21">
           <el-select v-model="commonOrder.services" multiple placeholder="请选择业务（可多选）">
@@ -35,21 +44,32 @@
           </el-select>
         </el-col>
       </el-form-item>
+
       <span class="form-item">项目花费</span>
       <el-form-item v-for="(item, index) in content" :label="'项目' + (index+1)" :key="item.key">
-        <el-input v-model="item.item" style="width:50%"></el-input>
-        <span style="margin:0 16px 0 36px">金额</span>
-        <el-input-number v-model="item.cost" :min="0" :precision="2" :step="0.1"></el-input-number>
-        <el-button
-          type="danger"
-          round
-          class="content-margin"
-          @click.prevent="removeContent(item)"
-        >删除</el-button>
+        <el-col :span="8">
+          <el-input v-model="item.item"></el-input>
+        </el-col>
+        <el-col :span="1" :offset="1">
+          <span>金额</span>
+        </el-col>
+        <el-col :span="8">
+          <el-input-number v-model="item.cost" :min="0" :precision="2" :step="0.1"></el-input-number>
+        </el-col>
+        <el-col :span="2">
+            <el-button
+            type="danger"
+            round
+            class="content-margin"
+            @click.prevent="removeContent(item)"
+          >删除</el-button>
+        </el-col>
       </el-form-item>
+
       <el-form-item>
         <el-button type="primary" round @click="addContent">添加项目</el-button>
       </el-form-item>
+
       <span class="form-item">配件清单</span>
       <el-form-item label="请选择配件" prop="fitting">
         <el-col :span="21">
@@ -62,8 +82,9 @@
             ></el-option>
           </el-select>
         </el-col>
+
         <el-col :span="21" style="margin-top:16px;">
-          <el-table :data="fittingTable" :summary-method="getSummaries" show-summary>
+          <el-table :data="fittingTable" :summary-method="getSummaries" show-summary highlight-current-row>
             <el-table-column label="配件名" prop="name" fit align="center"></el-table-column>
             <el-table-column label="销售单价" prop="sellPrice" fit align="center">
               <template slot-scope="scope">{{scope.row.sellPrice | currency('¥')}}</template>
@@ -84,12 +105,14 @@
           </el-table>
         </el-col>
       </el-form-item>
+
       <span class="form-item">订单总价</span>
       <el-form-item>
         <el-col :span="4" :offset="17" class="total-price">{{totalPrice | currency('¥')}}</el-col>
       </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" round @click="submitForm('commonOrder')">完成</el-button>
+        <el-button type="warning" round @click="submitForm('commonOrder')">完成</el-button>
       </el-form-item>
     </el-form>
   </div>

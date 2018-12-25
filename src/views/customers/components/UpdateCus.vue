@@ -9,19 +9,31 @@
     >
       <span class="form-item">信息更改</span>
       <el-form-item label="姓名" prop="name">
-        <span style="margin-left:16px;color:#409EFF">{{ cusInfo.name }}</span>
+        <el-col :span="8">
+          <span style="margin-left:16px;color:#409EFF">{{ cusInfo.name }}</span>
+        </el-col>
       </el-form-item>
+      
       <el-form-item label="电话" prop="phone">
-        <el-input v-model="cusInfo.phone"></el-input>
+        <el-col :span="8">
+          <el-input v-model="cusInfo.phone"></el-input>
+        </el-col>
       </el-form-item>
+
       <el-form-item label="车牌" prop="plate">
-        <el-input v-model="cusInfo.plate"></el-input>
+        <el-col :span="8">
+          <el-input v-model="cusInfo.plate"></el-input>
+        </el-col>
       </el-form-item>
+
       <el-form-item label="汽车品牌" prop="brand">
-        <el-input v-model="cusInfo.brand"></el-input>
+        <el-col :span="8">
+          <el-input v-model="cusInfo.brand"></el-input>
+        </el-col>
       </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" round @click="createCus('createCus')">修改</el-button>
+        <el-button type="warning" round @click="createCus('createCus')">修改</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -54,9 +66,6 @@ export default {
         plate: [{ required: true, message: "请输入会员车牌", trigger: "blur" }],
         brand: [
           { required: true, message: "请输入会员汽车品牌", trigger: "blur" }
-        ],
-        balance: [
-          { required: true, message: "请输入充值金额", trigger: "blur" }
         ]
       }
     };
@@ -78,17 +87,17 @@ export default {
         if (valid) {
           //create staff method
           this.$message({
-            message: "新会员加入成功！",
+            message: "会员信息更新加入成功！",
             type: "success",
             center: true,
-            duration: 2000
+            duration: 3000
           });
         } else {
           this.$message({
-            message: "新会员加入失败！请检查信息是否填写正确！",
+            message: "会员信息更新失败！请检查信息是否填写正确！",
             type: "error",
             center: true,
-            duration: 2000
+            duration: 3000
           });
           return false;
         }
@@ -98,10 +107,4 @@ export default {
 };
 </script>
 <style scoped>
-.el-input {
-  width: 50%;
-}
-.el-button {
-  width: 100px;
-}
 </style>

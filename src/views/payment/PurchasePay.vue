@@ -2,7 +2,7 @@
   <div>
     <el-form
       :model="formData"
-      ref="monthlyPay"
+      ref="purchasePay"
       :rules="rules"
       label-position="right"
       label-width="120px"
@@ -19,12 +19,12 @@
         </el-col>
       </el-form-item>
 
-      <span class="form-item">基本支出</span>
+      <span class="form-item">配件采购支出</span>
       <el-form-item
-        v-for="(item, index) in formData.basePay"
+        v-for="(item, index) in formData.fittingsPay"
         :label="'项目' + (index+1)"
         :key="item.key"
-        prop="basePay"
+        prop="fittingsPay"
       >
         <el-col :span="8">
           <el-input v-model="item.item"></el-input>
@@ -36,44 +36,17 @@
           <el-input-number v-model="item.cost" :min="0" :precision="2" :step="0.1"></el-input-number>
         </el-col>
         <el-col :span="2" :offset="1">
-          <el-button type="danger" round @click.prevent="removeBasePay(item)">删除</el-button>
+          <el-button type="danger" round @click.prevent="removeFittingsPay(item)">删除</el-button>
         </el-col>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" round @click="addBasePay()">添加项目</el-button>
+        <el-button type="primary" round @click="addFittingsPay()">添加项目</el-button>
       </el-form-item>
       <el-form-item label="总额">
-        <el-col :span="4" :offset="17" class="total-price">{{basePayTotal | currency('¥')}}</el-col>
+        <el-col :span="4" :offset="17" class="total-price">{{fittingsPayTotal | currency('¥')}}</el-col>
       </el-form-item>
 
-      <span class="form-item">工资支出</span>
-      <el-form-item
-        v-for="(item, index) in formData.salaryPay"
-        :label="'项目' + (index+1)"
-        :key="item.key"
-        prop="salaryPay"
-      >
-        <el-col :span="8">
-          <el-input v-model="item.item"></el-input>
-        </el-col>
-        <el-col :span="1" :offset="1">
-          <span>金额</span>
-        </el-col>
-        <el-col :span="8">
-          <el-input-number v-model="item.cost" :min="0" :precision="2" :step="0.1"></el-input-number>
-        </el-col>
-        <el-col :span="2" :offset="1">
-          <el-button type="danger" round @click.prevent="removeSalaryPay(item)">删除</el-button>
-        </el-col>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" round @click="addSalaryPay()">添加项目</el-button>
-      </el-form-item>
-      <el-form-item label="总额">
-        <el-col :span="4" :offset="17" class="total-price">{{salaryPayTotal | currency('¥')}}</el-col>
-      </el-form-item>
-
-      <span class="form-item">其他支出</span>
+      <span class="form-item">其他采购支出</span>
       <el-form-item
         v-for="(item, index) in formData.otherPay"
         :label="'项目' + (index+1)"
@@ -106,7 +79,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="warning" round @click="submitForm('monthlyPay')">完成</el-button>
+        <el-button type="warning" round @click="submitForm('purchasePay')">完成</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -115,39 +88,31 @@
 <script>
 import { currency } from "@/utils/currency";
 export default {
-  name: "monthlyPay",
+  name: "storagePay",
   props: [""],
   data() {
     return {
       rules: {
         date: [{ required: true, message: "请选择日期" }],
-        basePay: [{ required: true, message: "请填写完整项目" }],
-        salaryPay: [{ required: true, message: "请填写完整项目" }],
-        otherPay:[{ required: true, message: "请填写完整项目" }]
+        fittingsPay: [{ required: true, message: "请填写完整项目" }],
+        otherPay: [{ required: true, message: "请填写完整项目" }]
       },
       formData: {
         date: null,
-        basePay: [
+        fittingsPay: [
           {
             item: "",
             cost: 0
           }
         ],
-        basePayTotal: 0,
-        salaryPay: [
-          {
-            item: "",
-            cost: 0
-          }
-        ],
-        salaryPayTotal: 0,
+        fittingsPayTotal: 0,
         otherPay: [
           {
             item: "",
             cost: 0
           }
         ],
-        otherPayTotal:0,
+        otherPayTotal: 0,
         totalPay: 0
       }
     };
@@ -160,16 +125,9 @@ export default {
   },
 
   computed: {
-    basePayTotal() {
+    fittingsPayTotal() {
       let money = 0;
-      this.formData.basePay.forEach(item => {
-        money += parseFloat(item.cost);
-      });
-      return money;
-    },
-    salaryPayTotal() {
-      let money = 0;
-      this.formData.salaryPay.forEach(item => {
+      this.formData.fittingsPay.forEach(item => {
         money += parseFloat(item.cost);
       });
       return money;
@@ -183,8 +141,7 @@ export default {
     },
     totalPay() {
       return (
-        parseFloat(this.basePayTotal) +
-        parseFloat(this.salaryPayTotal) +
+        parseFloat(this.fittingsPayTotal) +
         parseFloat(this.otherPayTotal)
       );
     }
@@ -197,8 +154,8 @@ export default {
   mounted() {},
 
   methods: {
-    removeBasePay(item) {
-      if (this.formData.basePay.length == 1) {
+    removeFittingsPay(item) {
+      if (this.formData.fittingsPay.length == 1) {
         this.$message({
           message: "不能继续删除！请填写完整项目信息！",
           type: "error",
@@ -206,36 +163,14 @@ export default {
           duration: 2000
         });
       } else {
-        var index = this.formData.basePay.indexOf(item);
+        var index = this.formData.fittingsPay.indexOf(item);
         if (index !== -1) {
-          this.formData.basePay.splice(index, 1);
+          this.formData.fittingsPay.splice(index, 1);
         }
       }
     },
-    addBasePay() {
-      this.formData.basePay.push({
-        item: "",
-        cost: 0,
-        key: Date.now()
-      });
-    },
-    removeSalaryPay(item) {
-      if (this.formData.salaryPay.length == 1) {
-        this.$message({
-          message: "不能继续删除！请填写完整项目信息！",
-          type: "error",
-          center: true,
-          duration: 2000
-        });
-      } else {
-        var index = this.formData.salaryPay.indexOf(item);
-        if (index !== -1) {
-          this.formData.salaryPay.splice(index, 1);
-        }
-      }
-    },
-    addSalaryPay() {
-      this.formData.salaryPay.push({
+    addFittingsPay() {
+      this.formData.fittingsPay.push({
         item: "",
         cost: 0,
         key: Date.now()
@@ -266,9 +201,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.formData.salaryPayTotal = this.salaryPayTotal;
-          this.formData.basePayTotal = this.basePayTotal;
-          this.formData.otherPayTotal = this.otherPayTotal
+          this.formData.otherPayTotal = this.otherPayTotal;
+          this.formData.fittingsPayTotal = this.fittingsPayTotal;
           this.formData.totalPay = this.totalPay;
           this.$message({
             message: "提交成功！",

@@ -5,10 +5,11 @@
     ref="vipRefill" 
     :rules="rules" 
     :label-position="labelPosition" 
-    label-width="120px">
+    label-width="120px"
+    >
       <span class="form-item">会员选择</span>
       <el-form-item label="请选择会员">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-input placeholder="请输入会员手机" v-model="vipPhone"></el-input>
         </el-col>
         <el-button
@@ -19,8 +20,9 @@
           @click="getVipInfo"
         ></el-button>
       </el-form-item>
+      
       <el-form-item label="会员信息">
-        <el-col :span="22">
+        <el-col :span="21">
           <el-table :data="vipTable">
             <el-table-column prop="name" label="姓名" fit align="center"></el-table-column>
             <el-table-column prop="phone" label="电话" fit align="center"></el-table-column>
@@ -34,24 +36,32 @@
           </el-table>
         </el-col>
       </el-form-item>
+
       <span class="form-item">会员充值</span>
       <el-form-item label="日期" prop="date">
-        <el-date-picker
-          v-model="commonOrder.date"
-          type="date"
-          placeholder="请选择日期"
-          value-format="yyyy-MM-dd"
-        ></el-date-picker>
+        <el-col :span="8">
+          <el-date-picker
+            v-model="commonOrder.date"
+            type="date"
+            placeholder="请选择日期"
+            value-format="yyyy-MM-dd"
+          ></el-date-picker>
+        </el-col>
       </el-form-item>
+
       <el-form-item label="充值金额" required>
-        <el-input-number v-model.number="commonOrder.totalPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
+        <el-col :span="8">
+          <el-input-number v-model.number="commonOrder.totalPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
+        </el-col>
       </el-form-item>
+
       <span class="form-item">订单总价</span>
       <el-form-item>
         <el-col :span="4" :offset="17" class="total-price">{{commonOrder.totalPrice | currency('¥')}}</el-col>
       </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" round @click="submitForm('vipRefill')">完成</el-button>
+        <el-button type="warning" round @click="submitForm('vipRefill')">完成</el-button>
       </el-form-item>
     </el-form>
   </div>

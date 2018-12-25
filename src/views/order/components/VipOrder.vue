@@ -9,7 +9,7 @@
     >
       <span class="form-item">会员选择</span>
       <el-form-item label="请选择会员">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-input placeholder="请输入会员手机" v-model="vipPhone"></el-input>
         </el-col>
         <el-button
@@ -20,9 +20,10 @@
           @click="getVipInfo"
         ></el-button>
       </el-form-item>
+      
       <el-form-item label="会员信息">
-        <el-col :span="22">
-          <el-table :data="vipTable">
+        <el-col :span="21">
+          <el-table :data="vipTable" highlight-current-row>
             <el-table-column prop="name" label="姓名" fit align="center"></el-table-column>
             <el-table-column prop="phone" label="电话" fit align="center"></el-table-column>
             <el-table-column prop="plate" label="车牌" fit align="center"></el-table-column>
@@ -35,15 +36,19 @@
           </el-table>
         </el-col>
       </el-form-item>
+
       <span class="form-item">业务选择</span>
       <el-form-item label="日期" prop="date">
-        <el-date-picker
-          v-model="commonOrder.date"
-          type="date"
-          placeholder="请选择日期"
-          value-format="yyyy-MM-dd"
-        ></el-date-picker>
+        <el-col :span="8">
+          <el-date-picker
+            v-model="commonOrder.date"
+            type="date"
+            placeholder="请选择日期"
+            value-format="yyyy-MM-dd"
+          ></el-date-picker>
+        </el-col>
       </el-form-item>
+
       <el-form-item label="请选择业务" prop="services">
         <el-col :span="21">
           <el-select v-model="commonOrder.services" multiple placeholder="请选择业务（可多选）">
@@ -56,27 +61,36 @@
           </el-select>
         </el-col>
       </el-form-item>
+
       <span class="form-item">项目花费</span>
       <el-form-item
         v-for="(item, index) in content"
         :label="'项目' + (index+1)"
         :key="item.key"
       >
-        <el-col :span="12">
+        <el-col :span="8">
           <el-input v-model="item.item"></el-input>
         </el-col>
-        <span style="margin:0 16px 0 36px">金额</span>
-        <el-input-number v-model="item.cost" :min="0" :precision="2" :step="0.1"></el-input-number>
-        <el-button
-          type="danger"
-          round
-          class="content-margin"
-          @click.prevent="removeContent(item)"
-        >删除</el-button>
+        <el-col :span="1" :offset="1">
+          <span>金额</span>
+        </el-col>
+        <el-col :span="8">
+          <el-input-number v-model="item.cost" :min="0" :precision="2" :step="0.1"></el-input-number>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            type="danger"
+            round
+            class="content-margin"
+            @click.prevent="removeContent(item)"
+          >删除</el-button>
+        </el-col>
       </el-form-item>
+
       <el-form-item>
         <el-button type="primary" round @click="addContent">添加项目</el-button>
       </el-form-item>
+
       <span class="form-item">配件清单</span>
       <el-form-item label="请选择配件" prop="fitting">
         <el-col :span="21">
@@ -90,9 +104,10 @@
           </el-select>
         </el-col>
       </el-form-item>
+
       <el-form-item label="配件信息">
         <el-col :span="21">
-          <el-table :data="fittingTable" :summary-method="getSummaries" show-summary>
+          <el-table :data="fittingTable" :summary-method="getSummaries" show-summary highlight-current-row>
             <el-table-column label="配件名" prop="name" fit align="center"></el-table-column>
             <el-table-column label="销售单价" prop="sellPrice" fit align="center">
               <template slot-scope="scope">{{scope.row.sellPrice | currency('¥')}}</template>
@@ -113,12 +128,14 @@
           </el-table>
         </el-col>
       </el-form-item>
+
       <span class="form-item">订单总价</span>
       <el-form-item>
         <el-col :span="4" :offset="17" class="total-price">{{totalPrice | currency('¥')}}</el-col>
       </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" round @click="submitForm('commonOrder')">完成</el-button>
+        <el-button type="warning" round @click="submitForm('commonOrder')">完成</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -452,6 +469,7 @@ export default {
         );
       } else {
         // deal cus balance & point
+        this.isVip = false;
         this.$alert("订单提交完成！", "完成", {
           confirmButtonText: "确定",
           center: true,

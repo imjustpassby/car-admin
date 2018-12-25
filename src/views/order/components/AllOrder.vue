@@ -3,8 +3,10 @@
     <el-table 
     :data="orderTable" 
     :default-sort="{prop: 'date', order: 'descending'}" 
-    stripe 
+    highlight-current-row 
     style="width:100%"
+    show-summary
+    :summary-method="getSummaries"
     >
       <el-table-column type="expand" fit >
         <template slot-scope="props">
@@ -294,6 +296,38 @@ export default {
     filterHandler(value, row, column) {
       const property = column["property"];
       return row[property] >= value;
+    },
+    getSummaries(param) {
+      const { columns, data } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计';
+          return;
+        }
+        const values = data.map(item => Number(item[column.property]));
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, cur) => {
+            const value = Number(cur);
+            if (!isNaN(value)) {
+              return prev + cur;
+            } else {
+              return prev;
+            }
+          }, 0);
+          switch(column.property) {
+            case "totalPrice":
+              sums[index] = currency(sums[index],'¥');
+              break;
+            default:
+              sums[index] = '';
+              break;
+          }
+        } else {
+          sums[index] = '';
+        }
+      });
+      return sums;
     }
   }
 };

@@ -34,19 +34,25 @@
       </el-form-item>
 
       <el-form-item label="数量" prop="count">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-input-number v-model="fitting.count" :min="0" :step="1"></el-input-number>
         </el-col>
       </el-form-item>
 
       <el-form-item label="进货价" prop="buyPrice">
-        <el-input-number v-model="fitting.buyPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
+        <el-col :span="8">
+          <el-input-number v-model="fitting.buyPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
+        </el-col>
       </el-form-item>
+      
       <el-form-item label="出售价" prop="sellPrice">
-        <el-input-number v-model="fitting.sellPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
+        <el-col :span="8">
+          <el-input-number v-model="fitting.sellPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
+        </el-col>
       </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" round @click="submitForm('inStorage')">入库</el-button>
+        <el-button type="warning" round @click="submitForm('inStorage')">入库</el-button>
         <el-button round @click="resetForm">重置</el-button>
       </el-form-item>
     </el-form>
@@ -202,5 +208,8 @@ export default {
   color: #1890ff;
   font-size: 20px;
   border-bottom: 2px solid #e0eef8;
+}
+.el-input-number{
+  width: 100%;
 }
 </style>

@@ -83,7 +83,7 @@ a:hover {
   min-height: 100%;
   font-size: 16px;
   padding: 20px;
-  background-color: #f0fcff;
+  background-color: #fbffff;
 }
 
 .app-container {
@@ -93,12 +93,26 @@ a:hover {
 .el-form,
 .el-table {
   border: 2px solid #e0eef8;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 10px;
+}
+
+.el-table .el-form{
+  padding: 0;
+  margin-top: 1%;
+  label,span{
+    font-size: 14px;
+  }
 }
 
 .el-form-item {
   margin-top: 3%;
+  label,span{
+    font-size: 16px;
+  }
+  .el-input-number,.el-date-editor{
+    width: 100%;
+  }
 }
 
 .form-item {

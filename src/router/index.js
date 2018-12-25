@@ -63,7 +63,7 @@ export const constantRouterMap = [{
         component: () => import('@/views/staff/StaffInfo'),
         meta: {
           title: '员工资料',
-          icon: 'personal_data'
+          icon: 'people_info_management'
         }
       },
       {
@@ -123,7 +123,7 @@ export const constantRouterMap = [{
         component: () => import('@/views/storage/CheckStorage'),
         meta: {
           title: '库存盘点',
-          icon: 'pandian'
+          icon: 'inventory'
         }
       },
       {
@@ -158,18 +158,18 @@ export const constantRouterMap = [{
     },
     children: [
       {
-        path: 'pay-salary',
-        name: 'salaryPay',
-        component: () => import('@/views/payment/MonthlyPay'),
+        path: 'monthly-pay',
+        name: 'monthlyPay',
+        component: () => import('@/views/payment/monthlyPay'),
         meta: {
           title: '每月支出',
-          icon: 'salary'
+          icon: 'monthlyPay'
         }
       },
       {
-        path: 'pay-storage',
-        name: 'StoragePay',
-        component: () => import('@/views/payment/StoragePay'),
+        path: 'purchase-pay',
+        name: 'purchasePay',
+        component: () => import('@/views/payment/PurchasePay'),
         meta: {
           title: '采购支出',
           icon: 'money'
@@ -245,12 +245,21 @@ export const constantRouterMap = [{
         }
       },
       {
-        path: 'reward-manage',
-        name: 'RewardManage',
-        component: () => import('@/views/pointMall/RewardManage'),
+        path: 'reward',
+        name: 'Reward',
+        component: () => import('@/views/pointMall/Reward'),
         meta: {
           title: '奖品管理',
           icon: 'setting'
+        }
+      },
+      {
+        path: 'record',
+        name: 'Record',
+        component: () => import('@/views/pointMall/Record'),
+        meta: {
+          title: '兑换历史',
+          icon: 'record'
         }
       }
     ]

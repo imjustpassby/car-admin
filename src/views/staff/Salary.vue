@@ -6,7 +6,7 @@
         :data="salaryTable" 
         :summary-method="getSummaries"
         style="width: 100%;" 
-        stripe 
+        highlight-current-row 
         show-summary
         >
           <el-table-column prop="date" label="入职日期" fit align="center"></el-table-column>

@@ -5,7 +5,7 @@
       :default-sort = "{prop: 'name', order: 'ascending'}"
       :summary-method="getSummaries"
       style="width: 100%;" 
-      stripe 
+      highlight-current-row 
       show-summary
       >
       <el-table-column prop="name" label="配件名" sortable fit align="center"></el-table-column>
