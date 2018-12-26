@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-form
-      :model="commonOrder"
-      ref="commonOrder"
+      :model="vipOrder"
+      ref="vipOrder"
       :rules="rules"
       :label-position="labelPosition"
       label-width="120px"
@@ -41,7 +41,7 @@
       <el-form-item label="日期" prop="date">
         <el-col :span="8">
           <el-date-picker
-            v-model="commonOrder.date"
+            v-model="vipOrder.date"
             type="date"
             placeholder="请选择日期"
             value-format="yyyy-MM-dd"
@@ -51,7 +51,7 @@
 
       <el-form-item label="请选择业务" prop="services">
         <el-col :span="21">
-          <el-select v-model="commonOrder.services" multiple placeholder="请选择业务（可多选）">
+          <el-select v-model="vipOrder.services" multiple placeholder="请选择业务（可多选）">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -135,7 +135,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="warning" round @click="submitForm('commonOrder')">完成</el-button>
+        <el-button type="warning" round @click="submitForm('vipOrder')">完成</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -191,7 +191,7 @@ export default {
           date: "2018-03-03",
           count: "10",
           buyPrice: "500",
-          sellPrice: "888"
+          sellPrice: "800"
         },
         {
           name: "挡风玻璃",
@@ -258,7 +258,7 @@ export default {
         point: null
       },
       fittings: [],
-      commonOrder: {
+      vipOrder: {
         orderType:'会员消费',
         cusInfo: [],
         date: null,
@@ -297,7 +297,7 @@ export default {
           }
         });
       }
-      this.commonOrder.fittings = arr;
+      this.vipOrder.fittings = arr;
       return arr;
     },
     totalPrice() {
@@ -309,13 +309,13 @@ export default {
         money += parseFloat(item.cost);
       });
       money *= 0.95;
-      this.commonOrder.totalPrice = parseFloat(money);
+      this.vipOrder.totalPrice = parseFloat(money);
       return money;
     },
     vipTable() {
       let vip = [];
       vip[0] = this.vipInfo;
-      this.commonOrder.cusInfo = vip;
+      this.vipOrder.cusInfo = vip;
       return vip;
     }
   },
@@ -401,7 +401,7 @@ export default {
       } else {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            this.commonOrder.content = this.content;
+            this.vipOrder.content = this.content;
             this.checkBalance();
           } else {
             this.$message({
@@ -448,8 +448,8 @@ export default {
     },
     checkBalance() {
       let lack =
-        parseFloat(this.commonOrder.cusInfo[0].balance) -
-        parseFloat(this.commonOrder.totalPrice);
+        parseFloat(this.vipOrder.cusInfo[0].balance) -
+        parseFloat(this.vipOrder.totalPrice);
       let money = currency(-lack, "¥");
       if (lack < 0) {
         this.$alert(

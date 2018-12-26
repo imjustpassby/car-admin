@@ -7,7 +7,6 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 import moment from 'moment'
-import Echarts from 'echarts'
 
 import '@/styles/index.scss' // global css
 

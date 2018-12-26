@@ -16,16 +16,25 @@
               {{ scope.row.baseSalary | currency('¥') }}
             </template>
           </el-table-column>
+
           <el-table-column prop="welfare" label="福利（元）" fit align="center">
             <template slot-scope="scope">
               {{ scope.row.welfare | currency('¥') }}
             </template>
           </el-table-column>
+
           <el-table-column prop="extra" label="额外（元）" fit align="center">
             <template slot-scope="scope">
               {{ scope.row.extra | currency('¥') }}
             </template>
           </el-table-column>
+
+          <el-table-column prop="total" label="总和（元）" fit align="center">
+            <template slot-scope="scope">
+              {{ scope.row.total | currency('¥') }}
+            </template>
+          </el-table-column>
+
           <el-table-column label="操作" align="center">
             <template slot-scope="scope">
               <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -53,30 +62,34 @@ export default {
         {
           name: "王小虎1",
           date: "2016-05-02",
-          baseSalary: "4000",
-          welfare: "1000",
-          extra: "500"
+          baseSalary: 4000,
+          welfare: 1000,
+          extra: 500,
+          total: 5500
         },
         {
           name: "王小虎2",
           date: "2016-05-04",
-          baseSalary: "4500",
-          welfare: "1200",
-          extra: "600"
+          baseSalary: 4500,
+          welfare: 1200,
+          extra: 600,
+          total: 6300
         },
         {
           name: "王小虎3",
           date: "2016-05-01",
-          baseSalary: "5000",
-          welfare: "1300",
-          extra: "700"
+          baseSalary: 5000,
+          welfare: 1300,
+          extra: 700,
+          total: 7000
         },
         {
           name: "王小虎4",
           date: "2016-05-03",
-          baseSalary: "5500",
-          welfare: "1400",
-          extra: "800"
+          baseSalary: 5500,
+          welfare: 1400,
+          extra: 800,
+          total: 7700
         }
       ],
       staffSalary: {
@@ -132,7 +145,8 @@ export default {
             case "baseSalary":
             case "welfare":
             case "extra":
-              sums[index] = currency(sums[index],'¥');
+            case "total":
+              sums[index] = currency(parseFloat(sums[index]),'¥');
               break;
             default:
               sums[index] = '';
