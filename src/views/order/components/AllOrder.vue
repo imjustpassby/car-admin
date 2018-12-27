@@ -1,14 +1,14 @@
 <template>
   <div>
-    <el-table 
-    :data="orderTable" 
-    :default-sort="{prop: 'date', order: 'descending'}" 
-    highlight-current-row 
-    style="width:100%"
-    show-summary
-    :summary-method="getSummaries"
+    <el-table
+      :data="orderTable"
+      :default-sort="{prop: 'date', order: 'descending'}"
+      highlight-current-row
+      style="width:100%"
+      show-summary
+      :summary-method="getSummaries"
     >
-      <el-table-column type="expand" fit >
+      <el-table-column type="expand" fit>
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="客户姓名">
@@ -74,49 +74,49 @@ export default {
   data() {
     return {
       orderTable: [
+        //9月
         {
           orderType: "普通客户",
           cusInfo: [
             {
               name: "普通客户",
               phone: null,
-              plate: "粤B 12345",
-              brand: "gtr",
+              plate: "xxx",
+              brand: "xxx",
               date: null,
               balance: null,
               point: null
             }
           ],
-          date: "2018-12-10",
-          services: ["汽车维修"],
+          date: "2018-09-01",
+          services: ["汽车美容", "汽车维修"],
           content: [
             {
-              item: "维修费",
-              cost: 99,
+              item: "美容费",
+              cost: 50,
               key: 1545468633009
+            },
+            {
+              item: "维修费",
+              cost: 500,
+              key: 1545829913036
             }
           ],
           fittings: [
             {
-              name: "挡风玻璃",
-              sellPrice: "1200",
-              count: 2,
-              total: 2400
+              name: "米其林轮胎19寸",
+              sellPrice: "200",
+              count: 4,
+              total: 800
             },
             {
               name: "导航仪",
               sellPrice: "888",
               count: 1,
               total: 888
-            },
-            {
-              name: "米其林轮胎19寸",
-              sellPrice: "200",
-              count: 4,
-              total: 800
             }
           ],
-          totalPrice: 4187
+          totalPrice: 22380
         },
         {
           orderType: "普通客户",
@@ -124,29 +124,28 @@ export default {
             {
               name: "普通客户",
               phone: null,
-              plate: "粤B 12345",
-              brand: "gtr",
+              plate: "xxx",
+              brand: "xxx",
               date: null,
               balance: null,
               point: null
             }
           ],
-          date: "2018-10-29",
-          services: ["汽车维修"],
+          date: "2018-09-19",
+          services: ["汽车美容", "汽车维修"],
           content: [
             {
-              item: "维修费",
-              cost: 99,
+              item: "美容费",
+              cost: 50,
               key: 1545468633009
+            },
+            {
+              item: "维修费",
+              cost: 500,
+              key: 1545829913036
             }
           ],
           fittings: [
-            {
-              name: "挡风玻璃",
-              sellPrice: "1200",
-              count: 2,
-              total: 2400
-            },
             {
               name: "导航仪",
               sellPrice: "888",
@@ -154,91 +153,198 @@ export default {
               total: 888
             },
             {
-              name: "米其林轮胎19寸",
-              sellPrice: "200",
-              count: 4,
-              total: 800
-            }
-          ],
-          totalPrice: 4187
-        },
-        {
-          orderType: "普通客户",
-          cusInfo: [
-            {
-              name: "普通客户",
-              phone: null,
-              plate: "粤B 12345",
-              brand: "gtr",
-              date: null,
-              balance: null,
-              point: null
-            }
-          ],
-          date: "2018-08-21",
-          services: ["汽车维修"],
-          content: [
-            {
-              item: "维修费",
-              cost: 99,
-              key: 1545468633009
-            }
-          ],
-          fittings: [
-            {
               name: "挡风玻璃",
               sellPrice: "1200",
-              count: 2,
-              total: 2400
-            },
-            {
-              name: "导航仪",
-              sellPrice: "888",
               count: 1,
-              total: 888
-            },
-            {
-              name: "米其林轮胎19寸",
-              sellPrice: "200",
-              count: 4,
-              total: 800
+              total: 1200
             }
           ],
-          totalPrice: 4187
+          totalPrice: 2638
         },
         {
           orderType: "会员消费",
           cusInfo: [
             {
-              name: "胡凯莉3",
-              phone: "13313313333",
-              plate: "粤C33333",
-              brand: "奔驰",
+              name: "胡凯莉5",
+              phone: "13313313355",
+              plate: "粤R99991",
+              brand: "保时捷",
               date: "2018-07-07",
-              balance: "800",
-              point: "898"
+              balance: "10000",
+              point: "666"
             }
           ],
-          date: "2018-12-23",
-          services: ["汽车美容", "汽车维修", "配件购买"],
+          date: "2018-09-18",
+          services: ["汽车维修", "配件购买"],
           content: [
             {
-              item: "维修费",
-              cost: 100,
-              key: 1545468633009
-            },
-            {
-              item: "美容费",
-              cost: 100,
+              item: "xxxx",
+              cost: 300,
               key: 1545468633009
             }
           ],
           fittings: [
             {
-              name: "米其林轮胎19寸",
-              sellPrice: "200",
+              name: "导航仪",
+              sellPrice: "888",
+              count: 1,
+              total: 888
+            },
+            {
+              name: "挡风玻璃",
+              sellPrice: "1200",
+              count: 1,
+              total: 1200
+            }
+          ],
+          totalPrice: 8268.6
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-09-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 5000
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-09-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 2000
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-09-27",
+              balance: 700
+            }
+          ],
+          date: "2018-09-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 700
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-09-27",
+              balance: 1000
+            }
+          ],
+          date: "2018-09-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 12000
+        },
+        //10月
+        {
+          orderType: "会员消费",
+          cusInfo: [
+            {
+              name: "胡凯莉5",
+              phone: "13313313355",
+              plate: "粤R99991",
+              brand: "保时捷",
+              date: "2018-07-07",
+              balance: "10000",
+              point: "666"
+            }
+          ],
+          date: "2018-10-15",
+          services: ["汽车维修", "配件购买"],
+          content: [
+            {
+              item: "xxx",
+              cost: 300,
+              key: 1545468633009
+            }
+          ],
+          fittings: [
+            {
+              name: "导航仪",
+              sellPrice: "800",
               count: 2,
-              total: 400
+              total: 1600
+            },
+            {
+              name: "挡风玻璃",
+              sellPrice: "1200",
+              count: 1,
+              total: 1200
+            }
+          ],
+          totalPrice: 5945
+        },
+        {
+          orderType: "普通客户",
+          cusInfo: [
+            {
+              name: "普通客户",
+              phone: null,
+              plate: "xxx",
+              brand: "xxx",
+              date: null,
+              balance: null,
+              point: null
+            }
+          ],
+          date: "2018-10-19",
+          services: ["汽车美容", "汽车维修"],
+          content: [
+            {
+              item: "美容费",
+              cost: 50,
+              key: 1545468633009
+            },
+            {
+              item: "维修费",
+              cost: 500,
+              key: 1545829913036
+            }
+          ],
+          fittings: [
+            {
+              name: "导航仪",
+              sellPrice: "888",
+              count: 1,
+              total: 888
             },
             {
               name: "挡风玻璃",
@@ -247,7 +353,268 @@ export default {
               total: 2400
             }
           ],
-          totalPrice: 2767
+          totalPrice: 3838
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-10-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 2000
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-10-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 3000
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-10-27",
+              balance: 500
+            }
+          ],
+          date: "2018-10-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 500
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-10-27",
+              balance: 800
+            }
+          ],
+          date: "2018-10-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 800
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-10-27",
+              balance: 1000
+            }
+          ],
+          date: "2018-10-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 10000
+        },
+        //11月
+        {
+          orderType: "普通客户",
+          cusInfo: [
+            {
+              name: "普通客户",
+              phone: null,
+              plate: "xxx",
+              brand: "xxx",
+              date: null,
+              balance: null,
+              point: null
+            }
+          ],
+          date: "2018-11-21",
+          services: ["汽车美容", "汽车维修"],
+          content: [
+            {
+              item: "美容费",
+              cost: 930,
+              key: 1545468633009
+            },
+            {
+              item: "维修费",
+              cost: 500,
+              key: 1545829913036
+            }
+          ],
+          fittings: [
+            {
+              name: "导航仪",
+              sellPrice: "888",
+              count: 2,
+              total: 1776
+            },
+            {
+              name: "挡风玻璃",
+              sellPrice: "1200",
+              count: 1,
+              total: 1200
+            }
+          ],
+          totalPrice: 7406
+        },
+        {
+          orderType: "会员消费",
+          cusInfo: [
+            {
+              name: "胡凯莉5",
+              phone: "13313313355",
+              plate: "粤R99991",
+              brand: "保时捷",
+              date: "2018-07-07",
+              balance: "10000",
+              point: "666"
+            }
+          ],
+          date: "2018-11-27",
+          services: ["汽车维修", "配件购买"],
+          content: [
+            {
+              item: "xxx",
+              cost: 300,
+              key: 1545468633009
+            }
+          ],
+          fittings: [
+            {
+              name: "挡风玻璃",
+              sellPrice: "1200",
+              count: 1,
+              total: 1200
+            }
+          ],
+          totalPrice: 4425
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-11-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 5000
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-11-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 1200
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-11-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 1000
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-11-27",
+              balance: 700
+            }
+          ],
+          date: "2018-11-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 3000
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-11-27",
+              balance: 700
+            }
+          ],
+          date: "2018-11-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 13000
         }
       ]
     };
@@ -302,7 +669,7 @@ export default {
       const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '合计';
+          sums[index] = "合计";
           return;
         }
         const values = data.map(item => Number(item[column.property]));
@@ -315,16 +682,16 @@ export default {
               return prev;
             }
           }, 0);
-          switch(column.property) {
+          switch (column.property) {
             case "totalPrice":
-              sums[index] = currency(sums[index],'¥');
+              sums[index] = currency(sums[index], "¥");
               break;
             default:
-              sums[index] = '';
+              sums[index] = "";
               break;
           }
         } else {
-          sums[index] = '';
+          sums[index] = "";
         }
       });
       return sums;

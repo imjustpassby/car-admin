@@ -41,6 +41,8 @@ export default {
       ],
       monthlyCommonOrderTotal: 0,
       monthlyVipOrderTotal: 0,
+      monthlyRefillTotal: 0,
+      monthlyNewVipTotal: 0,
       orderData: [
         //9月
         {
@@ -84,7 +86,7 @@ export default {
               total: 888
             }
           ],
-          totalPrice: 2238
+          totalPrice: 22380
         },
         {
           orderType: "普通客户",
@@ -165,7 +167,81 @@ export default {
               total: 1200
             }
           ],
-          totalPrice: 2268.6
+          totalPrice: 8268.6
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-09-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 5000
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-09-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 2000
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-09-27",
+              balance: 700
+            }
+          ],
+          date: "2018-09-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 700
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-09-27",
+              balance: 1000
+            }
+          ],
+          date: "2018-09-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 12000
         },
         //10月
         {
@@ -204,7 +280,7 @@ export default {
               total: 1200
             }
           ],
-          totalPrice: 2945
+          totalPrice: 5945
         },
         {
           orderType: "普通客户",
@@ -249,6 +325,98 @@ export default {
           ],
           totalPrice: 3838
         },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-10-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 2000
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-10-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 3000
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-10-27",
+              balance: 500
+            }
+          ],
+          date: "2018-10-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 500
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-10-27",
+              balance: 800
+            }
+          ],
+          date: "2018-10-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 800
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-10-27",
+              balance: 1000
+            }
+          ],
+          date: "2018-10-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 20000
+        },
         //11月
         {
           orderType: "普通客户",
@@ -291,7 +459,7 @@ export default {
               total: 1200
             }
           ],
-          totalPrice: 4406
+          totalPrice: 7406
         },
         {
           orderType: "会员消费",
@@ -323,7 +491,100 @@ export default {
               total: 1200
             }
           ],
-          totalPrice: 1425
+          totalPrice: 4425
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-11-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 5000
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-11-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 1200
+        },
+        {
+          orderType: "会员充值",
+          cusInfo: [
+            {
+              name: "胡凯莉4",
+              phone: "13313313344",
+              plate: "粤D44444",
+              brand: "宝骏",
+              date: "2018-07-07",
+              balance: "500",
+              point: "444"
+            }
+          ],
+          date: "2018-11-18",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 1000
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-11-27",
+              balance: 700
+            }
+          ],
+          date: "2018-11-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 6000
+        },
+        {
+          orderType: "新会员加入",
+          cusInfo: [
+            {
+              name: "秀秀秀",
+              phone: "13313313312",
+              plate: "xxxxx",
+              brand: "xxxxx",
+              date: "2018-11-27",
+              balance: 700
+            }
+          ],
+          date: "2018-11-27",
+          services: [],
+          content: [],
+          fittings: [],
+          totalPrice: 13000
         }
       ]
     };
@@ -341,6 +602,8 @@ export default {
     this.getDateOption();
     this.getMonthlyCommonOrderTotal();
     this.getMonthlyVipOrderTotal();
+    this.getMonthlyRefillTotal();
+    this.getMonthlyNewVipTotal();
     this.drawChart();
   },
 
@@ -362,6 +625,24 @@ export default {
         }
       });
       this.monthlyVipOrderTotal = money;
+    },
+    getMonthlyRefillTotal() {
+      let money = 0;
+      this.orderData.forEach(item => {
+        if (item.orderType == "会员充值") {
+          money += parseFloat(item.totalPrice);
+        }
+      });
+      this.monthlyRefillTotal = money;
+    },
+    getMonthlyNewVipTotal() {
+      let money = 0;
+      this.orderData.forEach(item => {
+        if (item.orderType == "新会员加入") {
+          money += parseFloat(item.totalPrice);
+        }
+      });
+      this.monthlyNewVipTotal = money;
     },
     getDateOption() {
       let getDateOption = [];
@@ -398,7 +679,7 @@ export default {
         legend: {
           orient: "vertical",
           left: "left",
-          data: ["普通客户", "会员消费"]
+          data: ["普通客户", "会员消费", "会员充值", "新会员加入"]
         },
         series: [
           {
@@ -414,6 +695,14 @@ export default {
               {
                 value: this.monthlyVipOrderTotal,
                 name: "会员消费"
+              },
+              {
+                value: this.monthlyRefillTotal,
+                name: "会员充值"
+              },
+              {
+                value: this.monthlyNewVipTotal,
+                name: "新会员加入"
               }
             ],
             label: {
@@ -443,16 +732,23 @@ export default {
           }
         ]
       };
-      let myChart = echarts.init(document.getElementById("myChart"), "macarons");
+      let myChart = echarts.init(
+        document.getElementById("myChart"),
+        "macarons"
+      );
       myChart.setOption(chartData);
     },
     changeSelect(selVal) {
       if (selVal == "所有时间") {
         this.getMonthlyCommonOrderTotal();
         this.getMonthlyVipOrderTotal();
+        this.getMonthlyRefillTotal();
+        this.getMonthlyNewVipTotal();
       } else {
         this.monthlyCommonOrderTotal = 0;
         this.monthlyVipOrderTotal = 0;
+        this.monthlyRefillTotal = 0;
+        this.monthlyNewVipTotal = 0;
         this.orderData.forEach(item => {
           let itemDateFmt = this.$moment(item.date).format("YYYY-MM");
           if (itemDateFmt == selVal) {
@@ -460,6 +756,10 @@ export default {
               this.monthlyCommonOrderTotal += parseFloat(item.totalPrice);
             } else if (item.orderType == "会员消费") {
               this.monthlyVipOrderTotal += parseFloat(item.totalPrice);
+            } else if (item.orderType == "会员充值") {
+              this.monthlyRefillTotal += parseFloat(item.totalPrice);
+            } else if (item.orderType == "新会员加入") {
+              this.monthlyNewVipTotal += parseFloat(item.totalPrice);
             }
           }
         });

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form 
-    :model="commonOrder"
+    :model="vipRefill"
     ref="vipRefill" 
     :rules="rules" 
     :label-position="labelPosition" 
@@ -41,7 +41,7 @@
       <el-form-item label="日期" prop="date">
         <el-col :span="8">
           <el-date-picker
-            v-model="commonOrder.date"
+            v-model="vipRefill.date"
             type="date"
             placeholder="请选择日期"
             value-format="yyyy-MM-dd"
@@ -51,13 +51,13 @@
 
       <el-form-item label="充值金额" required>
         <el-col :span="8">
-          <el-input-number v-model.number="commonOrder.totalPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
+          <el-input-number v-model.number="vipRefill.totalPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
         </el-col>
       </el-form-item>
 
       <span class="form-item">订单总价</span>
       <el-form-item>
-        <el-col :span="4" :offset="17" class="total-price">{{commonOrder.totalPrice | currency('¥')}}</el-col>
+        <el-col :span="4" :offset="17" class="total-price">{{vipRefill.totalPrice | currency('¥')}}</el-col>
       </el-form-item>
 
       <el-form-item>
@@ -136,11 +136,11 @@ export default {
         balance: null,
         point: null
       },
-      commonOrder: {
+      vipRefill: {
         orderType:'会员充值',
         cusInfo: [],
         date: null,
-        services: [],
+        services: ["会员充值"],
         content: [],
         fittings: [],
         totalPrice: 0
@@ -158,7 +158,7 @@ export default {
     vipTable() {
       let vip = [];
       vip[0] = this.vipInfo;
-      this.commonOrder.cusInfo = vip;
+      this.vipRefill.cusInfo = vip;
       return vip;
     }
   },

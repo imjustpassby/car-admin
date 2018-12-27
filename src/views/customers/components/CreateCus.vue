@@ -13,7 +13,7 @@
           <el-input v-model="newCus.name"></el-input>
         </el-col>
       </el-form-item>
-      
+
       <el-form-item label="电话" prop="phone">
         <el-col :span="8">
           <el-input v-model="newCus.phone"></el-input>
@@ -48,9 +48,10 @@
           <el-input-number v-model="newCus.balance" :min="0" :precision="2" :step="1"></el-input-number>
         </el-col>
       </el-form-item>
-      
+
       <el-form-item>
         <el-button type="warning" round @click="createCus('createCus')">加入</el-button>
+        <el-button round @click="resetForm('createCus')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -58,7 +59,6 @@
 
 <script>
 export default {
-  name: "",
   props: [""],
   data() {
     var phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -76,6 +76,7 @@ export default {
     };
     return {
       labelPosition: "right",
+      isSubmit: false,
       rules: {
         name: [
           {
@@ -127,6 +128,15 @@ export default {
         brand: null,
         date: null,
         balance: 0
+      },
+      newVipOrder: {
+        orderType: "新会员加入",
+        cusInfo: [],
+        date: null,
+        services: ["新会员加入"],
+        content: [],
+        fittings: [],
+        totalPrice: 0
       }
     };
   },
@@ -145,13 +155,26 @@ export default {
     createCus(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          //create staff method
-          this.$message({
-            message: "新会员加入成功！",
-            type: "success",
-            center: true,
-            duration: 3000
-          });
+          if (!this.isSubmit){
+            //create staff method
+            this.newVipOrder.date = this.newCus.date;
+            this.newVipOrder.totalPrice = this.newCus.balance;
+            this.newVipOrder.cusInfo.push(this.newCus);
+            this.isSubmit = true;
+            this.$message({
+              message: "新会员加入成功！",
+              type: "success",
+              center: true,
+              duration: 3000
+            });
+          } else {
+            this.$message({
+              message: "请点击重置按钮再创建新的表单！",
+              type: "success",
+              center: true,
+              duration: 3000
+            });
+          }
         } else {
           this.$message({
             message: "新会员加入失败！请检查信息是否填写正确！",
@@ -162,6 +185,13 @@ export default {
           return false;
         }
       });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+      this.isSubmit = false;
+      this.newVipOrder.date = null;
+      this.newVipOrder.cusInfo.pop();
+      this.newVipOrder.totalPrice = 0;
     }
   }
 };

@@ -123,7 +123,7 @@ export default {
         date: [{ required: true, message: "请选择日期" }],
         basePay: [{ required: true, message: "请填写完整项目" }],
         salaryPay: [{ required: true, message: "请填写完整项目" }],
-        otherPay:[{ required: true, message: "请填写完整项目" }]
+        otherPay: [{ required: true, message: "请填写完整项目" }]
       },
       formData: {
         date: null,
@@ -147,7 +147,7 @@ export default {
             cost: 0
           }
         ],
-        otherPayTotal:0,
+        otherPayTotal: 0,
         totalPay: 0
       }
     };
@@ -268,8 +268,9 @@ export default {
         if (valid) {
           this.formData.salaryPayTotal = this.salaryPayTotal;
           this.formData.basePayTotal = this.basePayTotal;
-          this.formData.otherPayTotal = this.otherPayTotal
+          this.formData.otherPayTotal = this.otherPayTotal;
           this.formData.totalPay = this.totalPay;
+          this.isSubmit = true;
           this.$message({
             message: "提交成功！",
             type: "success",
