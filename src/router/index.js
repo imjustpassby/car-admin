@@ -225,7 +225,7 @@ export const constantRouterMap = [{
       }
     ]
   },
-
+  //mall
   {
     path: '/mall',
     component: Layout,

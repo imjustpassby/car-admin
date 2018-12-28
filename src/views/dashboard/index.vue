@@ -33,12 +33,15 @@
 <script>
 export default {
   name: "Dashboard",
-  components: {},
-  computed: {
+  data(){
+    return {
+    }
   },
+  components: {},
+  computed: {},
   methods: {
     push(path) {
-      this.$router.push({path:`${path}`});
+      this.$router.push({ path: `${path}` });
     }
   }
 };
@@ -96,7 +99,7 @@ $quick: #2c2c2c;
       cursor: pointer;
     }
     a {
-      font-family: 'weiruan';
+      font-family: "weiruan";
       line-height: 1;
       position: relative;
     }

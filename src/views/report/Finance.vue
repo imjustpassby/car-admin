@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import "echarts/theme/roma.js";
+import "echarts/theme/macarons.js";
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/line");
 require("echarts/lib/component/tooltip");
@@ -861,7 +861,7 @@ export default {
           }
         ]
       };
-      let myChart = echarts.init(document.getElementById("myChart"), "roma");
+      let myChart = echarts.init(document.getElementById("myChart"), "macarons");
       myChart.setOption(chartData);
     }
   }

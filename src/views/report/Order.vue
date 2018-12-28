@@ -685,7 +685,8 @@ export default {
           {
             name: "消费类型",
             type: "pie",
-            radius: "65%",
+            roseType: 'radius',
+            radius: [60,90],
             center: ["50%", "60%"],
             data: [
               {
@@ -728,7 +729,9 @@ export default {
                 shadowOffsetX: 0,
                 shadowColor: "rgba(0, 0, 0, 0.5)"
               }
-            }
+            },
+            animationEasing: 'cubicInOut',
+            animationDuration: 2600
           }
         ]
       };
