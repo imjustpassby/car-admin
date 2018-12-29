@@ -144,10 +144,11 @@
 <script>
 import { currency } from "@/utils/currency";
 export default {
-  name: "",
+  name: "VipOrder",
   props: [""],
   data() {
     return {
+      isSubmit: false,
       labelPosition: "right",
       vipPhone: null,
       isVip: false,
@@ -375,7 +376,7 @@ export default {
           message: "不能继续删除！请填写完整项目信息！",
           type: "error",
           center: true,
-          duration: 2000
+          duration: 3000
         });
       } else {
         var index = this.content.indexOf(item);
@@ -395,20 +396,30 @@ export default {
           message: "请选择会员！",
           type: "error",
           center: true,
-          duration: 2000
+          duration: 3000
         });
         return false;
       } else {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            this.vipOrder.content = this.content;
-            this.checkBalance();
+            if (!this.isSubmit){
+              this.isSubmit = true;
+              this.vipOrder.content = this.content;
+              this.checkBalance();
+            } else {
+              this.$message({
+                message: "请刷新页面再提交新表单！",
+                type: "error",
+                center: true,
+                duration: 3000
+              });
+            }
           } else {
             this.$message({
               message: "订单提交失败！请检查信息是否填写正确！",
               type: "error",
               center: true,
-              duration: 2000
+              duration: 3000
             });
             return false;
           }
@@ -442,7 +453,7 @@ export default {
           message: "没有该会员！请检查手机号是否填写正确！",
           type: "warning",
           center: true,
-          duration: 2000
+          duration: 3000
         });
       }
     },
@@ -462,7 +473,7 @@ export default {
                 type: "warning",
                 message: `本次订单提交完成，请转移到 "会员充值" 页面。`,
                 center: true,
-                duration: 2000
+                duration: 3000
               });
             }
           }
@@ -478,7 +489,7 @@ export default {
               type: "success",
               message: "订单提交完成！",
               center: true,
-              duration: 2000
+              duration: 3000
             });
           }
         });

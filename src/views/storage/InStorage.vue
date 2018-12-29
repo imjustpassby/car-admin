@@ -53,7 +53,7 @@
 
       <el-form-item>
         <el-button type="warning" round @click="submitForm('inStorage')">入库</el-button>
-        <el-button round @click="resetForm">重置</el-button>
+        <el-button round @click="resetForm('inStorage')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -65,6 +65,7 @@ export default {
   props: [""],
   data() {
     return {
+      isSubmit: false,
       labelPosition: "right",
       rules: {
         name: [
@@ -150,28 +151,36 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$message({
-            message: "配件入库成功！点击重置继续入库操作！",
-            type: "success",
-            center: true,
-            duration: 2000
-          });
+          if (!this.isSubmit){
+            this.isSubmit = true;
+            this.$message({
+              message: "配件入库成功！点击重置继续入库操作！",
+              type: "success",
+              center: true,
+              duration: 3000
+            });
+          } else {
+            this.$message({
+              message: "请点击重置按钮再提交新表单！",
+              type: "error",
+              center: true,
+              duration: 3000
+            });
+          }
         } else {
           this.$message({
             message: "配件入库失败！请检查信息是否填写正确！",
             type: "error",
             center: true,
-            duration: 2000
+            duration: 3000
           });
           return false;
         }
       });
     },
-    resetForm() {
-      this.fitting.name = null;
-      this.fitting.count = null;
-      this.fitting.sellPrice = null;
-      this.fitting.buyPrice = null;
+    resetForm(formName) {
+      this.isSubmit = false;
+      this.$refs[formName].resetFields();
     },
     checkHas() {
       let hasItem = false;
@@ -192,7 +201,7 @@ export default {
           message: "库存还没有该配件！",
           type: "warning",
           center: true,
-          duration: 2000
+          duration: 3000
         });
       }
     }

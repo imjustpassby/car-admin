@@ -39,7 +39,7 @@
 
 <script>
 export default {
-  name: "",
+  name: "UpdateSalary",
   props: ["staffSalary"],
   data() {
     return {

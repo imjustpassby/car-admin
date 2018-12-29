@@ -11,6 +11,7 @@ require('echarts/lib/chart/line')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
 export default {
+  name: "CustomersChart",
   props: [""],
   data() {
     return {

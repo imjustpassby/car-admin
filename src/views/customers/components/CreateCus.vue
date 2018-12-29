@@ -59,6 +59,7 @@
 
 <script>
 export default {
+  name:'CreateCus',
   props: [""],
   data() {
     var phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -127,7 +128,8 @@ export default {
         plate: null,
         brand: null,
         date: null,
-        balance: 0
+        balance: 0,
+        point: 0
       },
       newVipOrder: {
         orderType: "新会员加入",
@@ -157,6 +159,7 @@ export default {
         if (valid) {
           if (!this.isSubmit){
             //create staff method
+            this.newCus.point = this.newCus.balance;
             this.newVipOrder.date = this.newCus.date;
             this.newVipOrder.totalPrice = this.newCus.balance;
             this.newVipOrder.cusInfo.push(this.newCus);
@@ -189,6 +192,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.isSubmit = false;
+      this.newCus.point = 0;
       this.newVipOrder.date = null;
       this.newVipOrder.cusInfo.pop();
       this.newVipOrder.totalPrice = 0;

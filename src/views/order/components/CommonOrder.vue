@@ -121,10 +121,11 @@
 <script>
 import { currency } from "@/utils/currency";
 export default {
-  name: "",
+  name: "CommonOrder",
   props: [""],
   data() {
     return {
+      isSubmit: false,
       labelPosition: "right",
       rules: {
         date: [
@@ -316,24 +317,34 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.commonOrder.content = this.content;
-          this.$alert("订单提交完成！", "完成", {
-            confirmButtonText: "确定",
-            callback: () => {
-              this.$message({
-                type: "success",
-                message: "订单提交完成！",
-                center: true,
-                duration: 2000
-              });
-            }
+          if (!this.isSubmit){
+            this.isSubmit = true;
+            this.commonOrder.content = this.content;
+            this.$alert("订单提交完成！", "完成", {
+              confirmButtonText: "确定",
+              callback: () => {
+                this.$message({
+                  type: "success",
+                  message: "订单提交完成！",
+                  center: true,
+                  duration: 3000
+                });
+              }
+            });
+          } else {
+            this.$message({
+            message: "请刷新页面再提交新的表单！",
+            type: "error",
+            center: true,
+            duration: 3000
           });
+          }
         } else {
           this.$message({
             message: "订单提交失败！请检查信息是否填写正确！",
             type: "error",
             center: true,
-            duration: 2000
+            duration: 3000
           });
           return false;
         }

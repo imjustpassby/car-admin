@@ -3,7 +3,7 @@
     <el-form
       :model="cusInfo"
       :rules="rules"
-      ref="createCus"
+      ref="UpdateCus"
       :label-position="labelPosition"
       label-width="120px"
     >
@@ -33,7 +33,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="warning" round @click="createCus('createCus')">修改</el-button>
+        <el-button type="warning" round @click="submitForm('UpdateCus')">修改</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: "",
+  name: "UpdateCus",
   props: ["cusInfo"],
   data() {
     var phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -82,7 +82,7 @@ export default {
   mounted() {},
 
   methods: {
-    createCus(formName) {
+    submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           //create staff method

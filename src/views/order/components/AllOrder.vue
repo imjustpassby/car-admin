@@ -69,7 +69,7 @@
 <script>
 import { currency } from "@/utils/currency";
 export default {
-  name: "",
+  name: "AllOrder",
   props: [""],
   data() {
     return {

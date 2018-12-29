@@ -53,7 +53,7 @@
 import UpdateSalary from './components/UpdateSalary'
 import {currency} from '@/utils/currency'
 export default {
-  name: "StaffSalary",
+  name: "Salary",
   props: [""],
   data() {
     return {

@@ -1,7 +1,8 @@
 <template>
   <div>
     <el-table :data="rewardTable" style="width: 100%;" highlight-current-row>
-      <el-table-column prop="name" label="配件名" fit align="center"></el-table-column>
+      <el-table-column prop="name" label="奖品" fit align="center"></el-table-column>
+      <el-table-column prop="type" label="类型" fit align="center"></el-table-column>
       <el-table-column prop="point" label="积分" fit align="center">
         <template slot-scope="scope">
           <template v-if="scope.row.edit">
@@ -43,19 +44,21 @@
 
 <script>
 export default {
-  name: "",
+  name: "RewardManage",
   props: [""],
   data() {
     return {
       rewardTable: [
         {
+          type: "商品类",
           name: "导航仪",
           point: 8000,
           originalPoint: 8000,
           edit: false
         },
         {
-          name: "洗车服务",
+          type: "服务类",
+          name: "免费洗车一次",
           point: 500,
           originalPoint: 500,
           edit: false
@@ -167,8 +170,10 @@ export default {
 };
 </script>
 <style scoped>
-.edit-input-number {
-  padding-right: 100px;
+.edit-input {
+  position: absolute;
+  left: 15px;
+  top: 10px;
 }
 
 .cancel-btn {

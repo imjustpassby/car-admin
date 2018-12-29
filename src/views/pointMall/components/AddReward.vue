@@ -43,6 +43,7 @@
 
       <el-form-item>
         <el-button type="warning" round @click="submitForm('addReward')">完成</el-button>
+        <el-button round @click="resetForm('addReward')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -51,15 +52,18 @@
 <script>
 import {currency} from '@/utils/currency'
 export default {
-  name: "",
+  name: "AddReward",
   props: [""],
   data() {
     return {
+      isSubmit: false,
       rewardType: 'fitting',
       formData:{
         type: '',
         name: '',
         point: 0,
+        originalPoint: 0,
+        edit: false
       },
       rules:{
         type: [{required: true, message: "请选择奖品类型"}],
@@ -120,22 +124,37 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$message({
-            message: "添加奖品成功！",
-            type: "success",
-            center: true,
-            duration: 2000
-          });
+          if (!this.isSubmit){
+            this.isSubmit = true;
+            this.formData.originalPoint = this.formData.point;
+            this.$message({
+              message: "添加奖品成功！",
+              type: "success",
+              center: true,
+              duration: 3000
+            });
+          }else{
+            this.$message({
+              message: "请点击重置按钮再提交新表单！",
+              type: "error",
+              center: true,
+              duration: 3000
+            });
+          }
         } else {
           this.$message({
             message: "添加奖品失败！请检查信息是否填写正确！",
             type: "error",
             center: true,
-            duration: 2000
+            duration: 3000
           });
           return false;
         }
       });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+      this.isSubmit = false;
     }
   }
 };

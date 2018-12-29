@@ -16,6 +16,7 @@ import { currency } from "@/utils/currency";
 import RewardManage from './components/RewardManage'
 import AddReward from './components/AddReward';
 export default {
+  name: "Reward",
   props: [""],
   data() {
     return {

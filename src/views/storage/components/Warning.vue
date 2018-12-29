@@ -20,6 +20,7 @@
           {{ scope.row.sellPrice | currency('¥') }}
         </template>
       </el-table-column>
+      <el-table-column prop="date" label="上次进货日期" sortable fit align="center"></el-table-column>
       <el-table-column align="center">
         <template slot="header" slot-scope="scope">
           <el-input v-model="search" size="mini" placeholder="请输入配件搜索"/>

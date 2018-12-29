@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "",
+  name: "Record",
   props: [""],
   data() {
     return {

@@ -2,26 +2,24 @@
   <div>
     <el-tabs v-model="activeCard" type="card">
       <el-tab-pane label="库存总览" name="storageOverview">
-        <el-table 
-        :data="storageTable.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" 
-        :default-sort="{prop:'name' , order: 'ascending'}"
-        :summary-method="getSummaries"
-        style="width: 100%;" 
-        highlight-current-row 
-        show-summary
-        > 
-          <el-table-column prop="name" label="配件名" sortable fit align="center"></el-table-column>
-          <el-table-column prop="count" label="数量（个）" sortable fit align="center"></el-table-column>
-          <el-table-column prop="buyPrice" label="进货价" sortable fit align="center">
-            <template slot-scope="scope">
-              {{ scope.row.buyPrice | currency('¥') }}
-            </template>
+        <el-table
+          :data="storageTable.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+          :default-sort="{prop:'name' , order: 'ascending'}"
+          :summary-method="getSummaries"
+          style="width: 100%;"
+          highlight-current-row
+          show-summary
+          fit
+        >
+          <el-table-column prop="name" label="配件名" sortable align="center"></el-table-column>
+          <el-table-column prop="count" label="数量（个）" sortable align="center"></el-table-column>
+          <el-table-column prop="buyPrice" label="进货价" sortable align="center">
+            <template slot-scope="scope">{{ scope.row.buyPrice | currency('¥') }}</template>
           </el-table-column>
-          <el-table-column prop="sellPrice" label="出售价" sortable fit align="center">
-            <template slot-scope="scope">
-              {{ scope.row.sellPrice | currency('¥') }}
-            </template>
+          <el-table-column prop="sellPrice" label="出售价" sortable align="center">
+            <template slot-scope="scope">{{ scope.row.sellPrice | currency('¥') }}</template>
           </el-table-column>
+          <el-table-column prop="date" label="上次进货日期" sortable align="center"></el-table-column>
           <el-table-column align="center">
             <template slot="header" slot-scope="scope">
               <el-input v-model="search" size="mini" placeholder="请输入配件搜索"/>
@@ -37,8 +35,8 @@
 </template>
 
 <script>
-import {currency} from '@/utils/currency'
-import Warning from './components/Warning'
+import { currency } from "@/utils/currency";
+import Warning from "./components/Warning";
 export default {
   name: "CheckStorage",
   props: [""],
@@ -50,27 +48,30 @@ export default {
       storageTable: [
         {
           name: "米其林轮胎19寸",
-          count: "12",
-          buyPrice: "120",
-          sellPrice: "200"
+          date: "2018-09-01",
+          count: 20,
+          buyPrice: 100,
+          sellPrice: 200
         },
         {
           name: "导航仪",
-          count: "10",
-          buyPrice: "500",
-          sellPrice: "888"
+          date: "2018-09-01",
+          count: 10,
+          buyPrice: 500,
+          sellPrice: 800
         },
         {
           name: "挡风玻璃",
-          count: "3",
-          buyPrice: "600",
-          sellPrice: "1200"
+          date: "2018-09-01",
+          count: 12,
+          buyPrice: 800,
+          sellPrice: 1200
         }
       ]
     };
   },
 
-  filters:{
+  filters: {
     currency
   },
 
@@ -79,13 +80,13 @@ export default {
   },
 
   computed: {
-    warningData(){
+    warningData() {
       let lack = [];
-      this.storageTable.forEach((item,index)=>{
-        if(item.count<=4){
+      this.storageTable.forEach((item, index) => {
+        if (item.count <= 10) {
           lack.push(item);
         }
-      })
+      });
       return lack;
     }
   },
@@ -102,7 +103,7 @@ export default {
       const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '合计';
+          sums[index] = "合计";
           return;
         }
         const values = data.map(item => Number(item[column.property]));
@@ -115,20 +116,20 @@ export default {
               return prev;
             }
           }, 0);
-          switch(column.property) {
+          switch (column.property) {
             case "count":
-              sums[index] += ' 个'; 
+              sums[index] += " 个";
               break;
             case "buyPrice":
             case "sellPrice":
-              sums[index] = currency(sums[index],'¥');
+              sums[index] = currency(sums[index], "¥");
               break;
             default:
-              sums[index] = '';
+              sums[index] = "";
               break;
           }
         } else {
-          sums[index] = '';
+          sums[index] = "";
         }
       });
       return sums;
@@ -136,5 +137,6 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 </style>

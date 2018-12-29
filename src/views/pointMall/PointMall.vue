@@ -46,12 +46,7 @@
 
       <el-form-item label="奖品选择" prop="reward">
         <el-col :span="8">
-          <el-select 
-          v-model="formData.reward" 
-          placeholder="请选择" 
-          clearable 
-          @change="setNeedPoint"
-          >
+          <el-select v-model="formData.reward" placeholder="请选择" clearable @change="setNeedPoint">
             <el-option
               v-for="item in rewardTable"
               :key="item.name"
@@ -72,7 +67,7 @@
 
 <script>
 export default {
-  name: "",
+  name: "PointMall",
   props: [""],
   data() {
     var phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -89,6 +84,7 @@ export default {
       }, 300);
     };
     return {
+      isSubmit: false,
       isVip: false,
       needPoint: 0,
       rules: {
@@ -200,41 +196,52 @@ export default {
           message: "没有该会员！请检查手机号是否填写正确！",
           type: "warning",
           center: true,
-          duration: 2000
+          duration: 3000
         });
       }
     },
     setNeedPoint(selVal) {
-      let rewardPoint = selVal.slice(selVal.lastIndexOf('-')+1);
+      let rewardPoint = selVal.slice(selVal.lastIndexOf("-") + 1);
       this.needPoint = rewardPoint;
     },
     submitForm(formName) {
-      let enoughPoint = parseInt(this.formData.point) > parseInt(this.needPoint);
+      let enoughPoint =
+        parseInt(this.formData.point) > parseInt(this.needPoint);
       if (this.isVip) {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            if (enoughPoint){
-              //deal with cus point
-              this.$message({
-                message: "兑换奖品成功！",
-                type: "success",
-                center: true,
-                duration: 2000
-              });
+            if (enoughPoint) {
+              if (!this.isSubmit) {
+                this.isSubmit = true;
+                //deal with cus point
+                this.$message({
+                  message: "兑换奖品成功！",
+                  type: "success",
+                  center: true,
+                  duration: 3000
+                });
+              } else {
+                this.$message({
+                  message: "请点击重置按钮再提交新表单！",
+                  type: "error",
+                  center: true,
+                  duration: 3000
+                });
+              }
             } else {
               this.$message({
                 message: "很遗憾！积分不足！",
                 type: "error",
                 center: true,
-                duration: 2000
+                duration: 3000
               });
             }
           } else {
             this.$message({
-              message: "失败！请检查信息是否填写正确！",
+              message: "兑换失败！请检查信息是否填写正确！",
               type: "error",
               center: true,
-              duration: 2000
+              duration: 3000
             });
             return false;
           }
@@ -244,12 +251,13 @@ export default {
           message: "请检查会员手机号！",
           type: "error",
           center: true,
-          duration: 2000
+          duration: 3000
         });
       }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.isSubmit = false;
       this.formData.name = "";
       this.formData.point = 0;
     }

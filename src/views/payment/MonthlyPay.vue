@@ -115,10 +115,11 @@
 <script>
 import { currency } from "@/utils/currency";
 export default {
-  name: "monthlyPay",
+  name: "MonthlyPay",
   props: [""],
   data() {
     return {
+      isSubmit: false,
       rules: {
         date: [{ required: true, message: "请选择日期" }],
         basePay: [{ required: true, message: "请填写完整项目" }],
@@ -203,7 +204,7 @@ export default {
           message: "不能继续删除！请填写完整项目信息！",
           type: "error",
           center: true,
-          duration: 2000
+          duration: 3000
         });
       } else {
         var index = this.formData.basePay.indexOf(item);
@@ -225,7 +226,7 @@ export default {
           message: "不能继续删除！请填写完整项目信息！",
           type: "error",
           center: true,
-          duration: 2000
+          duration: 3000
         });
       } else {
         var index = this.formData.salaryPay.indexOf(item);
@@ -247,7 +248,7 @@ export default {
           message: "不能继续删除！请填写完整项目信息！",
           type: "error",
           center: true,
-          duration: 2000
+          duration: 3000
         });
       } else {
         var index = this.formData.otherPay.indexOf(item);
@@ -266,23 +267,32 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.formData.salaryPayTotal = this.salaryPayTotal;
-          this.formData.basePayTotal = this.basePayTotal;
-          this.formData.otherPayTotal = this.otherPayTotal;
-          this.formData.totalPay = this.totalPay;
-          this.isSubmit = true;
-          this.$message({
-            message: "提交成功！",
-            type: "success",
-            center: true,
-            duration: 2000
-          });
+          if (!this.isSubmit){
+            this.isSubmit = true;
+            this.formData.salaryPayTotal = this.salaryPayTotal;
+            this.formData.basePayTotal = this.basePayTotal;
+            this.formData.otherPayTotal = this.otherPayTotal;
+            this.formData.totalPay = this.totalPay;
+            this.$message({
+              message: "表单提交成功！",
+              type: "success",
+              center: true,
+              duration: 3000
+            });
+          } else {
+            this.$message({
+              message: "请刷新页面再提交新表单！",
+              type: "success",
+              center: true,
+              duration: 3000
+            });
+          }
         } else {
           this.$message({
             message: "订单提交失败！请检查信息是否填写正确！",
             type: "error",
             center: true,
-            duration: 2000
+            duration: 3000
           });
           return false;
         }

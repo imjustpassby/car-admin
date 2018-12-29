@@ -70,10 +70,11 @@
 <script>
 import {currency} from '@/utils/currency'
 export default {
-  name: "",
+  name: "VipRefill",
   props: [""],
   data() {
     return {
+      isSubmit: false,
       labelPosition: "right",
       vipPhone: null,
       isVip: false,
@@ -213,18 +214,28 @@ export default {
       } else {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            this.$message({
-              message: "会员余额充值成功！",
-              type: "success",
-              center: true,
-              duration: 2000
-            });
+            if (!this.isSubmit){
+              this.isSubmit = true;
+              this.$message({
+                message: "会员余额充值成功！",
+                type: "success",
+                center: true,
+                duration: 3000
+              });
+            } else {
+              this.$message({
+                message: "请刷新页面再提交新表单！",
+                type: "success",
+                center: true,
+                duration: 3000
+              });
+            }
           } else {
             this.$message({
               message: "订单提交失败！请检查信息是否填写正确！",
               type: "error",
               center: true,
-              duration: 2000
+              duration: 3000
             });
             return false;
           }
