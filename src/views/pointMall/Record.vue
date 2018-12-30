@@ -17,27 +17,13 @@
 </template>
 
 <script>
+import {getRecordList} from '@/api/record.js'
 export default {
   name: "Record",
   props: [""],
   data() {
     return {
-      recordTable: [
-        {
-          name: "胡凯莉3",
-          phone: "13313313333",
-          point: "898",
-          date: "2018-12-25",
-          reward: "洗车服务---500"
-        },
-        {
-          name: "胡凯莉2",
-          phone: "13313313322",
-          point: "567",
-          date: "2018-12-16",
-          reward: "洗车服务---500"
-        }
-      ]
+      recordTable: []
     };
   },
 
@@ -49,7 +35,11 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    getRecordList().then(res=>{
+      this.recordTable = res.result;
+    }).catch();
+  },
 
   methods: {}
 };

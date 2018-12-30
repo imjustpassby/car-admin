@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import {getStorageList} from '@/api/storage.js'
 import { currency } from "@/utils/currency";
 import Warning from "./components/Warning";
 export default {
@@ -45,29 +46,7 @@ export default {
       activeCard: "storageOverview",
       search: "",
       searchWarning: "",
-      storageTable: [
-        {
-          name: "米其林轮胎19寸",
-          date: "2018-09-01",
-          count: 20,
-          buyPrice: 100,
-          sellPrice: 200
-        },
-        {
-          name: "导航仪",
-          date: "2018-09-01",
-          count: 10,
-          buyPrice: 500,
-          sellPrice: 800
-        },
-        {
-          name: "挡风玻璃",
-          date: "2018-09-01",
-          count: 12,
-          buyPrice: 800,
-          sellPrice: 1200
-        }
-      ]
+      storageTable: []
     };
   },
 
@@ -95,7 +74,11 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    getStorageList().then(res=>{
+      this.storageTable = res.result;
+    }).catch();
+  },
 
   methods: {
     getSummaries(param) {

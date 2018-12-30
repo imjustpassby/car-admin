@@ -4,9 +4,9 @@
 
 <script>
 import "echarts/theme/macarons.js";
-import {getOrderList} from '@/mock/order.js'
-import {getMonthlyPay} from '@/mock/monthlyPay.js'
-import {getPurchasePay} from '@/mock/purchasePay.js'
+import {getOrderList} from '@/api/order.js'
+import {getMonthlyPay} from '@/api/monthlyPay.js'
+import {getPurchasePay} from '@/api/purchasePay.js'
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/line");
 require("echarts/lib/component/tooltip");
@@ -96,13 +96,17 @@ export default {
 
   watch: {},
 
-  beforeMount() {},
-
   mounted() {
-    this.purchaseData = getPurchasePay();
-    this.payData = getMonthlyPay();
-    this.orderData = getOrderList();
-    this.drawChart();
+    getPurchasePay().then(res=>{
+      this.purchaseData = res.result;
+    }).catch();
+    getMonthlyPay().then(res=>{
+      this.payData = res.result;
+    }).catch();
+    getOrderList().then(res=>{
+      this.orderData = res.result;
+      setTimeout(this.drawChart(),2000);
+    }).catch();
   },
 
   methods: {

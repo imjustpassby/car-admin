@@ -51,6 +51,7 @@
 
 <script>
 import UpdateSalary from './components/UpdateSalary'
+import {getStaffList} from '@/api/staff.js'
 import {currency} from '@/utils/currency'
 export default {
   name: "Salary",
@@ -58,40 +59,7 @@ export default {
   data() {
     return {
       activeCard: "salaryOverview",
-      salaryTable: [
-        {
-          name: "王小虎1",
-          date: "2016-05-02",
-          baseSalary: 4000,
-          welfare: 1000,
-          extra: 500,
-          total: 5500
-        },
-        {
-          name: "王小虎2",
-          date: "2016-05-04",
-          baseSalary: 4500,
-          welfare: 1200,
-          extra: 600,
-          total: 6300
-        },
-        {
-          name: "王小虎3",
-          date: "2016-05-01",
-          baseSalary: 5000,
-          welfare: 1300,
-          extra: 700,
-          total: 7000
-        },
-        {
-          name: "王小虎4",
-          date: "2016-05-03",
-          baseSalary: 5500,
-          welfare: 1400,
-          extra: 800,
-          total: 7700
-        }
-      ],
+      salaryTable: [],
       staffSalary: {
         name: null,
         baseSalary: null,
@@ -115,7 +83,11 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    getStaffList().then(res=>{
+      this.salaryTable = res.result;
+    }).catch();
+  },
 
   methods: {
     handleEdit(index, row) {

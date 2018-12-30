@@ -8,14 +8,38 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/users/*': {
+      '/customers/*': {
         target: 'http://localhost:3000',
         changeOrigin: true
       },
-      '/test/*': {
+      '/monthlyPay/*': {
         target: 'http://localhost:3000',
         changeOrigin: true
-      }
+      },
+      '/order/*': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      },
+      '/pointMall/*': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      },
+      '/purchasePay/*': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      },
+      '/record/*': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      },
+      '/staff/*': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      },
+      '/storage/*': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      },
     },
 
     // Various Dev Server settings

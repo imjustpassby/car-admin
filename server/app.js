@@ -6,8 +6,15 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var testRouter = require('./routes/test');
+var customersRouter = require('./routes/customers')
+var staffRouter = require('./routes/staff')
+var monthlyPayRouter = require('./routes/monthlyPay')
+var storageRouter = require('./routes/storage')
+var pointMallRouter = require('./routes/pointMall')
+var orderRouter = require('./routes/order')
+var purchasePayRouter = require('./routes/purchasePay')
+var recordRouter = require('./routes/record')
+
 var app = express();
 
 // view engine setup
@@ -25,8 +32,14 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/test',testRouter);
+app.use('/customers',customersRouter);
+app.use('/staff',staffRouter);
+app.use('/monthlyPay',monthlyPayRouter);
+app.use('/storage',storageRouter);
+app.use('/pointMall',pointMallRouter);
+app.use('/order',orderRouter);
+app.use('/purchasePay',purchasePayRouter);
+app.use('/record',recordRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

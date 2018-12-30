@@ -21,7 +21,7 @@
 
 <script>
 import "echarts/theme/macarons.js";
-import {getOrderList} from '@/mock/order.js'
+import {getOrderList} from '@/api/order.js'
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/pie");
 require("echarts/lib/component/tooltip");
@@ -57,13 +57,15 @@ export default {
   beforeMount() {},
 
   mounted() {
-    this.orderData = getOrderList();
-    this.getDateOption();
-    this.getMonthlyCommonOrderTotal();
-    this.getMonthlyVipOrderTotal();
-    this.getMonthlyRefillTotal();
-    this.getMonthlyNewVipTotal();
-    this.drawChart();
+    getOrderList().then(res=>{
+      this.orderData = res.result;
+      this.getDateOption();
+      this.getMonthlyCommonOrderTotal();
+      this.getMonthlyVipOrderTotal();
+      this.getMonthlyRefillTotal();
+      this.getMonthlyNewVipTotal();
+      this.drawChart();
+    }).catch();
   },
 
   methods: {

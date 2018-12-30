@@ -6,7 +6,7 @@
 
 <script>
 import "echarts/theme/macarons.js";
-import {getMonthlyPay} from '@/mock/monthlyPay.js'
+import {getMonthlyPay} from '@/api/monthlyPay.js'
 let echarts = require('echarts/lib/echarts')
 require('echarts/lib/chart/line')
 require('echarts/lib/component/tooltip')
@@ -45,8 +45,10 @@ export default {
   beforeMount() {},
 
   mounted() {
-    this.payData = getMonthlyPay();
-    this.drawChart();
+    getMonthlyPay().then(res=>{
+      this.payData = res.result;
+      this.drawChart();
+    }).catch();
   },
 
   methods: {

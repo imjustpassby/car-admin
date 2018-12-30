@@ -3,6 +3,7 @@
     <el-tabs type="card" v-model="activeCard">
       <el-tab-pane label="会员总览" name="showCus">
         <el-table
+          v-loading="listLoading"
           :default-sort="{prop: 'date', order: 'descending'}"
           :data="tableData.filter(data => !search || data.phone.toLowerCase().includes(search.toLowerCase()))"
           style="width:100%"
@@ -49,6 +50,7 @@
 </template>
 
 <script>
+import {getCustomersList} from "@/api/customers.js"
 import CreateCus from "./components/CreateCus";
 import UpdateCus from "./components/UpdateCus";
 import { currency } from "@/utils/currency";
@@ -57,55 +59,10 @@ export default {
   props: [""],
   data() {
     return {
+      listLoading: true,
       search: "",
       activeCard: "showCus",
-      tableData: [
-        {
-          name: "胡凯莉1",
-          phone: "13313313311",
-          plate: "粤A11111",
-          brand: "法拉利",
-          date: "2018-12-20",
-          balance: "1000",
-          point: "145"
-        },
-        {
-          name: "胡凯莉2",
-          phone: "13313313322",
-          plate: "粤B22222",
-          brand: "日产",
-          date: "2018-11-30",
-          balance: "1200",
-          point: "567"
-        },
-        {
-          name: "胡凯莉3",
-          phone: "13313313333",
-          plate: "粤C33333",
-          brand: "奔驰",
-          date: "2018-10-07",
-          balance: "800",
-          point: "898"
-        },
-        {
-          name: "胡凯莉4",
-          phone: "13313313344",
-          plate: "粤D44444",
-          brand: "宝骏",
-          date: "2018-08-07",
-          balance: "500",
-          point: "444"
-        },
-        {
-          name: "胡凯莉5",
-          phone: "13313313355",
-          plate: "粤R99991",
-          brand: "保时捷",
-          date: "2018-01-07",
-          balance: "10000",
-          point: "666"
-        }
-      ],
+      tableData: [],
       cusInfo: {
         name: null,
         phone: null,
@@ -158,7 +115,14 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    getCustomersList().then(res=>{
+      this.tableData = res.result;
+      this.listLoading = false;
+    }).catch(()=>{
+      console.log("fetch error");
+    });
+  },
 
   methods: {
     filterHandler(value, row, column) {

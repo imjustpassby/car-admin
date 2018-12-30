@@ -119,6 +119,7 @@
 </template>
 
 <script>
+import {getStorageList} from '@/api/storage.js'
 import { currency } from "@/utils/currency";
 export default {
   name: "CommonOrder",
@@ -156,29 +157,7 @@ export default {
           key: 1545468633009
         }
       ],
-      storageData: [
-        {
-          name: "米其林轮胎19寸",
-          date: "2018-02-02",
-          count: "12",
-          buyPrice: "120",
-          sellPrice: "200"
-        },
-        {
-          name: "导航仪",
-          date: "2018-03-03",
-          count: "10",
-          buyPrice: "500",
-          sellPrice: "888"
-        },
-        {
-          name: "挡风玻璃",
-          date: "2018-04-04",
-          count: "3",
-          buyPrice: "600",
-          sellPrice: "1200"
-        }
-      ],
+      storageData: [],
       fittings: [],
       commonOrder: {
         orderType: "普通客户",
@@ -249,7 +228,11 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    getStorageList().then(res=>{
+      this.storageData = res.result;
+    }).catch();
+  },
 
   methods: {
     getSummaries(param) {

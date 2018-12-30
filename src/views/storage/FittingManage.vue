@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import {getStorageList} from '@/api/storage.js'
 import { currency } from "@/utils/currency";
 export default {
   name: "FittingManage",
@@ -64,29 +65,7 @@ export default {
         count: [{ required: true, message: "请输入数量" }],
         sellPrice: [{ required: true, message: "请输入售价" }]
       },
-      storageData: [
-        {
-          name: "米其林轮胎19寸",
-          date: "2018-09-01",
-          count: 20,
-          buyPrice: 100,
-          sellPrice: 200
-        },
-        {
-          name: "导航仪",
-          date: "2018-09-01",
-          count: 10,
-          buyPrice: 500,
-          sellPrice: 800
-        },
-        {
-          name: "挡风玻璃",
-          date: "2018-09-01",
-          count: 12,
-          buyPrice: 800,
-          sellPrice: 1200
-        }
-      ],
+      storageData: [],
       fittingInfo: {
         name: "",
         count: 0,
@@ -108,7 +87,11 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    getStorageList().then(res=>{
+      this.storageData = res.result;
+    }).catch();
+  },
 
   methods: {
     getFittingInfo() {

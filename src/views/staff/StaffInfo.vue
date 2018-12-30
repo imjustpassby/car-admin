@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import {getStaffList} from '@/api/staff.js'
 import UpdateInfo from './components/UpdateInfo'
 import CreateStaff from './components/CreateStaff'
 export default {
@@ -44,40 +45,7 @@ export default {
   data() {
     return {
       activeCard: "staffManage",
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎1",
-          sex: "男",
-          phone: "13345678900",
-          position: "维修",
-          address: "上海市普陀区金沙江路 1 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎2",
-          sex: "男",
-          phone: "13345678900",
-          position: "维修",
-          address: "上海市普陀区金沙江路 2 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎3",
-          sex: "男",
-          phone: "13345678900",
-          position: "维修",
-          address: "上海市普陀区金沙江路 3 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎4",
-          sex: "男",
-          phone: "13345678900",
-          position: "维修",
-          address: "上海市普陀区金沙江路 4 弄"
-        }
-      ],
+      tableData: [],
       staffInfo: {
         date: "",
         name: "",
@@ -100,7 +68,11 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    getStaffList().then(res=>{
+      this.tableData = res.result;
+    }).catch();
+  },
 
   methods: {
     handleEdit(index, row) {

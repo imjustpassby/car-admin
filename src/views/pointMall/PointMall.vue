@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import {getRewardList} from '@/api/pointMall.js'
+import {getCustomersList} from '@/api/customers.js'
 export default {
   name: "PointMall",
   props: [""],
@@ -99,67 +101,8 @@ export default {
         date: null,
         reward: null
       },
-      rewardTable: [
-        {
-          name: "导航仪",
-          point: 8000,
-          originalPoint: 8000,
-          edit: false
-        },
-        {
-          name: "洗车服务",
-          point: 500,
-          originalPoint: 500,
-          edit: false
-        }
-      ],
-      cusData: [
-        {
-          name: "胡凯莉1",
-          phone: "13313313311",
-          plate: "粤A11111",
-          brand: "法拉利",
-          date: "2018-12-20",
-          balance: "1000",
-          point: "145"
-        },
-        {
-          name: "胡凯莉2",
-          phone: "13313313322",
-          plate: "粤B22222",
-          brand: "日产",
-          date: "2018-11-30",
-          balance: "1200",
-          point: "567"
-        },
-        {
-          name: "胡凯莉3",
-          phone: "13313313333",
-          plate: "粤C33333",
-          brand: "奔驰",
-          date: "2018-10-07",
-          balance: "800",
-          point: "898"
-        },
-        {
-          name: "胡凯莉4",
-          phone: "13313313344",
-          plate: "粤D44444",
-          brand: "宝骏",
-          date: "2018-08-07",
-          balance: "500",
-          point: "444"
-        },
-        {
-          name: "胡凯莉5",
-          phone: "13313313355",
-          plate: "粤R99991",
-          brand: "保时捷",
-          date: "2018-01-07",
-          balance: "10000",
-          point: "666"
-        }
-      ]
+      rewardTable: [],
+      cusData: []
     };
   },
 
@@ -171,7 +114,14 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    getRewardList().then(res=>{
+      this.rewardTable = res.result;
+    }).catch();
+    getCustomersList().then(res=>{
+      this.cusData = res.result;
+    }).catch();
+  },
 
   methods: {
     getVipPoint() {

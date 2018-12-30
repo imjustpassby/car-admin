@@ -23,7 +23,7 @@
       
       <el-form-item label="会员信息">
         <el-col :span="21">
-          <el-table :data="vipTable" highlight-current-row>
+          <el-table v-loading="listLoading" :data="vipTable" highlight-current-row>
             <el-table-column prop="name" label="姓名" fit align="center"></el-table-column>
             <el-table-column prop="phone" label="电话" fit align="center"></el-table-column>
             <el-table-column prop="plate" label="车牌" fit align="center"></el-table-column>
@@ -142,12 +142,15 @@
 </template>
 
 <script>
+import {getStorageList} from '@/api/storage.js'
+import {getCustomersList} from '@/api/customers.js'
 import { currency } from "@/utils/currency";
 export default {
   name: "VipOrder",
   props: [""],
   data() {
     return {
+      listLoading: true,
       isSubmit: false,
       labelPosition: "right",
       vipPhone: null,
@@ -179,76 +182,8 @@ export default {
           key: 1545468633009
         }
       ],
-      storageData: [
-        {
-          name: "米其林轮胎19寸",
-          date: "2018-02-02",
-          count: "12",
-          buyPrice: "120",
-          sellPrice: "200"
-        },
-        {
-          name: "导航仪",
-          date: "2018-03-03",
-          count: "10",
-          buyPrice: "500",
-          sellPrice: "800"
-        },
-        {
-          name: "挡风玻璃",
-          date: "2018-04-04",
-          count: "3",
-          buyPrice: "600",
-          sellPrice: "1200"
-        }
-      ],
-      customersData: [
-        {
-          name: "胡凯莉1",
-          phone: "13313313311",
-          plate: "粤A11111",
-          brand: "法拉利",
-          date: "2018-07-07",
-          balance: "1000",
-          point: "145"
-        },
-        {
-          name: "胡凯莉2",
-          phone: "13313313322",
-          plate: "粤B22222",
-          brand: "日产",
-          date: "2018-07-07",
-          balance: "1200",
-          point: "567"
-        },
-        {
-          name: "胡凯莉3",
-          phone: "13313313333",
-          plate: "粤C33333",
-          brand: "奔驰",
-          date: "2018-07-07",
-          balance: "800",
-          point: "898"
-        },
-        {
-          name: "胡凯莉4",
-          phone: "13313313344",
-          plate: "粤D44444",
-          brand: "宝骏",
-          date: "2018-07-07",
-          balance: "500",
-          point: "444"
-        },
-        {
-          name: "胡凯莉5",
-          phone: "13313313355",
-          plate: "粤R99991",
-          brand: "保时捷",
-          date: "2018-07-07",
-          balance: "10000",
-          point: "666"
-        }
-      ],
+      storageData: [],
+      customersData: [],
       vipInfo: {
         name: null,
         phone: null,
@@ -325,7 +260,17 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    getStorageList().then(res=>{
+      this.storageData = res.result;
+    }).catch();
+    getCustomersList().then(res=>{
+      this.customersData = res.result;
+      this.listLoading = false;
+    }).catch(()=>{
+      console.log("fetch error");
+    });
+  },
 
   methods: {
     getSummaries(param) {
