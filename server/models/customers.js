@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
 var customersSchema = new Schema({
-	"_id": String,
+	"id": String,
 	"name": String,
 	"phone": String,
 	"plate": String,
@@ -10,6 +10,6 @@ var customersSchema = new Schema({
 	"date": String,
 	"balance": Number,
 	"point": Number
-});
+},{versionKey: false});
 
 module.exports = mongoose.model('Customers',customersSchema);

@@ -6,3 +6,11 @@ export function getOrderList() {
     method: 'get'
   })
 }
+
+export function newOrder(order) {
+  return request({
+    url:'/order/newOrder',
+    method: 'post',
+    data: order
+  })
+}

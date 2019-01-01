@@ -66,8 +66,9 @@
 </template>
 
 <script>
-import {getRewardList} from '@/api/pointMall.js'
-import {getCustomersList} from '@/api/customers.js'
+import { getRewardList } from "@/api/pointMall.js";
+import { exchangeReward } from "@/api/record.js";
+import { getCustomersList, descPoint } from "@/api/customers.js";
 export default {
   name: "PointMall",
   props: [""],
@@ -95,6 +96,7 @@ export default {
         reward: [{ required: true, message: "请选择奖品" }]
       },
       formData: {
+        id: null,
         name: "",
         phone: null,
         point: 0,
@@ -115,12 +117,16 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getRewardList().then(res=>{
-      this.rewardTable = res.result;
-    }).catch();
-    getCustomersList().then(res=>{
-      this.cusData = res.result;
-    }).catch();
+    getRewardList()
+      .then(res => {
+        this.rewardTable = res.result;
+      })
+      .catch();
+    getCustomersList()
+      .then(res => {
+        this.cusData = res.result;
+      })
+      .catch();
   },
 
   methods: {
@@ -130,6 +136,7 @@ export default {
         if (this.formData.phone == item.phone) {
           this.isVip = true;
           hasItem = true;
+          this.formData.id = item.id;
           this.formData.point = item.point;
           this.formData.name = item.name;
         }
@@ -163,7 +170,15 @@ export default {
             if (enoughPoint) {
               if (!this.isSubmit) {
                 this.isSubmit = true;
-                //deal with cus point
+                exchangeReward(this.formData)
+                  .then()
+                  .catch();
+                descPoint({
+                  needPoint: parseFloat(this.needPoint),
+                  id: this.formData.id 
+                })
+                  .then()
+                  .catch();
                 this.$message({
                   message: "兑换奖品成功！",
                   type: "success",

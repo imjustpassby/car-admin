@@ -20,7 +20,7 @@
           @click="getVipInfo"
         ></el-button>
       </el-form-item>
-      
+
       <el-form-item label="会员信息">
         <el-col :span="21">
           <el-table v-loading="listLoading" :data="vipTable" highlight-current-row>
@@ -63,11 +63,7 @@
       </el-form-item>
 
       <span class="form-item">项目花费</span>
-      <el-form-item
-        v-for="(item, index) in content"
-        :label="'项目' + (index+1)"
-        :key="item.key"
-      >
+      <el-form-item v-for="(item, index) in content" :label="'项目' + (index+1)" :key="item.key">
         <el-col :span="8">
           <el-input v-model="item.item"></el-input>
         </el-col>
@@ -107,7 +103,12 @@
 
       <el-form-item label="配件信息">
         <el-col :span="21">
-          <el-table :data="fittingTable" :summary-method="getSummaries" show-summary highlight-current-row>
+          <el-table
+            :data="fittingTable"
+            :summary-method="getSummaries"
+            show-summary
+            highlight-current-row
+          >
             <el-table-column label="配件名" prop="name" fit align="center"></el-table-column>
             <el-table-column label="销售单价" prop="sellPrice" fit align="center">
               <template slot-scope="scope">{{scope.row.sellPrice | currency('¥')}}</template>
@@ -142,15 +143,16 @@
 </template>
 
 <script>
-import {getStorageList} from '@/api/storage.js'
-import {getCustomersList} from '@/api/customers.js'
+import { getStorageList, descFitting } from "@/api/storage.js";
+import { getCustomersList, changeBalance } from "@/api/customers.js";
+import { newOrder } from "@/api/order";
 import { currency } from "@/utils/currency";
 export default {
   name: "VipOrder",
   props: [""],
   data() {
     return {
-      listLoading: true,
+      listLoading: false,
       isSubmit: false,
       labelPosition: "right",
       vipPhone: null,
@@ -173,6 +175,10 @@ export default {
         {
           value: "配件购买",
           label: "配件购买"
+        },
+        {
+          value: "汽车保养",
+          label: "汽车保养"
         }
       ],
       content: [
@@ -184,18 +190,10 @@ export default {
       ],
       storageData: [],
       customersData: [],
-      vipInfo: {
-        name: null,
-        phone: null,
-        plate: null,
-        brand: null,
-        date: null,
-        balance: null,
-        point: null
-      },
+      vipInfo: {},
       fittings: [],
       vipOrder: {
-        orderType:'会员消费',
+        orderType: "会员消费",
         cusInfo: [],
         date: null,
         services: [],
@@ -218,12 +216,14 @@ export default {
       for (let fitting of this.fittings) {
         this.storageData.forEach((item, index) => {
           let arrItem = {
+            id: null,
             name: "",
             sellPrice: null,
             count: null,
             total: null
           };
           if (fitting == item.name) {
+            arrItem.id = item.id;
             arrItem.name = item.name;
             arrItem.sellPrice = item.sellPrice;
             arrItem.count = 1;
@@ -245,7 +245,7 @@ export default {
         money += parseFloat(item.cost);
       });
       money *= 0.95;
-      this.vipOrder.totalPrice = parseFloat(money);
+      this.vipOrder.totalPrice = parseFloat(money.toFixed(2));
       return money;
     },
     vipTable() {
@@ -261,15 +261,11 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getStorageList().then(res=>{
-      this.storageData = res.result;
-    }).catch();
-    getCustomersList().then(res=>{
-      this.customersData = res.result;
-      this.listLoading = false;
-    }).catch(()=>{
-      console.log("fetch error");
-    });
+    getStorageList()
+      .then(res => {
+        this.storageData = res.result;
+      })
+      .catch();
   },
 
   methods: {
@@ -347,7 +343,7 @@ export default {
       } else {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            if (!this.isSubmit){
+            if (!this.isSubmit) {
               this.isSubmit = true;
               this.vipOrder.content = this.content;
               this.checkBalance();
@@ -372,35 +368,36 @@ export default {
       }
     },
     getVipInfo() {
-      let hasItem = false;
-      this.customersData.forEach(item => {
-        if (item.phone == this.vipPhone) {
-          hasItem = true;
-          this.isVip = true;
-          this.vipInfo.name = item.name;
-          this.vipInfo.phone = item.phone;
-          this.vipInfo.plate = item.plate;
-          this.vipInfo.brand = item.brand;
-          this.vipInfo.date = item.date;
-          this.vipInfo.balance = item.balance;
-          this.vipInfo.point = item.point;
-        }
-      });
-      if (hasItem) {
-        this.$message({
-          message: "已列出该会员信息！",
-          type: "success",
-          center: true,
-          duration: 3000
-        });
-      } else {
-        this.$message({
-          message: "没有该会员！请检查手机号是否填写正确！",
-          type: "warning",
-          center: true,
-          duration: 3000
-        });
-      }
+      this.listLoading = true;
+      getCustomersList()
+        .then(res => {
+          this.customersData = res.result;
+          this.listLoading = false;
+          let hasItem = false;
+          this.customersData.forEach(item => {
+            if (item.phone == this.vipPhone) {
+              hasItem = true;
+              this.isVip = true;
+              this.vipInfo = item;
+            }
+          });
+          if (hasItem) {
+            this.$message({
+              message: "已列出该会员信息！",
+              type: "success",
+              center: true,
+              duration: 3000
+            });
+          } else {
+            this.$message({
+              message: "没有该会员！请检查手机号是否填写正确！",
+              type: "warning",
+              center: true,
+              duration: 3000
+            });
+          }
+        })
+        .catch();
     },
     checkBalance() {
       let lack =
@@ -423,8 +420,31 @@ export default {
             }
           }
         );
+        changeBalance({
+          id: this.vipInfo.id,
+          total: this.vipOrder.totalPrice
+        })
+          .then()
+          .catch();
+        newOrder(this.vipOrder)
+          .then()
+          .catch();
+        descFitting(this.vipOrder.fittings)
+          .then()
+          .catch();
       } else {
-        // deal cus balance & point
+        changeBalance({
+          id: this.vipInfo.id,
+          total: this.vipOrder.totalPrice
+        })
+          .then()
+          .catch();
+        newOrder(this.vipOrder)
+          .then()
+          .catch();
+        descFitting(this.vipOrder.fittings)
+          .then()
+          .catch();
         this.isVip = false;
         this.$alert("订单提交完成！", "完成", {
           confirmButtonText: "确定",

@@ -73,7 +73,7 @@ export default {
     drawChart() {
       const chartData = {
         title: {
-          text: "每月新会员统计",
+          text: "半年新会员统计",
           textStyle: {
             color: "#1890ff"
           }

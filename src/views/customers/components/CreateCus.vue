@@ -10,25 +10,25 @@
       <span class="form-item">新会员加入</span>
       <el-form-item label="姓名" prop="name">
         <el-col :span="8">
-          <el-input v-model="newCus.name"></el-input>
+          <el-input v-model.trim="newCus.name"></el-input>
         </el-col>
       </el-form-item>
 
       <el-form-item label="电话" prop="phone">
         <el-col :span="8">
-          <el-input v-model="newCus.phone"></el-input>
+          <el-input v-model.trim="newCus.phone"></el-input>
         </el-col>
       </el-form-item>
 
       <el-form-item label="车牌" prop="plate">
         <el-col :span="8">
-          <el-input v-model="newCus.plate"></el-input>
+          <el-input v-model.trim="newCus.plate"></el-input>
         </el-col>
       </el-form-item>
 
       <el-form-item label="汽车品牌" prop="brand">
         <el-col :span="8">
-          <el-input v-model="newCus.brand"></el-input>
+          <el-input v-model.trim="newCus.brand"></el-input>
         </el-col>
       </el-form-item>
 
@@ -50,7 +50,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="warning" round @click="createCus('createCus')">加入</el-button>
+        <el-button type="warning" round @click="submitForm('createCus')">加入</el-button>
         <el-button round @click="resetForm('createCus')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -58,8 +58,10 @@
 </template>
 
 <script>
+import { newVip } from "@/api/customers";
+import { newOrder } from "@/api/order";
 export default {
-  name:'CreateCus',
+  name: "CreateCus",
   props: [""],
   data() {
     var phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -154,15 +156,20 @@ export default {
   mounted() {},
 
   methods: {
-    createCus(formName) {
+    submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (!this.isSubmit){
-            //create staff method
+          if (!this.isSubmit) {
             this.newCus.point = this.newCus.balance;
             this.newVipOrder.date = this.newCus.date;
             this.newVipOrder.totalPrice = this.newCus.balance;
             this.newVipOrder.cusInfo.push(this.newCus);
+            newVip(this.newCus)
+              .then(this.$emit("isCreated"))
+              .catch();
+            newOrder(this.newVipOrder)
+              .then()
+              .catch();
             this.isSubmit = true;
             this.$message({
               message: "新会员加入成功！",

@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import {updateStaff} from '@/api/staff.js'
 export default {
   name: "UpdateInfo",
   props: ["staffInfo"],
@@ -101,10 +102,10 @@ export default {
 
   methods: {
     saveInfo(formName) {
-      //save info method
-
       this.$refs[formName].validate(valid => {
         if (valid) {
+          updateStaff(this.staffInfo).then().catch();
+          this.$emit("isUpdated");
           this.$message({
             message: "员工信息修改成功！",
             type: "success",

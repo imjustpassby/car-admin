@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
 var purchasePaySchema = new Schema({
-	"_id": String,
+	"id": String,
     "date": String,
     "fittingsPay": [
         {
@@ -19,6 +19,6 @@ var purchasePaySchema = new Schema({
     ],
     "otherPayTotal": Number,
     "totalPay": Number
-});
+},{versionKey: false});
 
 module.exports = mongoose.model('PurchasePay',purchasePaySchema,'purchasePay');

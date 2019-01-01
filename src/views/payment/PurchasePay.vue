@@ -87,6 +87,7 @@
 
 <script>
 import { currency } from "@/utils/currency";
+import {addPurchasePay} from '@/api/purchasePay'
 export default {
   name: "PurchasePay",
   props: [""],
@@ -207,6 +208,7 @@ export default {
             this.formData.otherPayTotal = this.otherPayTotal;
             this.formData.fittingsPayTotal = this.fittingsPayTotal;
             this.formData.totalPay = this.totalPay;
+            addPurchasePay(this.formData).then().catch();
             this.$message({
               message: "表单提交成功！",
               type: "success",

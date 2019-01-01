@@ -13,7 +13,7 @@
           <span style="margin-left:16px;color:#409EFF">{{ cusInfo.name }}</span>
         </el-col>
       </el-form-item>
-      
+
       <el-form-item label="电话" prop="phone">
         <el-col :span="8">
           <el-input v-model="cusInfo.phone"></el-input>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { updateVip } from "@/api/customers.js";
+import { getCustomersList } from "@/api/customers.js";
 export default {
   name: "UpdateCus",
   props: ["cusInfo"],
@@ -60,9 +62,8 @@ export default {
     return {
       labelPosition: "right",
       rules: {
-        name: [{ required: true, message: "请输入会员姓名", trigger: "blur" }],
+        name: [{ required: true, message: "请选择会员", trigger: "blur" }],
         phone: [{ required: true, validator: validatePhone, trigger: "blur" }],
-        date: [{ required: true, message: "请选择日期", trigger: "blur" }],
         plate: [{ required: true, message: "请输入会员车牌", trigger: "blur" }],
         brand: [
           { required: true, message: "请输入会员汽车品牌", trigger: "blur" }
@@ -85,9 +86,11 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          //create staff method
+          updateVip(this.cusInfo)
+            .then(this.$emit("isUpdated"))
+            .catch();
           this.$message({
-            message: "会员信息更新加入成功！",
+            message: "会员信息更新成功！",
             type: "success",
             center: true,
             duration: 3000

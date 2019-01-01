@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import {updateStaff} from '@/api/staff.js'
 export default {
   name: "UpdateSalary",
   props: ["staffSalary"],
@@ -64,10 +65,10 @@ export default {
 
   methods: {
     saveSalary(formName) {
-      //save info method
-
       this.$refs[formName].validate(valid => {
         if (valid) {
+          updateStaff(this.staffSalary).then().catch();
+          this.$emit("isUpdated");
           this.$message({
             message: "工资修改成功！",
             type: "success",

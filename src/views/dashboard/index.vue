@@ -33,12 +33,6 @@
 <script>
 export default {
   name: "Dashboard",
-  data(){
-    return {
-    }
-  },
-  components: {},
-  computed: {},
   methods: {
     push(path) {
       this.$router.push({ path: `${path}` });

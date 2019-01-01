@@ -28,8 +28,5 @@ new Vue({
   el: '#app',
   router,
   store,
-  data(){
-    return {}
-  },
   render: h => h(App)
 })

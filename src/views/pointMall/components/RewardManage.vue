@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import {getRewardList} from '@/api/pointMall.js'
+import { getRewardList, updateReward, deleteReward } from "@/api/pointMall.js";
 export default {
   name: "RewardManage",
   props: [""],
@@ -62,12 +62,17 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getRewardList().then(res=>{
-      this.rewardTable = res.result;
-    }).catch();
+    this.getList();
   },
 
   methods: {
+    getList() {
+      getRewardList()
+        .then(res => {
+          this.rewardTable = res.result;
+        })
+        .catch();
+    },
     handleDelete(index, row) {
       this.$confirm("此操作将永久删除该奖品信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -75,8 +80,9 @@ export default {
         type: "warning"
       })
         .then(() => {
-          //delete method
-          this.rewardTable.splice(index, 1);
+          deleteReward(row)
+            .then(this.getList())
+            .catch();
           this.$message({
             type: "success",
             message: "奖品信息删除成功!",
@@ -104,6 +110,9 @@ export default {
     confirmEdit(row) {
       row.edit = false;
       row.originalPoint = row.point;
+      updateReward(row)
+        .then()
+        .catch();
       this.$message({
         message: "更新成功",
         type: "success"

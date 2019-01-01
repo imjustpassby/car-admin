@@ -40,17 +40,17 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="新会员加入" name="createCus">
-        <create-cus></create-cus>
+        <create-cus v-on:isCreated="getList"></create-cus>
       </el-tab-pane>
       <el-tab-pane label="会员信息修改" name="updateCus">
-        <update-cus :cusInfo="cusInfo"></update-cus>
+        <update-cus :cusInfo="cusInfo" v-on:isUpdated="getList"></update-cus>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import {getCustomersList} from "@/api/customers.js"
+import { getCustomersList,deleteVip } from "@/api/customers.js";
 import CreateCus from "./components/CreateCus";
 import UpdateCus from "./components/UpdateCus";
 import { currency } from "@/utils/currency";
@@ -63,15 +63,7 @@ export default {
       search: "",
       activeCard: "showCus",
       tableData: [],
-      cusInfo: {
-        name: null,
-        phone: null,
-        plate: null,
-        brand: null,
-        date: null,
-        balance: null,
-        point: null
-      }
+      cusInfo: {}
     };
   },
 
@@ -116,15 +108,19 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getCustomersList().then(res=>{
-      this.tableData = res.result;
-      this.listLoading = false;
-    }).catch(()=>{
-      console.log("fetch error");
-    });
+    this.getList();
   },
 
   methods: {
+    getList() {
+      this.tableData = [];
+      getCustomersList()
+        .then(res => {
+          this.tableData = res.result;
+          this.listLoading = false;
+        })
+        .catch();
+    },
     filterHandler(value, row, column) {
       const property = column["property"];
       return row[property] >= value;
@@ -166,26 +162,17 @@ export default {
     },
     handleEdit(index, row) {
       this.activeCard = "updateCus";
-      this.tableData.forEach((item,index)=>{
-        if (item.name == row.name){
-          this.cusInfo = this.tableData[index];
-        }
-      });
+      this.cusInfo = row;
     },
     handleDelete(index, row) {
-      console.log(index, row);
       this.$confirm("此操作将永久删除该会员信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          //delete method
-          this.tableData.forEach((item,index)=>{
-          if (item.name == row.name){
-            this.tableData.splice(index, 1);
-            }
-          });
+          deleteVip(row).then().catch();
+          this.getList();
           this.$message({
             type: "success",
             message: "会员信息删除成功!",

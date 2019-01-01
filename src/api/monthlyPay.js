@@ -6,3 +6,11 @@ export function getMonthlyPay() {
     method: 'get'
   })
 }
+
+export function addMonthlyPay(data) {
+  return request({
+    url: '/monthlyPay/addPay',
+    method: 'post',
+    data
+  })
+}

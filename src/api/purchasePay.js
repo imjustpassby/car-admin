@@ -6,3 +6,11 @@ export function getPurchasePay() {
     method: 'get'
   })
 }
+
+export function addPurchasePay(data) {
+  return request({
+    url: '/purchasePay/addPay',
+    method: 'post',
+    data
+  })
+}

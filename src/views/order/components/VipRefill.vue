@@ -1,11 +1,11 @@
 <template>
   <div>
-    <el-form 
-    :model="vipRefill"
-    ref="vipRefill" 
-    :rules="rules" 
-    :label-position="labelPosition" 
-    label-width="120px"
+    <el-form
+      :model="vipRefill"
+      ref="vipRefill"
+      :rules="rules"
+      :label-position="labelPosition"
+      label-width="120px"
     >
       <span class="form-item">会员选择</span>
       <el-form-item label="请选择会员">
@@ -20,7 +20,7 @@
           @click="getVipInfo"
         ></el-button>
       </el-form-item>
-      
+
       <el-form-item label="会员信息">
         <el-col :span="21">
           <el-table v-loading="listLoading" :data="vipTable" highlight-current-row>
@@ -51,7 +51,12 @@
 
       <el-form-item label="充值金额" required>
         <el-col :span="8">
-          <el-input-number v-model.number="vipRefill.totalPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
+          <el-input-number
+            v-model.number="vipRefill.totalPrice"
+            :min="0"
+            :precision="2"
+            :step="0.1"
+          ></el-input-number>
         </el-col>
       </el-form-item>
 
@@ -68,33 +73,26 @@
 </template>
 
 <script>
-import {currency} from '@/utils/currency'
-import {getCustomersList} from '@/api/customers.js'
+import { currency } from "@/utils/currency";
+import { newOrder } from "@/api/order";
+import { getCustomersList, refill } from "@/api/customers.js";
 export default {
   name: "VipRefill",
   props: [""],
   data() {
     return {
-      listLoading: true,
+      listLoading: false,
       isSubmit: false,
       labelPosition: "right",
       vipPhone: null,
       isVip: false,
-      rules:{
+      rules: {
         date: [{ required: true, message: "请选择日期" }]
       },
       customersData: [],
-      vipInfo: {
-        name: null,
-        phone: null,
-        plate: null,
-        brand: null,
-        date: null,
-        balance: null,
-        point: null
-      },
+      vipInfo: {},
       vipRefill: {
-        orderType:'会员充值',
+        orderType: "会员充值",
         cusInfo: [],
         date: null,
         services: ["会员充值"],
@@ -105,7 +103,7 @@ export default {
     };
   },
 
-  filters:{
+  filters: {
     currency
   },
 
@@ -124,44 +122,40 @@ export default {
 
   beforeMount() {},
 
-  mounted() {
-    getCustomersList().then(res=>{
-      this.customersData = res.result;
-      this.listLoading = false;
-    }).catch();
-  },
+  mounted() {},
 
   methods: {
     getVipInfo() {
-      let hasItem = false;
-      this.customersData.forEach(item => {
-        if (item.phone == this.vipPhone) {
-          hasItem = true;
-          this.isVip = true;
-          this.vipInfo.name = item.name;
-          this.vipInfo.phone = item.phone;
-          this.vipInfo.plate = item.plate;
-          this.vipInfo.brand = item.brand;
-          this.vipInfo.date = item.date;
-          this.vipInfo.balance = item.balance;
-          this.vipInfo.point = item.point;
-        }
-      });
-      if (hasItem) {
-        this.$message({
-          message: "已列出该会员信息！",
-          type: "success",
-          center: true,
-          duration: 3000
-        });
-      } else {
-        this.$message({
-          message: "没有该会员！请检查手机号是否填写正确！",
-          type: "warning",
-          center: true,
-          duration: 2000
-        });
-      }
+      this.listLoading = true;
+      getCustomersList()
+        .then(res => {
+          this.customersData = res.result;
+          this.listLoading = false;
+          let hasItem = false;
+          this.customersData.forEach(item => {
+            if (item.phone == this.vipPhone) {
+              hasItem = true;
+              this.isVip = true;
+              this.vipInfo = item;
+            }
+          });
+          if (hasItem) {
+            this.$message({
+              message: "已列出该会员信息！",
+              type: "success",
+              center: true,
+              duration: 3000
+            });
+          } else {
+            this.$message({
+              message: "没有该会员！请检查手机号是否填写正确！",
+              type: "warning",
+              center: true,
+              duration: 2000
+            });
+          }
+        })
+        .catch();
     },
     submitForm(formName) {
       if (!this.isVip) {
@@ -175,8 +169,17 @@ export default {
       } else {
         this.$refs[formName].validate(valid => {
           if (valid) {
-            if (!this.isSubmit){
+            if (!this.isSubmit) {
               this.isSubmit = true;
+              newOrder(this.vipRefill)
+                .then()
+                .catch();
+              refill({
+                id: this.vipInfo.id,
+                total: this.vipRefill.totalPrice
+              })
+                .then()
+                .catch();
               this.$message({
                 message: "会员余额充值成功！",
                 type: "success",

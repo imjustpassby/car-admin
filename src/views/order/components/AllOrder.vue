@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import {getOrderList} from '@/api/order.js'
+import { getOrderList } from "@/api/order.js";
 import { currency } from "@/utils/currency";
 export default {
   name: "AllOrder",
@@ -118,7 +118,7 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getOrderList().then(res=>{
+    getOrderList().then(res => {
       this.orderTable = res.result;
       this.loading = false;
     });

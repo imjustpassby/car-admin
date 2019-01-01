@@ -13,7 +13,7 @@
           <el-input v-model="commonOrder.cusInfo[0].plate"></el-input>
         </el-col>
       </el-form-item>
-      
+
       <el-form-item label="汽车品牌" required>
         <el-col :span="8">
           <el-input v-model="commonOrder.cusInfo[0].brand"></el-input>
@@ -24,10 +24,10 @@
       <el-form-item label="日期" prop="date">
         <el-col :span="8">
           <el-date-picker
-          v-model="commonOrder.date"
-          type="date"
-          placeholder="请选择日期"
-          value-format="yyyy-MM-dd"
+            v-model="commonOrder.date"
+            type="date"
+            placeholder="请选择日期"
+            value-format="yyyy-MM-dd"
           ></el-date-picker>
         </el-col>
       </el-form-item>
@@ -57,7 +57,7 @@
           <el-input-number v-model="item.cost" :min="0" :precision="2" :step="0.1"></el-input-number>
         </el-col>
         <el-col :span="2">
-            <el-button
+          <el-button
             type="danger"
             round
             class="content-margin"
@@ -84,7 +84,12 @@
         </el-col>
 
         <el-col :span="21" style="margin-top:16px;">
-          <el-table :data="fittingTable" :summary-method="getSummaries" show-summary highlight-current-row>
+          <el-table
+            :data="fittingTable"
+            :summary-method="getSummaries"
+            show-summary
+            highlight-current-row
+          >
             <el-table-column label="配件名" prop="name" fit align="center"></el-table-column>
             <el-table-column label="销售单价" prop="sellPrice" fit align="center">
               <template slot-scope="scope">{{scope.row.sellPrice | currency('¥')}}</template>
@@ -119,7 +124,8 @@
 </template>
 
 <script>
-import {getStorageList} from '@/api/storage.js'
+import { getStorageList, descFitting } from "@/api/storage.js";
+import { newOrder } from "@/api/order";
 import { currency } from "@/utils/currency";
 export default {
   name: "CommonOrder",
@@ -129,9 +135,7 @@ export default {
       isSubmit: false,
       labelPosition: "right",
       rules: {
-        date: [
-          { required: true, message: '请选择日期', trigger: 'blur' }
-        ],
+        date: [{ required: true, message: "请选择日期", trigger: "blur" }],
         services: [
           { required: true, message: "业务选择不能为空", trigger: "blur" }
         ]
@@ -148,6 +152,10 @@ export default {
         {
           value: "配件购买",
           label: "配件购买"
+        },
+        {
+          value: "汽车保养",
+          label: "汽车保养"
         }
       ],
       content: [
@@ -193,12 +201,14 @@ export default {
       for (let fitting of this.fittings) {
         this.storageData.forEach((item, index) => {
           let arrItem = {
+            id: null,
             name: "",
             sellPrice: null,
             count: null,
             total: null
           };
           if (fitting == item.name) {
+            arrItem.id = item.id
             arrItem.name = item.name;
             arrItem.sellPrice = item.sellPrice;
             arrItem.count = 1;
@@ -229,9 +239,11 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getStorageList().then(res=>{
-      this.storageData = res.result;
-    }).catch();
+    getStorageList()
+      .then(res => {
+        this.storageData = res.result;
+      })
+      .catch();
   },
 
   methods: {
@@ -300,9 +312,15 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (!this.isSubmit){
+          if (!this.isSubmit) {
             this.isSubmit = true;
             this.commonOrder.content = this.content;
+            newOrder(this.commonOrder)
+              .then()
+              .catch();
+            descFitting(this.commonOrder.fittings)
+              .then()
+              .catch();
             this.$alert("订单提交完成！", "完成", {
               confirmButtonText: "确定",
               callback: () => {
@@ -316,11 +334,11 @@ export default {
             });
           } else {
             this.$message({
-            message: "请刷新页面再提交新的表单！",
-            type: "error",
-            center: true,
-            duration: 3000
-          });
+              message: "请刷新页面再提交新的表单！",
+              type: "error",
+              center: true,
+              duration: 3000
+            });
           }
         } else {
           this.$message({

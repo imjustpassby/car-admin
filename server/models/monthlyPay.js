@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
 var monthlyPaySchema = new Schema({
-  "_id": String,
+  "id": String,
   "date": String,
   "basePay": [{
     "item": String,
@@ -23,6 +23,6 @@ var monthlyPaySchema = new Schema({
   }],
   "otherPayTotal": Number,
   "totalPay": Number
-});
+},{versionKey: false});
 
 module.exports = mongoose.model('MonthlyPay', monthlyPaySchema,'monthlyPay');

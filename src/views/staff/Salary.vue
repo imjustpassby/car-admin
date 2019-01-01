@@ -2,37 +2,29 @@
   <div>
     <el-tabs v-model="activeCard" type="card">
       <el-tab-pane label="工资总览" name="salaryOverview">
-        <el-table 
-        :data="salaryTable" 
-        :summary-method="getSummaries"
-        style="width: 100%;" 
-        highlight-current-row 
-        show-summary
+        <el-table
+          :data="salaryTable"
+          :summary-method="getSummaries"
+          style="width: 100%;"
+          highlight-current-row
+          show-summary
         >
           <el-table-column prop="date" label="入职日期" fit align="center"></el-table-column>
           <el-table-column prop="name" label="姓名" fit align="center"></el-table-column>
           <el-table-column prop="baseSalary" label="基本工资（元）" fit align="center">
-            <template slot-scope="scope">
-              {{ scope.row.baseSalary | currency('¥') }}
-            </template>
+            <template slot-scope="scope">{{ scope.row.baseSalary | currency('¥') }}</template>
           </el-table-column>
 
           <el-table-column prop="welfare" label="福利（元）" fit align="center">
-            <template slot-scope="scope">
-              {{ scope.row.welfare | currency('¥') }}
-            </template>
+            <template slot-scope="scope">{{ scope.row.welfare | currency('¥') }}</template>
           </el-table-column>
 
           <el-table-column prop="extra" label="额外（元）" fit align="center">
-            <template slot-scope="scope">
-              {{ scope.row.extra | currency('¥') }}
-            </template>
+            <template slot-scope="scope">{{ scope.row.extra | currency('¥') }}</template>
           </el-table-column>
 
           <el-table-column prop="total" label="总和（元）" fit align="center">
-            <template slot-scope="scope">
-              {{ scope.row.total | currency('¥') }}
-            </template>
+            <template slot-scope="scope">{{ scope.row.total | currency('¥') }}</template>
           </el-table-column>
 
           <el-table-column label="操作" align="center">
@@ -43,16 +35,16 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="更改工资" name="salaryChange">
-        <update-salary :staffSalary="staffSalary"></update-salary>
+        <update-salary :staffSalary="staffSalary" v-on:isUpdated="getList"></update-salary>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import UpdateSalary from './components/UpdateSalary'
-import {getStaffList} from '@/api/staff.js'
-import {currency} from '@/utils/currency'
+import UpdateSalary from "./components/UpdateSalary";
+import { getStaffList } from "@/api/staff.js";
+import { currency } from "@/utils/currency";
 export default {
   name: "Salary",
   props: [""],
@@ -69,7 +61,7 @@ export default {
     };
   },
 
-  filters:{
+  filters: {
     currency
   },
 
@@ -84,15 +76,19 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getStaffList().then(res=>{
-      this.salaryTable = res.result;
-    }).catch();
+    this.getList();
   },
 
   methods: {
+    getList() {
+      getStaffList()
+        .then(res => {
+          this.salaryTable = res.result;
+        })
+        .catch();
+    },
     handleEdit(index, row) {
-      console.log(index, row);
-      this.staffSalary = this.salaryTable[index];
+      this.staffSalary = row;
       this.activeCard = "salaryChange";
     },
     getSummaries(param) {
@@ -100,7 +96,7 @@ export default {
       const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '合计';
+          sums[index] = "合计";
           return;
         }
         const values = data.map(item => Number(item[column.property]));
@@ -113,19 +109,19 @@ export default {
               return prev;
             }
           }, 0);
-          switch(column.property) {
+          switch (column.property) {
             case "baseSalary":
             case "welfare":
             case "extra":
             case "total":
-              sums[index] = currency(parseFloat(sums[index]),'¥');
+              sums[index] = currency(parseFloat(sums[index]), "¥");
               break;
             default:
-              sums[index] = '';
+              sums[index] = "";
               break;
           }
         } else {
-          sums[index] = '';
+          sums[index] = "";
         }
       });
       return sums;

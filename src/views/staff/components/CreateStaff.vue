@@ -1,7 +1,7 @@
 <template>
   <div>
 	<el-form
-	  :model="newStaff"
+	  :model="staffInfo"
 	  :rules="rules"
 	  ref="createStaff"
 	  :label-position="labelPosition"
@@ -10,14 +10,14 @@
 	  <span class="form-item">新员工加入</span>
 	  <el-form-item label="员工姓名" prop="name">
 		<el-col :span="8">
-		  <el-input v-model="newStaff.name"></el-input>
+		  <el-input v-model.trim="staffInfo.name"></el-input>
 		</el-col>
 	  </el-form-item>
 
 	  <el-form-item label="入职日期" prop="date">
 		<el-col :span="8">
 		  <el-date-picker
-			v-model="newStaff.date"
+			v-model="staffInfo.date"
 			type="date"
 			placeholder="选择日期"
 			value-format="yyyy-MM-dd"
@@ -27,43 +27,43 @@
 
 	  <el-form-item label="性别" prop="sex">
 		<el-col :span="8">
-		  <el-input v-model="newStaff.sex"></el-input>
+		  <el-input v-model.trim="staffInfo.sex"></el-input>
 		</el-col>
 	  </el-form-item>
 
 	  <el-form-item label="电话" prop="phone">
 		<el-col :span="8">
-		  <el-input v-model="newStaff.phone"></el-input>
+		  <el-input v-model.trim="staffInfo.phone"></el-input>
 		</el-col>
 	  </el-form-item>
 
 	  <el-form-item label="职位" prop="position">
 		<el-col :span="8">
-		  <el-input v-model="newStaff.position"></el-input>
+		  <el-input v-model.trim="staffInfo.position"></el-input>
 		</el-col>
 	  </el-form-item>
 
 	  <el-form-item label="地址" prop="address">
 		<el-col :span="8">
-		  <el-input v-model="newStaff.address"></el-input>
+		  <el-input v-model.trim="staffInfo.address"></el-input>
 		</el-col>
 	  </el-form-item>
 
 	  <el-form-item label="基本工资" prop="baseSalary">
 		<el-col :span="8">
-		  <el-input-number v-model.number="newStaff.baseSalary" :min="0" :precision="2" :step="1"></el-input-number>
+		  <el-input-number v-model.number="staffInfo.baseSalary" :min="0" :precision="2" :step="1"></el-input-number>
 		</el-col>
 	  </el-form-item>
 
 	  <el-form-item label="福利" prop="welfare">
 		<el-col :span="8">
-		  <el-input-number v-model.number="newStaff.welfare" :min="0" :precision="2" :step="1"></el-input-number>
+		  <el-input-number v-model.number="staffInfo.welfare" :min="0" :precision="2" :step="1"></el-input-number>
 		</el-col>
 	  </el-form-item>
 
 	  <el-form-item label="额外" prop="extra">
 		<el-col :span="8">
-		  <el-input-number v-model.number="newStaff.extra" :min="0" :precision="2" :step="1"></el-input-number>
+		  <el-input-number v-model.number="staffInfo.extra" :min="0" :precision="2" :step="1"></el-input-number>
 		</el-col>
 	  </el-form-item>
 
@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import {newStaff} from '@/api/staff.js'
 export default {
 	name: "CreateStaff",
 	props: [""],
@@ -140,7 +141,7 @@ export default {
 					message: "不能为空且为数字"
 				}]
 			},
-			newStaff: {
+			staffInfo: {
 				date: "",
 				name: "",
 				sex: "",
@@ -159,9 +160,9 @@ export default {
 
 	computed: {
 		total() {
-			return parseFloat(this.newStaff.baseSalary) 
-					+ parseFloat(this.newStaff.welfare) 
-					+ parseFloat(this.newStaff.extra);
+			return parseFloat(this.staffInfo.baseSalary) 
+					+ parseFloat(this.staffInfo.welfare) 
+					+ parseFloat(this.staffInfo.extra);
 		}
 	},
 
@@ -175,10 +176,11 @@ export default {
 		createStaff(formName) {
 			this.$refs[formName].validate(valid => {
 				if (valid) {
-					//create staff method
 					if (!this.isSubmit){
 						this.isSubmit = true;
-						this.newStaff.total = this.total;
+						this.staffInfo.total = this.total;
+						newStaff(this.staffInfo).then().catch();
+						this.$emit("isCreated");
 						this.$message({
 							message: "员工信息新增成功！",
 							type: "success",

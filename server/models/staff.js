@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
 var staffSchema = new Schema({
-    "_id": String,
+    "id": String,
     "date": String,
     "name": String,
     "sex": String,
@@ -13,6 +13,6 @@ var staffSchema = new Schema({
     "welfare": Number,
     "extra": Number,
     "total": Number
-});
+},{versionKey: false});
 
 module.exports = mongoose.model('Staff',staffSchema,'staff');

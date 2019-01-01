@@ -29,14 +29,23 @@ export default {
       this.payData.forEach(item => {
         month.push(this.$moment(item.date).format('YYYY-MM'));
       });
-      return month;
+      return month.sort();
     },
     monthlySalary() {
       let monthlySalary = [];
-      this.payData.forEach(item => {
-        monthlySalary.push(parseFloat(item.salaryPayTotal));
-      });
+      let months = this.month;
+      for (let i = 0; i < months.length; i++) {
+        let money = 0;
+        this.payData.forEach(item => {
+          let itemDateFmt = this.$moment(item.date).format("YYYY-MM");
+          if (itemDateFmt == months[i]) {
+            money += parseFloat(item.salaryPayTotal);
+          }
+        });
+        monthlySalary.push(money)
+      }
       return monthlySalary;
+
     }
   },
 

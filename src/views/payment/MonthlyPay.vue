@@ -114,6 +114,7 @@
 
 <script>
 import { currency } from "@/utils/currency";
+import {addMonthlyPay} from '@/api/monthlyPay'
 export default {
   name: "MonthlyPay",
   props: [""],
@@ -273,6 +274,7 @@ export default {
             this.formData.basePayTotal = this.basePayTotal;
             this.formData.otherPayTotal = this.otherPayTotal;
             this.formData.totalPay = this.totalPay;
+            addMonthlyPay(this.formData).then().catch();
             this.$message({
               message: "表单提交成功！",
               type: "success",

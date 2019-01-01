@@ -24,6 +24,9 @@
             <template slot="header" slot-scope="scope">
               <el-input v-model="search" size="mini" placeholder="请输入配件搜索"/>
             </template>
+            <template slot-scope="scope">
+              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
@@ -35,7 +38,7 @@
 </template>
 
 <script>
-import {getStorageList} from '@/api/storage.js'
+import { getStorageList,deleteFitting} from "@/api/storage.js";
 import { currency } from "@/utils/currency";
 import Warning from "./components/Warning";
 export default {
@@ -62,7 +65,7 @@ export default {
     warningData() {
       let lack = [];
       this.storageTable.forEach((item, index) => {
-        if (item.count <= 10) {
+        if (item.count <= 5) {
           lack.push(item);
         }
       });
@@ -75,12 +78,17 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getStorageList().then(res=>{
-      this.storageTable = res.result;
-    }).catch();
+    this.getList();
   },
 
   methods: {
+    getList() {
+      getStorageList()
+        .then(res => {
+          this.storageTable = res.result;
+        })
+        .catch();
+    },
     getSummaries(param) {
       const { columns, data } = param;
       const sums = [];
@@ -116,6 +124,32 @@ export default {
         }
       });
       return sums;
+    },
+    handleDelete(index, row) {
+      this.$confirm("此操作将永久删除该配件信息, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          deleteFitting(row)
+            .then(this.getList())
+            .catch();
+          this.$message({
+            type: "success",
+            message: "配件删除成功!",
+            center: true,
+            duration: 2000
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+            center: true,
+            duration: 2000
+          });
+        });
     }
   }
 };

@@ -6,3 +6,11 @@ export function getRecordList() {
     method: 'get'
   })
 }
+
+export function exchangeReward(data) {
+  return request({
+    url: '/record/exchangeReward',
+    method: 'post',
+    data
+  })
+}

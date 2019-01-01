@@ -44,14 +44,14 @@
 
       <el-form-item>
         <el-button type="warning" round @click="submitForm('fittingManage')">更新</el-button>
-        <el-button round @click="resetForm">重置</el-button>
+        <el-button round @click="resetForm('fittingManage')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import {getStorageList} from '@/api/storage.js'
+import {getStorageList,updateFitting} from '@/api/storage.js'
 import { currency } from "@/utils/currency";
 export default {
   name: "FittingManage",
@@ -67,6 +67,7 @@ export default {
       },
       storageData: [],
       fittingInfo: {
+        id: null,
         name: "",
         count: 0,
         buyPrice: 0,
@@ -99,6 +100,7 @@ export default {
       this.storageData.forEach(item => {
         if (item.name == this.fittingInfo.name) {
           hasItem = true;
+          this.fittingInfo.id = item.id;
           this.fittingInfo.name = item.name;
           this.fittingInfo.count = item.count;
           this.fittingInfo.sellPrice = item.sellPrice;
@@ -126,7 +128,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid && this.hasFitting) {
           if (!this.isSubmit){
-            //update sellPrice & count
+            updateFitting(this.fittingInfo).then().catch();
             this.hasFitting = false;
             this.isSubmit = true;
             this.$message({
@@ -154,12 +156,11 @@ export default {
         }
       });
     },
-    resetForm() {
+    resetForm(formName) {
       this.isSubmit = false;
-      this.fittingInfo.name = null;
-      this.fittingInfo.count = 0;
-      this.fittingInfo.sellPrice = 0;
+      this.fittingInfo.id = null;
       this.fittingInfo.buyPrice = 0;
+      this.$refs[formName].resetFields();
     }
   }
 };

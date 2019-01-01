@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var userRouter = require('./routes/user')
 var customersRouter = require('./routes/customers')
 var staffRouter = require('./routes/staff')
 var monthlyPayRouter = require('./routes/monthlyPay')
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/user',userRouter);
 app.use('/customers',customersRouter);
 app.use('/staff',staffRouter);
 app.use('/monthlyPay',monthlyPayRouter);

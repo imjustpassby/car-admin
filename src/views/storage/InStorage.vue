@@ -10,7 +10,7 @@
       <span class="form-span">配件入库</span>
       <el-form-item label="配件名" prop="name">
         <el-col :span="8">
-          <el-input v-model="fitting.name"></el-input>
+          <el-input v-model.trim="fitting.name"></el-input>
         </el-col>
         <el-button
           type="primary"
@@ -24,12 +24,12 @@
       <el-form-item label="日期" prop="date">
         <el-col :span="8">
           <el-date-picker
-          v-model="fitting.date"
-          type="date"
-          placeholder="选择日期"
-          value-format="yyyy-MM-dd"
-          style="width:100%"
-        ></el-date-picker>
+            v-model="fitting.date"
+            type="date"
+            placeholder="选择日期"
+            value-format="yyyy-MM-dd"
+            style="width:100%"
+          ></el-date-picker>
         </el-col>
       </el-form-item>
 
@@ -44,7 +44,7 @@
           <el-input-number v-model="fitting.buyPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
         </el-col>
       </el-form-item>
-      
+
       <el-form-item label="出售价" prop="sellPrice">
         <el-col :span="8">
           <el-input-number v-model="fitting.sellPrice" :min="0" :precision="2" :step="0.1"></el-input-number>
@@ -60,12 +60,14 @@
 </template>
 
 <script>
-import {getStorageList} from '@/api/storage.js'
+import { getStorageList, newFitting } from "@/api/storage.js";
 export default {
   name: "InStorage",
   props: [""],
   data() {
     return {
+      isCheck: false,
+      hasFitting: false,
       isSubmit: false,
       labelPosition: "right",
       rules: {
@@ -107,6 +109,7 @@ export default {
       },
       storageData: [],
       fitting: {
+        id: "0",
         name: null,
         date: null,
         count: null,
@@ -125,23 +128,50 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getStorageList().then(res=>{
-      this.storageData = res.result;
-    }).catch();
+    this.getList();
   },
 
   methods: {
+    getList() {
+      getStorageList()
+        .then(res => {
+          this.storageData = res.result;
+        })
+        .catch();
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (!this.isSubmit){
-            this.isSubmit = true;
-            this.$message({
-              message: "配件入库成功！点击重置继续入库操作！",
-              type: "success",
-              center: true,
-              duration: 3000
-            });
+          if (!this.isSubmit) {
+            if (this.isCheck) {
+              this.isSubmit = true;
+              if (!this.hasFitting) {
+                newFitting(this.fitting)
+                  .then(res => {
+                    this.getList();
+                  })
+                  .catch();
+              } else {
+                newFitting(this.fitting)
+                  .then(res => {
+                    this.getList();
+                  })
+                  .catch();
+              }
+              this.$message({
+                message: "配件入库成功！点击重置继续入库操作！",
+                type: "success",
+                center: true,
+                duration: 3000
+              });
+            } else {
+              this.$message({
+                message: "请先查询库存中是否有该配件！",
+                type: "error",
+                center: true,
+                duration: 3000
+              });
+            }
           } else {
             this.$message({
               message: "请点击重置按钮再提交新表单！",
@@ -162,17 +192,26 @@ export default {
       });
     },
     resetForm(formName) {
+      this.isCheck = false;
+      this.hasFitting = false;
       this.isSubmit = false;
+      this.fitting.id = "0";
       this.$refs[formName].resetFields();
     },
     checkHas() {
+      this.isCheck = true;
       let hasItem = false;
       this.storageData.forEach(item => {
         if (item.name == this.fitting.name) {
           hasItem = true;
+          this.fitting.id = item.id;
+          this.fitting.count = item.count;
+          this.fitting.sellPrice = item.sellPrice;
+          this.fitting.buyPrice = item.buyPrice;
         }
       });
       if (hasItem) {
+        this.hasFitting = true;
         this.$message({
           message: "库存已有该配件！",
           type: "success",
@@ -193,15 +232,15 @@ export default {
 </script>
 
 <style scoped>
-.el-form-item{
-  margin-top: 2.9%
+.el-form-item {
+  margin-top: 2.9%;
 }
 .form-span {
   color: #1890ff;
   font-size: 20px;
   border-bottom: 2px solid #e0eef8;
 }
-.el-input-number{
+.el-input-number {
   width: 100%;
 }
 </style>

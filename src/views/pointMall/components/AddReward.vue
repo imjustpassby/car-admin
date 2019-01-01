@@ -51,6 +51,7 @@
 
 <script>
 import {getStorageList} from '@/api/storage.js'
+import {newReward} from '@/api/pointMall.js'
 import {currency} from '@/utils/currency'
 export default {
   name: "AddReward",
@@ -109,6 +110,7 @@ export default {
           if (!this.isSubmit){
             this.isSubmit = true;
             this.formData.originalPoint = this.formData.point;
+            newReward(this.formData).then().catch();
             this.$message({
               message: "添加奖品成功！",
               type: "success",

@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
 var orderSchema = new Schema({
-  "_id": String,
+  "id": String,
   "orderType": String,
   "cusInfo": [{
     "name": String,
@@ -29,6 +29,6 @@ var orderSchema = new Schema({
     }
   ],
   "totalPrice": Number
-});
+},{versionKey: false});
 
 module.exports = mongoose.model('Order', orderSchema,'order');
