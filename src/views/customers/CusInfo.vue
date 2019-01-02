@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { getCustomersList,deleteVip } from "@/api/customers.js";
+import { getCustomersList, deleteVip } from "@/api/customers.js";
 import CreateCus from "./components/CreateCus";
 import UpdateCus from "./components/UpdateCus";
 import { currency } from "@/utils/currency";
@@ -171,14 +171,17 @@ export default {
         type: "warning"
       })
         .then(() => {
-          deleteVip(row).then().catch();
-          this.getList();
-          this.$message({
-            type: "success",
-            message: "会员信息删除成功!",
-            center: true,
-            duration: 2000
-          });
+          deleteVip(row)
+            .then(res => {
+              this.getList();
+              this.$message({
+                type: "success",
+                message: "会员信息删除成功!",
+                center: true,
+                duration: 2000
+              });
+            })
+            .catch();
         })
         .catch(() => {
           this.$message({

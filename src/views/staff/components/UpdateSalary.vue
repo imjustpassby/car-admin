@@ -11,10 +11,15 @@
       <el-form-item label="员工姓名" prop="name">
         <span style="margin-left:16px;color:#409EFF">{{ staffSalary.name }}</span>
       </el-form-item>
-      
+
       <el-form-item label="基本工资" prop="baseSalary">
         <el-col :span="8">
-          <el-input-number v-model.number="staffSalary.baseSalary" :min="0" :precision="2" :step="1"></el-input-number>
+          <el-input-number
+            v-model.number="staffSalary.baseSalary"
+            :min="0"
+            :precision="2"
+            :step="1"
+          ></el-input-number>
         </el-col>
       </el-form-item>
 
@@ -38,7 +43,7 @@
 </template>
 
 <script>
-import {updateStaff} from '@/api/staff.js'
+import { updateStaff } from "@/api/staff.js";
 export default {
   name: "UpdateSalary",
   props: ["staffSalary"],
@@ -67,14 +72,17 @@ export default {
     saveSalary(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          updateStaff(this.staffSalary).then().catch();
-          this.$emit("isUpdated");
-          this.$message({
-            message: "工资修改成功！",
-            type: "success",
-            center: true,
-            duration: 3000
-          });
+          updateStaff(this.staffSalary)
+            .then(res => {
+              this.$emit("isUpdated");
+              this.$message({
+                message: "工资修改成功！",
+                type: "success",
+                center: true,
+                duration: 3000
+              });
+            })
+            .catch();
         } else {
           this.$message({
             message: "工资修改失败！请检查信息是否填写正确！",

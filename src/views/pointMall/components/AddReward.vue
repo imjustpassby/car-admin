@@ -9,7 +9,7 @@
     >
       <span class="form-item">添加奖品</span>
       <el-form-item label="奖品类型" prop="type">
-        <el-radio-group v-model="formData.type" >
+        <el-radio-group v-model="formData.type">
           <el-radio label="商品类" @change="rewardType = 'fitting'"></el-radio>
           <el-radio label="服务类" @change="rewardType = 'service'"></el-radio>
         </el-radio-group>
@@ -23,8 +23,8 @@
                 v-for="item in options"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
-              </el-option>
+                :value="item.value"
+              ></el-option>
             </el-select>
           </el-col>
         </div>
@@ -50,30 +50,29 @@
 </template>
 
 <script>
-import {getStorageList} from '@/api/storage.js'
-import {newReward} from '@/api/pointMall.js'
-import {currency} from '@/utils/currency'
+import { getStorageList } from "@/api/storage.js";
+import { newReward,getRewardList } from "@/api/pointMall.js";
+import { currency } from "@/utils/currency";
 export default {
   name: "AddReward",
   props: [""],
   data() {
     return {
       isSubmit: false,
-      rewardType: 'fitting',
-      formData:{
-        type: '',
-        name: '',
+      rewardType: "fitting",
+      formData: {
+        type: "",
+        name: "",
         point: 0,
         originalPoint: 0,
         edit: false
       },
-      rules:{
-        type: [{required: true, message: "请选择奖品类型"}],
-        name: [{required: true, message: "请选择奖品"}],
-        point: [{required: true, message: "请填写积分"}]
+      rules: {
+        type: [{ required: true, message: "请选择奖品类型" }],
+        name: [{ required: true, message: "请选择奖品" }],
+        point: [{ required: true, message: "请填写积分" }]
       },
-      options:[
-      ],
+      options: [],
       storageData: []
     };
   },
@@ -87,16 +86,21 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getStorageList().then(res=>{
-      this.storageData = res.result;
-      this.getOptions();
-    }).catch();
+    this.getList();
   },
 
   methods: {
-    getOptions(){
-      this.storageData.forEach(item=>{
-        let sellPrice = currency(item.sellPrice,'¥');
+    getList() {
+      getStorageList()
+        .then(res => {
+          this.storageData = res.result;
+          this.getOptions();
+        })
+        .catch();
+    },
+    getOptions() {
+      this.storageData.forEach(item => {
+        let sellPrice = currency(item.sellPrice, "¥");
         let option = {
           value: item.name,
           label: `${item.name}，售价 ${sellPrice} 元`
@@ -107,17 +111,21 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (!this.isSubmit){
+          if (!this.isSubmit) {
             this.isSubmit = true;
             this.formData.originalPoint = this.formData.point;
-            newReward(this.formData).then().catch();
+            newReward(this.formData)
+              .then(res => {
+                this.$emit("isAdded");
+              })
+              .catch();
             this.$message({
               message: "添加奖品成功！",
               type: "success",
               center: true,
               duration: 3000
             });
-          }else{
+          } else {
             this.$message({
               message: "请点击重置按钮再提交新表单！",
               type: "error",
@@ -147,7 +155,7 @@ export default {
 .content-margin {
   margin: 0 12px;
 }
-.el-select{
+.el-select {
   width: 100%;
 }
 </style>

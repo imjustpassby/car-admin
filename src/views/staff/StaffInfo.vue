@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { getStaffList,deleteStaff } from "@/api/staff.js";
+import { getStaffList, deleteStaff } from "@/api/staff.js";
 import UpdateInfo from "./components/UpdateInfo";
 import CreateStaff from "./components/CreateStaff";
 export default {
@@ -77,14 +77,17 @@ export default {
         type: "warning"
       })
         .then(() => {
-          deleteStaff(row).then().catch();
-          this.getList();
-          this.$message({
-            type: "success",
-            message: "员工信息删除成功!",
-            center: true,
-            duration: 2000
-          });
+          deleteStaff(row)
+            .then(res => {
+              this.getList();
+              this.$message({
+                type: "success",
+                message: "员工信息删除成功!",
+                center: true,
+                duration: 2000
+              });
+            })
+            .catch();
         })
         .catch(() => {
           this.$message({

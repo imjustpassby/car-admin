@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getStorageList,deleteFitting} from "@/api/storage.js";
+import { getStorageList, deleteFitting } from "@/api/storage.js";
 import { currency } from "@/utils/currency";
 import Warning from "./components/Warning";
 export default {
@@ -133,14 +133,16 @@ export default {
       })
         .then(() => {
           deleteFitting(row)
-            .then(this.getList())
+            .then(res => {
+              this.getList();
+              this.$message({
+                type: "success",
+                message: "配件删除成功!",
+                center: true,
+                duration: 2000
+              });
+            })
             .catch();
-          this.$message({
-            type: "success",
-            message: "配件删除成功!",
-            center: true,
-            duration: 2000
-          });
         })
         .catch(() => {
           this.$message({

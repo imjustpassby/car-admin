@@ -11,7 +11,7 @@
       <el-form-item label="员工姓名" prop="name">
         <span style="margin-left:16px;color:#409EFF">{{ staffInfo.name }}</span>
       </el-form-item>
-      
+
       <el-form-item label="入职日期" prop="date">
         <el-col :span="8">
           <el-date-picker
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import {updateStaff} from '@/api/staff.js'
+import { updateStaff } from "@/api/staff.js";
 export default {
   name: "UpdateInfo",
   props: ["staffInfo"],
@@ -104,14 +104,17 @@ export default {
     saveInfo(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          updateStaff(this.staffInfo).then().catch();
-          this.$emit("isUpdated");
-          this.$message({
-            message: "员工信息修改成功！",
-            type: "success",
-            center: true,
-            duration: 3000
-          });
+          updateStaff(this.staffInfo)
+            .then(res => {
+              this.$emit("isUpdated");
+              this.$message({
+                message: "员工信息修改成功！",
+                type: "success",
+                center: true,
+                duration: 3000
+              });
+            })
+            .catch();
         } else {
           this.$message({
             message: "员工信息修改失败！请检查信息是否填写正确！",

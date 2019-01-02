@@ -67,7 +67,6 @@ export default {
   data() {
     return {
       isCheck: false,
-      hasFitting: false,
       isSubmit: false,
       labelPosition: "right",
       rules: {
@@ -144,26 +143,18 @@ export default {
         if (valid) {
           if (!this.isSubmit) {
             if (this.isCheck) {
-              this.isSubmit = true;
-              if (!this.hasFitting) {
-                newFitting(this.fitting)
-                  .then(res => {
-                    this.getList();
-                  })
-                  .catch();
-              } else {
-                newFitting(this.fitting)
-                  .then(res => {
-                    this.getList();
-                  })
-                  .catch();
-              }
-              this.$message({
-                message: "配件入库成功！点击重置继续入库操作！",
-                type: "success",
-                center: true,
-                duration: 3000
-              });
+              newFitting(this.fitting)
+                .then(res => {
+									this.getList();
+                  this.isSubmit = true;
+                  this.$message({
+                    message: "配件入库成功！点击重置继续入库操作！",
+                    type: "success",
+                    center: true,
+                    duration: 3000
+                  });
+                })
+                .catch();
             } else {
               this.$message({
                 message: "请先查询库存中是否有该配件！",
@@ -193,7 +184,6 @@ export default {
     },
     resetForm(formName) {
       this.isCheck = false;
-      this.hasFitting = false;
       this.isSubmit = false;
       this.fitting.id = "0";
       this.$refs[formName].resetFields();
@@ -211,7 +201,6 @@ export default {
         }
       });
       if (hasItem) {
-        this.hasFitting = true;
         this.$message({
           message: "库存已有该配件！",
           type: "success",

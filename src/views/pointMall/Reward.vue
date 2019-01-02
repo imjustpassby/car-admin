@@ -2,10 +2,10 @@
   <div>
     <el-tabs v-model="activeCard" type="card">
       <el-tab-pane label="奖品总览" name="RewardOverview">
-        <reward-manage></reward-manage>
+        <reward-manage :rewardTable="rewardTable" v-on:isDeleted="getList"></reward-manage>
       </el-tab-pane>
       <el-tab-pane label="添加奖品" name="AddReward">
-        <add-reward></add-reward>
+        <add-reward v-on:isAdded="getList"></add-reward>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -13,6 +13,7 @@
 
 <script>
 import { currency } from "@/utils/currency";
+import { getRewardList } from "@/api/pointMall.js";
 import RewardManage from './components/RewardManage'
 import AddReward from './components/AddReward';
 export default {
@@ -21,6 +22,7 @@ export default {
   data() {
     return {
       activeCard: "RewardOverview",
+      rewardTable: []
     };
   },
 
@@ -39,9 +41,19 @@ export default {
 
   beforeMount() {},
 
-  mounted() {},
+  mounted() {
+    this.getList();
+  },
 
-  methods: {}
+  methods: {
+    getList() {
+      getRewardList()
+        .then(res => {
+          this.rewardTable = res.result;
+        })
+        .catch();
+    }
+  }
 };
 </script>
 

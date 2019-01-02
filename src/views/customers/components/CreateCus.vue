@@ -165,18 +165,20 @@ export default {
             this.newVipOrder.totalPrice = this.newCus.balance;
             this.newVipOrder.cusInfo.push(this.newCus);
             newVip(this.newCus)
-              .then(this.$emit("isCreated"))
+              .then(res => {
+                this.$emit("isCreated");
+                this.isSubmit = true;
+                this.$message({
+                  message: "新会员加入成功！",
+                  type: "success",
+                  center: true,
+                  duration: 3000
+                });
+              })
               .catch();
             newOrder(this.newVipOrder)
               .then()
               .catch();
-            this.isSubmit = true;
-            this.$message({
-              message: "新会员加入成功！",
-              type: "success",
-              center: true,
-              duration: 3000
-            });
           } else {
             this.$message({
               message: "请点击重置按钮再创建新的表单！",

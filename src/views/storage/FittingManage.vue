@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {getStorageList,updateFitting} from '@/api/storage.js'
+import { getStorageList, updateFitting } from "@/api/storage.js";
 import { currency } from "@/utils/currency";
 export default {
   name: "FittingManage",
@@ -89,12 +89,17 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getStorageList().then(res=>{
-      this.storageData = res.result;
-    }).catch();
+    this.getList();
   },
 
   methods: {
+    getList() {
+      getStorageList()
+        .then(res => {
+          this.storageData = res.result;
+        })
+        .catch();
+    },
     getFittingInfo() {
       let hasItem = false;
       this.storageData.forEach(item => {
@@ -127,17 +132,21 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid && this.hasFitting) {
-          if (!this.isSubmit){
-            updateFitting(this.fittingInfo).then().catch();
-            this.hasFitting = false;
-            this.isSubmit = true;
-            this.$message({
-              message: "配件信息更新成功！",
-              type: "success",
-              center: true,
-              duration: 3000
-            });
-          } else{
+          if (!this.isSubmit) {
+            updateFitting(this.fittingInfo)
+              .then(res => {
+                this.getList();
+                this.hasFitting = false;
+                this.isSubmit = true;
+                this.$message({
+                  message: "配件信息更新成功！",
+                  type: "success",
+                  center: true,
+                  duration: 3000
+                });
+              })
+              .catch();
+          } else {
             this.$message({
               message: "请点击重置按钮再提交新表单！",
               type: "error",

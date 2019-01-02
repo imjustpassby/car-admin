@@ -87,14 +87,16 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           updateVip(this.cusInfo)
-            .then(this.$emit("isUpdated"))
+            .then(res => {
+              this.$emit("isUpdated");
+              this.$message({
+                message: "会员信息更新成功！",
+                type: "success",
+                center: true,
+                duration: 3000
+              });
+            })
             .catch();
-          this.$message({
-            message: "会员信息更新成功！",
-            type: "success",
-            center: true,
-            duration: 3000
-          });
         } else {
           this.$message({
             message: "会员信息更新失败！请检查信息是否填写正确！",
