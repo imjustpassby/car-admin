@@ -5,7 +5,7 @@
       :model="loginForm"
       :rules="loginRules"
       class="login-form"
-      auto-complete="on"
+      auto-complete="off"
       label-position="left"
     >
       <h3 class="title animated fadeInDown slow">优车助手汽车服务管理系统</h3>
@@ -17,9 +17,9 @@
           v-model="loginForm.username"
           name="username"
           type="text"
-          auto-complete="on"
+          auto-complete="off"
           placeholder="username"
-          class="myinput"
+          class="my-input"
         />
       </el-form-item>
       <el-form-item prop="password" class="animated lightSpeedIn slow">
@@ -30,7 +30,7 @@
           :type="pwdType"
           v-model="loginForm.password"
           name="password"
-          auto-complete="on"
+          auto-complete="off"
           placeholder="password"
           @keyup.enter.native="handleLogin"
           class="my-input"
@@ -191,6 +191,10 @@ $lg_input: #fff;
     color: #fff;
     margin-bottom: 36px;
   }
+  .el-form-item__error{
+    color:#fff;
+    margin-left: 48px;
+  }
 
   input:-moz-placeholder {
     color: $light_gray;
@@ -266,7 +270,7 @@ $lg_input: #3f3736;
     0 1px 4px 0 rgba(0, 0, 0, 0.1);
   border: 0px solid #ef4300;
 }
-.myinput {
+.my-input {
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
   border-radius: 6px;
