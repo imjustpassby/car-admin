@@ -4,9 +4,9 @@
 
 <script>
 import "echarts/theme/macarons.js";
-import {getOrderList} from '@/api/order.js'
-import {getMonthlyPay} from '@/api/monthlyPay.js'
-import {getPurchasePay} from '@/api/purchasePay.js'
+import { getOrderList } from "@/api/order.js";
+import { getMonthlyPay } from "@/api/monthlyPay.js";
+import { getPurchasePay } from "@/api/purchasePay.js";
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/line");
 require("echarts/lib/component/tooltip");
@@ -61,7 +61,7 @@ export default {
             money += parseFloat(item.totalPay);
           }
         });
-        monthlyPayTotal.push(money)
+        monthlyPayTotal.push(money);
       }
       return monthlyPayTotal;
     },
@@ -85,9 +85,9 @@ export default {
       for (let i = 0; i < this.months.length; i++) {
         let money = 0;
         money =
-          parseFloat(this.monthlyOrderTotal[i]) -
-          parseFloat(this.monthlyPurchaseTotal[i]) -
-          parseFloat(this.monthlyPayTotal[i]);
+          parseFloat(this.monthlyOrderTotal[i] ? this.monthlyOrderTotal[i] : 0) -
+          parseFloat(this.monthlyPurchaseTotal[i] ? this.monthlyPurchaseTotal[i] : 0) -
+          parseFloat(this.monthlyPayTotal[i] ? this.monthlyPayTotal[i] : 0);
         monthlyProfitTotal.push(money);
       }
       return monthlyProfitTotal;
@@ -97,16 +97,22 @@ export default {
   watch: {},
 
   mounted() {
-    getPurchasePay().then(res=>{
-      this.purchaseData = res.result;
-    }).catch();
-    getMonthlyPay().then(res=>{
-      this.payData = res.result;
-    }).catch();
-    getOrderList().then(res=>{
-      this.orderData = res.result;
-      setTimeout(this.drawChart(),2000);
-    }).catch();
+    getPurchasePay()
+      .then(res => {
+        this.purchaseData = res.result;
+      })
+      .catch();
+    getMonthlyPay()
+      .then(res => {
+        this.payData = res.result;
+      })
+      .catch();
+    getOrderList()
+      .then(res => {
+        this.orderData = res.result;
+        setTimeout(this.drawChart(), 2000);
+      })
+      .catch();
   },
 
   methods: {
@@ -157,7 +163,10 @@ export default {
           }
         ]
       };
-      let myChart = echarts.init(document.getElementById("myChart"), "macarons");
+      let myChart = echarts.init(
+        document.getElementById("myChart"),
+        "macarons"
+      );
       myChart.setOption(chartData);
     }
   }

@@ -147,6 +147,7 @@ import { getStorageList, descFitting } from "@/api/storage.js";
 import { getCustomersList, changeBalance } from "@/api/customers.js";
 import { newOrder } from "@/api/order";
 import { currency } from "@/utils/currency";
+import { Message, MessageBox } from "element-ui";
 export default {
   name: "VipOrder",
   props: [""],
@@ -154,9 +155,9 @@ export default {
     return {
       listLoading: false,
       isSubmit: false,
+      isVip: false,
       labelPosition: "right",
       vipPhone: null,
-      isVip: false,
       rules: {
         date: [{ required: true, message: "请选择日期", trigger: "blur" }],
         services: [
@@ -263,7 +264,13 @@ export default {
   mounted() {
     getStorageList()
       .then(res => {
-        this.storageData = res.result;
+        let list = [];
+        res.result.forEach(item=>{
+          if (item.count > 0) {
+            list.push(item);
+          }
+        })
+        this.storageData = list;
       })
       .catch();
   },
@@ -344,7 +351,6 @@ export default {
         this.$refs[formName].validate(valid => {
           if (valid) {
             if (!this.isSubmit) {
-              this.isSubmit = true;
               this.vipOrder.content = this.content;
               this.checkBalance();
             } else {
@@ -405,59 +411,81 @@ export default {
         parseFloat(this.vipOrder.totalPrice);
       let money = currency(-lack, "¥");
       if (lack < 0) {
-        this.$alert(
+        MessageBox.confirm(
           `该会员余额不足，请提醒充值 ${money} 元。完成本次订单后请转移到“会员充值”页面。`,
           "余额不足",
           {
             confirmButtonText: "确定",
-            callback: () => {
-              this.$message({
-                type: "warning",
-                message: `本次订单提交完成，请转移到 "会员充值" 页面。`,
-                center: true,
-                duration: 3000
-              });
-            }
+            cancelButtonText: "取消",
+            type: "warning"
           }
-        );
-        changeBalance({
-          id: this.vipInfo.id,
-          total: this.vipOrder.totalPrice
-        })
-          .then()
-          .catch();
-        newOrder(this.vipOrder)
-          .then()
-          .catch();
-        descFitting(this.vipOrder.fittings)
-          .then()
-          .catch();
+        )
+          .then(() => {
+            changeBalance({
+              id: this.vipInfo.id,
+              total: this.vipOrder.totalPrice.toFixed(2)
+            })
+              .then()
+              .catch();
+            newOrder(this.vipOrder)
+              .then()
+              .catch();
+            descFitting(this.vipOrder.fittings)
+              .then()
+              .catch();
+            this.isSubmit = true;
+            this.isVip = false;
+            this.$message({
+              type: "warning",
+              message: `本次订单提交完成，请转移到 "会员充值" 页面。`,
+              center: true,
+              duration: 3000
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "warning",
+              message: "订单未提交！",
+              center: true,
+              duration: 3000
+            });
+          });
       } else {
-        changeBalance({
-          id: this.vipInfo.id,
-          total: this.vipOrder.totalPrice
-        })
-          .then()
-          .catch();
-        newOrder(this.vipOrder)
-          .then()
-          .catch();
-        descFitting(this.vipOrder.fittings)
-          .then()
-          .catch();
-        this.isVip = false;
-        this.$alert("订单提交完成！", "完成", {
+        MessageBox.confirm("确认订单！", "请确认提交订单！", {
           confirmButtonText: "确定",
-          center: true,
-          callback: () => {
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            changeBalance({
+              id: this.vipInfo.id,
+              total: this.vipOrder.totalPrice.toFixed(2)
+            })
+              .then()
+              .catch();
+            newOrder(this.vipOrder)
+              .then()
+              .catch();
+            descFitting(this.vipOrder.fittings)
+              .then()
+              .catch();
+            this.isVip = false;
+            this.isSubmit = true;
             this.$message({
               type: "success",
               message: "订单提交完成！",
               center: true,
               duration: 3000
             });
-          }
-        });
+          })
+          .catch(() => {
+            this.$message({
+              type: "success",
+              message: "订单未提交！",
+              center: true,
+              duration: 3000
+            });
+          });
       }
     }
   }

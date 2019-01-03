@@ -241,7 +241,13 @@ export default {
   mounted() {
     getStorageList()
       .then(res => {
-        this.storageData = res.result;
+        let list = [];
+        res.result.forEach(item=>{
+          if (item.count > 0) {
+            list.push(item);
+          }
+        })
+        this.storageData = list;
       })
       .catch();
   },
