@@ -46,7 +46,7 @@ export default {
             money += parseFloat(item.totalPay);
           }
         });
-        monthlyPurchaseTotal.push(money);
+        monthlyPurchaseTotal.push(money.toFixed(2));
       }
       return monthlyPurchaseTotal;
     },
@@ -61,7 +61,7 @@ export default {
             money += parseFloat(item.totalPay);
           }
         });
-        monthlyPayTotal.push(money);
+        monthlyPayTotal.push(money.toFixed(2));
       }
       return monthlyPayTotal;
     },
@@ -73,10 +73,11 @@ export default {
         this.orderData.forEach(item => {
           let itemDateFmt = this.$moment(item.date).format("YYYY-MM");
           if (itemDateFmt == months[i]) {
-            money += parseFloat(item.totalPrice);
+            if (item.orderType != "会员消费")
+              money += parseFloat(item.totalPrice);
           }
         });
-        monthlyOrderTotal.push(money);
+        monthlyOrderTotal.push(money.toFixed(2));
       }
       return monthlyOrderTotal;
     },
@@ -85,10 +86,14 @@ export default {
       for (let i = 0; i < this.months.length; i++) {
         let money = 0;
         money =
-          parseFloat(this.monthlyOrderTotal[i] ? this.monthlyOrderTotal[i] : 0) -
-          parseFloat(this.monthlyPurchaseTotal[i] ? this.monthlyPurchaseTotal[i] : 0) -
+          parseFloat(
+            this.monthlyOrderTotal[i] ? this.monthlyOrderTotal[i] : 0
+          ) -
+          parseFloat(
+            this.monthlyPurchaseTotal[i] ? this.monthlyPurchaseTotal[i] : 0
+          ) -
           parseFloat(this.monthlyPayTotal[i] ? this.monthlyPayTotal[i] : 0);
-        monthlyProfitTotal.push(money);
+        monthlyProfitTotal.push(money.toFixed(2));
       }
       return monthlyProfitTotal;
     }
@@ -110,7 +115,7 @@ export default {
     getOrderList()
       .then(res => {
         this.orderData = res.result;
-        setTimeout(this.drawChart(), 2000);
+        this.drawChart();
       })
       .catch();
   },
@@ -135,7 +140,11 @@ export default {
           type: "category",
           data: this.months
         },
-        yAxis: {},
+        yAxis: [
+          {
+            type: "value"
+          }
+        ],
         series: [
           {
             name: "采购支出",
@@ -176,6 +185,6 @@ export default {
 <style scoped>
 #myChart {
   width: 100%;
-  height: 400px;
+  height: 500px;
 }
 </style>
