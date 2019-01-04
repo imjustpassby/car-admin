@@ -1,7 +1,15 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+import {
+  Message,
+  MessageBox
+} from 'element-ui'
 import store from '../store'
-import { getToken } from '@/utils/auth'
+import {
+  getToken
+} from '@/utils/auth'
+import {
+  newLog
+} from '@/api/log'
 
 // 创建axios实例
 const service = axios.create()
@@ -17,6 +25,9 @@ service.interceptors.request.use(
   error => {
     // Do something with request error
     console.log(error) // for debug
+    newLog({
+      content: error
+    }).then().catch();
     Promise.reject(error)
   }
 )
@@ -25,12 +36,12 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     /**
-     * code为非20000是抛错 可结合自己业务进行修改
+     * code为非20000是抛错
      */
     const res = response.data
     if (res.code !== 20000) {
       Message({
-        message: res.message,
+        message: '出错了...',
         type: 'error',
         duration: 5 * 1000
       })
@@ -39,8 +50,7 @@ service.interceptors.response.use(
       if (res.code === 50001 || res.code === 50008 || res.code === 50012 || res.code === 50014) {
         MessageBox.confirm(
           '你已被登出，可以取消继续留在该页面，或者重新登录',
-          '确定登出',
-          {
+          '确定登出', {
             confirmButtonText: '重新登录',
             cancelButtonText: '取消',
             type: 'warning'
@@ -48,7 +58,10 @@ service.interceptors.response.use(
         ).then(() => {
           store.dispatch('FedLogOut').then(() => {
             location.reload() // 为了重新实例化vue-router对象 避免bug
-          })
+          });
+          newLog({
+            content: res.result
+          }).then().catch();
         })
       }
       return Promise.reject('error')
@@ -58,6 +71,9 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
+    newLog({
+      content: error.message
+    }).then().catch();
     Message({
       message: error.message,
       type: 'error',

@@ -47,10 +47,10 @@
           class="my-button"
         >Sign in</el-button>
       </el-form-item>
-      <div class="tips animated lightSpeedIn slow">
+      <!-- <div class="tips animated lightSpeedIn slow">
         <span style="margin-right:20px;">username: admin</span>
         <span>password: admin</span>
-      </div>
+      </div> -->
     </el-form>
   </div>
 </template>

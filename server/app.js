@@ -6,15 +6,16 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user')
-var customersRouter = require('./routes/customers')
-var staffRouter = require('./routes/staff')
-var monthlyPayRouter = require('./routes/monthlyPay')
-var storageRouter = require('./routes/storage')
-var pointMallRouter = require('./routes/pointMall')
-var orderRouter = require('./routes/order')
-var purchasePayRouter = require('./routes/purchasePay')
-var recordRouter = require('./routes/record')
+var userRouter = require('./routes/user');
+var customersRouter = require('./routes/customers');
+var staffRouter = require('./routes/staff');
+var monthlyPayRouter = require('./routes/monthlyPay');
+var storageRouter = require('./routes/storage');
+var pointMallRouter = require('./routes/pointMall');
+var orderRouter = require('./routes/order');
+var purchasePayRouter = require('./routes/purchasePay');
+var recordRouter = require('./routes/record');
+var logRouter = require('./routes/log');
 
 var app = express();
 
@@ -24,7 +25,9 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -33,23 +36,24 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/user',userRouter);
-app.use('/customers',customersRouter);
-app.use('/staff',staffRouter);
-app.use('/monthlyPay',monthlyPayRouter);
-app.use('/storage',storageRouter);
-app.use('/pointMall',pointMallRouter);
-app.use('/order',orderRouter);
-app.use('/purchasePay',purchasePayRouter);
-app.use('/record',recordRouter);
+app.use('/user', userRouter);
+app.use('/customers', customersRouter);
+app.use('/staff', staffRouter);
+app.use('/monthlyPay', monthlyPayRouter);
+app.use('/storage', storageRouter);
+app.use('/pointMall', pointMallRouter);
+app.use('/order', orderRouter);
+app.use('/purchasePay', purchasePayRouter);
+app.use('/record', recordRouter);
+app.use('/log', logRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
