@@ -25,7 +25,7 @@
               <span>{{ props.row.cusInfo[0].brand }}</span>
             </el-form-item>
             <el-form-item label="客户余额">
-              <span>{{ props.row.cusInfo[0].balance }}</span>
+              <span>{{ props.row.cusInfo[0].balance | currency('¥') }}</span>
             </el-form-item>
             <el-form-item label="客户积分">
               <span>{{ props.row.cusInfo[0].point }}</span>
