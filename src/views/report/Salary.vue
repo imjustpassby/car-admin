@@ -6,11 +6,11 @@
 
 <script>
 import "echarts/theme/macarons.js";
-import {getMonthlyPay} from '@/api/monthlyPay.js'
-let echarts = require('echarts/lib/echarts')
-require('echarts/lib/chart/line')
-require('echarts/lib/component/tooltip')
-require('echarts/lib/component/title')
+import { getMonthlyPay } from "@/api/monthlyPay.js";
+let echarts = require("echarts/lib/echarts");
+require("echarts/lib/chart/line");
+require("echarts/lib/component/tooltip");
+require("echarts/lib/component/title");
 
 export default {
   name: "SalaryChart",
@@ -27,7 +27,7 @@ export default {
     month() {
       let month = [];
       this.payData.forEach(item => {
-        month.push(this.$moment(item.date).format('YYYY-MM'));
+        month.push(this.$moment(item.date).format("YYYY-MM"));
       });
       return month.sort();
     },
@@ -42,10 +42,9 @@ export default {
             money += parseFloat(item.salaryPayTotal);
           }
         });
-        monthlySalary.push(money)
+        monthlySalary.push(money);
       }
       return monthlySalary;
-
     }
   },
 
@@ -54,10 +53,12 @@ export default {
   beforeMount() {},
 
   mounted() {
-    getMonthlyPay().then(res=>{
-      this.payData = res.result;
-      this.drawChart();
-    }).catch();
+    getMonthlyPay()
+      .then(res => {
+        this.payData = res.result;
+        this.drawChart();
+      })
+      .catch();
   },
 
   methods: {
@@ -66,29 +67,49 @@ export default {
         title: {
           text: "每月工资统计",
           textStyle: {
-            color: '#1890ff'
+            color: "#14c8d4"
           }
         },
         tooltip: {
           trigger: "item",
+          axisPointer: {
+            type: "shadow"
+          },
           formatter: "{a} <br/>{b} : ¥{c}"
         },
         legend: {
-          data: ["工资支出"]
+          data: ["每月工资支出"]
         },
         xAxis: {
           type: "category",
+          axisLine: {
+            lineStyle: {
+              color: "#14c8d4"
+            }
+          },
           data: this.month
         },
         yAxis: {
+          splitLine: { show: false },
+          axisLine: {
+            lineStyle: {
+              color: "#14c8d4"
+            }
+          }
         },
         series: [
           {
-            name: "工资支出",
-            type: "line",
-            smooth: true,
-            lineStyle:{
-              color: "#1890ff"
+            name: "每月工资支出",
+            type: "bar",
+            barWidth: 10,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 5,
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#14c8d4" },
+                  { offset: 1, color: "#43eec6" }
+                ])
+              }
             },
             data: this.monthlySalary
           }

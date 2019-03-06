@@ -1,5 +1,10 @@
 <template>
-  <div id="myChart"></div>
+  <div class="flex-box">
+    <div id="myChart1"></div>
+    <div id="myChart2"></div>
+    <div id="myChart3"></div>
+    <div id="myChart4"></div>
+  </div>
 </template>
 
 <script>
@@ -102,46 +107,266 @@ export default {
   watch: {},
 
   mounted() {
-    getPurchasePay()
-      .then(res => {
-        this.purchaseData = res.result;
-      })
-      .catch();
-    getMonthlyPay()
-      .then(res => {
-        this.payData = res.result;
-      })
-      .catch();
-    getOrderList()
-      .then(res => {
-        this.orderData = res.result;
-        this.drawChart();
-      })
-      .catch();
+    this.init();
   },
 
   methods: {
+    init() {
+      getPurchasePay()
+        .then(res => {
+          this.purchaseData = res.result;
+          getMonthlyPay().then(res => {
+            this.payData = res.result;
+            getOrderList().then(res => {
+              this.orderData = res.result;
+              this.drawChart();
+            });
+          });
+        })
+        .catch();
+    },
     drawChart() {
-      const chartData = {
-        title: {
-          text: "收支情况",
-          textStyle: {
-            color: "#1890ff"
-          }
-        },
+      const chartData1 = {
         tooltip: {
-          trigger: "item",
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow"
+          },
           formatter: "{a} <br/>{b} : ¥{c} "
         },
         legend: {
-          data: ["采购支出", "每月支出", "订单收入", "每月利润"]
+          data: ["每月利润"],
+          textStyle: {
+            color: "#14c8d4",
+            fontSize: 16
+          }
         },
         xAxis: {
           type: "category",
+          axisLine: {
+            lineStyle: {
+              color: "#14c8d4"
+            }
+          },
           data: this.months
         },
         yAxis: [
           {
+            splitLine: { show: false },
+            axisLine: {
+              lineStyle: {
+                color: "#14c8d4"
+              }
+            },
+            type: "value"
+          }
+        ],
+        series: [
+          {
+            name: "每月利润",
+            type: "line",
+            smooth: true,
+            showAllSymbol: true,
+            symbol: "emptyCircle",
+            symbolSize: 15,
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#E1C0DB" }
+                ])
+              }
+            },
+            data: this.monthlyProfitTotal
+          },
+          {
+            name: "每月利润",
+            type: "bar",
+            barWidth: 10,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 5,
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#D2A9B0" },
+                  { offset: 0.5, color: "#E1C0DB" },
+                  { offset: 1, color: "#F1CFE5" }
+                ])
+              }
+            },
+            data: this.monthlyProfitTotal
+          }
+        ]
+      };
+      const chartData2 = {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow"
+          },
+          formatter: "{a} <br/>{b} : ¥{c} "
+        },
+        legend: {
+          data: ["订单收入"],
+          textStyle: {
+            color: "#14c8d4",
+            fontSize: 16
+          }
+        },
+        xAxis: {
+          type: "category",
+          axisLine: {
+            lineStyle: {
+              color: "#14c8d4"
+            }
+          },
+          data: this.months
+        },
+        yAxis: [
+          {
+            splitLine: { show: false },
+            axisLine: {
+              lineStyle: {
+                color: "#14c8d4"
+              }
+            },
+            type: "value"
+          }
+        ],
+        series: [
+          {
+            name: "订单收入",
+            type: "line",
+            smooth: true,
+            showAllSymbol: true,
+            symbol: "emptyCircle",
+            symbolSize: 15,
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#E1C0DB" }
+                ])
+              }
+            },
+            data: this.monthlyOrderTotal
+          },
+          {
+            name: "订单收入",
+            type: "bar",
+            barWidth: 10,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 5,
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#D2A9B0" },
+                  { offset: 0.5, color: "#E1C0DB" },
+                  { offset: 1, color: "#F1CFE5" }
+                ])
+              }
+            },
+            data: this.monthlyOrderTotal
+          }
+        ]
+      };
+      const chartData3 = {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow"
+          },
+          formatter: "{a} <br/>{b} : ¥{c} "
+        },
+        legend: {
+          data: ["每月支出"],
+          textStyle: {
+            color: "#FCAF67",
+            fontSize: 16
+          }
+        },
+        xAxis: {
+          type: "category",
+          axisLine: {
+            lineStyle: {
+              color: "#14c8d4"
+            }
+          },
+          data: this.months
+        },
+        yAxis: [
+          {
+            splitLine: { show: false },
+            axisLine: {
+              lineStyle: {
+                color: "#14c8d4"
+              }
+            },
+            type: "value"
+          }
+        ],
+        series: [
+          {
+            name: "每月支出",
+            type: "line",
+            smooth: true,
+            showAllSymbol: true,
+            symbol: "emptyCircle",
+            symbolSize: 15,
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#FCAF67" }
+                ])
+              }
+            },
+            data: this.monthlyPayTotal
+          },
+          {
+            name: "每月支出",
+            type: "bar",
+            barGap: "-100%",
+            barWidth: 10,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 5,
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#FCAF67" }
+                ])
+              }
+            },
+            data: this.monthlyPayTotal
+          }
+        ]
+      };
+      const chartData4 = {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow"
+          },
+          formatter: "{a} <br/>{b} : ¥{c} "
+        },
+        legend: {
+          data: ["采购支出"],
+          textStyle: {
+            color: "#FCAF67",
+            fontSize: 16
+          }
+        },
+        xAxis: {
+          type: "category",
+          axisLine: {
+            lineStyle: {
+              color: "#14c8d4"
+            }
+          },
+          data: this.months
+        },
+        yAxis: [
+          {
+            splitLine: { show: false },
+            axisLine: {
+              lineStyle: {
+                color: "#14c8d4"
+              }
+            },
             type: "value"
           }
         ],
@@ -150,41 +375,75 @@ export default {
             name: "采购支出",
             type: "line",
             smooth: true,
+            showAllSymbol: true,
+            symbol: "emptyCircle",
+            symbolSize: 15,
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#FCAF67" }
+                ])
+              }
+            },
             data: this.monthlyPurchaseTotal
           },
           {
-            name: "每月支出",
-            type: "line",
-            smooth: true,
-            data: this.monthlyPayTotal
-          },
-          {
-            name: "订单收入",
-            type: "line",
-            smooth: true,
-            data: this.monthlyOrderTotal
-          },
-          {
-            name: "每月利润",
-            type: "line",
-            smooth: true,
-            data: this.monthlyProfitTotal
+            name: "采购支出",
+            type: "bar",
+            type: "bar",
+            barGap: "-100%",
+            barWidth: 10,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 5,
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#FCAF67" }
+                ])
+              }
+            },
+            data: this.monthlyPurchaseTotal
           }
         ]
       };
-      let myChart = echarts.init(
-        document.getElementById("myChart"),
+
+      let myChart1 = echarts.init(
+        document.getElementById("myChart1"),
         "macarons"
       );
-      myChart.setOption(chartData);
+      myChart1.setOption(chartData1);
+
+      let myChart2 = echarts.init(
+        document.getElementById("myChart2"),
+        "macarons"
+      );
+      myChart2.setOption(chartData2);
+
+      let myChart3 = echarts.init(
+        document.getElementById("myChart3"),
+        "macarons"
+      );
+      myChart3.setOption(chartData3);
+
+      let myChart4 = echarts.init(
+        document.getElementById("myChart4"),
+        "macarons"
+      );
+      myChart4.setOption(chartData4);
     }
   }
 };
 </script>
 
-<style scoped>
-#myChart {
+<style lang="scss" scoped>
+.flex-box {
   width: 100%;
-  height: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: space-around;
+  div {
+    width: 49%;
+    height: 350px;
+  }
 }
 </style>

@@ -2,7 +2,7 @@
   <div>
     <div class="select-container">
       <el-col :span="2" class="select-span">
-        <span>请选择时间</span>
+        <span style="color:#14c8d4">请选择时间</span>
       </el-col>
       <el-col :span="8" :offset="1">
         <el-select v-model="selectDate" placeholder="请选择时间" size="mini" @change="changeSelect">

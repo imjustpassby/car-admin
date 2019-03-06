@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import {getCustomersList} from '@/api/customers.js'
+import { getCustomersList } from "@/api/customers.js";
 import "echarts/theme/macarons.js";
-let echarts = require('echarts/lib/echarts')
-require('echarts/lib/chart/line')
-require('echarts/lib/component/tooltip')
-require('echarts/lib/component/title')
+let echarts = require("echarts/lib/echarts");
+require("echarts/lib/chart/line");
+require("echarts/lib/component/tooltip");
+require("echarts/lib/component/title");
 export default {
   name: "CustomersChart",
   props: [""],
@@ -26,7 +26,7 @@ export default {
     month() {
       let month = [];
       let i = 0;
-      while (i <= 6) {
+      while (i <= 12) {
         month.push(this.calcMonthsAgo(i++));
       }
       return month.reverse();
@@ -34,7 +34,7 @@ export default {
     vipCount() {
       let vipCount = [];
       let i = 0;
-      while (i <= 6) {
+      while (i <= 12) {
         let count = 0;
         this.cusInfo.forEach(item => {
           let itemDateFmt = this.$moment(item.date).format("YYYY-MM");
@@ -52,15 +52,15 @@ export default {
 
   watch: {},
 
-  beforeMount() {
-    
-  },
+  beforeMount() {},
 
   mounted() {
-    getCustomersList().then(res=>{
-      this.cusInfo = res.result;
-      this.drawChart();
-    }).catch();
+    getCustomersList()
+      .then(res => {
+        this.cusInfo = res.result;
+        this.drawChart();
+      })
+      .catch();
   },
 
   methods: {
@@ -72,26 +72,64 @@ export default {
     },
     drawChart() {
       const chartData = {
+        backgroundColor: "#fbffff",
         title: {
-          text: "半年新会员统计",
+          text: "近一年新会员统计",
           textStyle: {
-            color: "#1890ff"
+            color: "#14c8d4"
           }
         },
-        tooltip: {},
+        tooltip: {
+          trigger: "item",
+          axisPointer: {
+            type: "shadow"
+          }
+        },
         legend: {
           data: ["新会员数量"]
         },
         xAxis: {
           type: "category",
-          data: this.month
+          data: this.month,
+          axisLine: {
+            lineStyle: {
+              color: "#14c8d4"
+            }
+          }
         },
-        yAxis: {},
+        yAxis: {
+          splitLine: { show: false },
+          axisLine: {
+            lineStyle: {
+              color: "#14c8d4"
+            }
+          }
+        },
         series: [
           {
             name: "新会员数量",
             type: "line",
             smooth: true,
+            showAllSymbol: true,
+            symbol: "emptyCircle",
+            symbolSize: 15,
+            data: this.vipCount
+          },
+          {
+            name: "新会员数量",
+            type: "bar",
+            barGap: "-100%",
+            barWidth: 10,
+            itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "rgba(20,200,212,0.5)" },
+                  { offset: 0.2, color: "rgba(20,200,212,0.2)" },
+                  { offset: 1, color: "rgba(20,200,212,0)" }
+                ])
+              }
+            },
+            z: -12,
             data: this.vipCount
           }
         ]
