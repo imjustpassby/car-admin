@@ -10,13 +10,13 @@
       <span class="form-item">车辆信息</span>
       <el-form-item label="车牌" required>
         <el-col :span="8">
-          <el-input v-model="commonOrder.cusInfo[0].plate"></el-input>
+          <el-input v-model="commonOrder.cusInfo.plate"></el-input>
         </el-col>
       </el-form-item>
 
       <el-form-item label="汽车品牌" required>
         <el-col :span="8">
-          <el-input v-model="commonOrder.cusInfo[0].brand"></el-input>
+          <el-input v-model="commonOrder.cusInfo.brand"></el-input>
         </el-col>
       </el-form-item>
 
@@ -104,6 +104,7 @@
                 ></el-input-number>
               </template>
             </el-table-column>
+            <el-table-column label="库存数量" prop="leftCount" fit align="center"></el-table-column>
             <el-table-column label="总价" prop="total" fit align="center">
               <template slot-scope="scope">{{scope.row.total | currency('¥')}}</template>
             </el-table-column>
@@ -169,17 +170,15 @@ export default {
       fittings: [],
       commonOrder: {
         orderType: "普通客户",
-        cusInfo: [
-          {
-            name: "普通客户",
-            phone: null,
-            plate: null,
-            brand: null,
-            date: null,
-            balance: null,
-            point: null
-          }
-        ],
+        cusInfo: {
+          name: "普通客户",
+          phone: null,
+          plate: null,
+          brand: null,
+          date: null,
+          balance: null,
+          point: null
+        },
         date: null,
         services: [],
         content: [],
@@ -208,10 +207,11 @@ export default {
             total: null
           };
           if (fitting == item.name) {
-            arrItem.id = item.id
+            arrItem.id = item.id;
             arrItem.name = item.name;
             arrItem.sellPrice = item.sellPrice;
             arrItem.count = 1;
+            arrItem.leftCount = item.count;
             arrItem.total =
               parseFloat(arrItem.sellPrice) * parseInt(arrItem.count);
             arr.push(arrItem);
@@ -242,11 +242,11 @@ export default {
     getStorageList()
       .then(res => {
         let list = [];
-        res.result.forEach(item=>{
+        res.result.forEach(item => {
           if (item.count > 0) {
             list.push(item);
           }
-        })
+        });
         this.storageData = list;
       })
       .catch();

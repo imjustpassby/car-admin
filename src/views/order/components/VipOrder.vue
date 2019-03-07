@@ -123,6 +123,7 @@
                 ></el-input-number>
               </template>
             </el-table-column>
+            <el-table-column label="库存数量" prop="leftCount" fit align="center"></el-table-column>
             <el-table-column label="总价" prop="total" fit align="center">
               <template slot-scope="scope">{{scope.row.total | currency('¥')}}</template>
             </el-table-column>
@@ -195,7 +196,7 @@ export default {
       fittings: [],
       vipOrder: {
         orderType: "会员消费",
-        cusInfo: [],
+        cusInfo: {},
         date: null,
         services: [],
         content: [],
@@ -228,6 +229,7 @@ export default {
             arrItem.name = item.name;
             arrItem.sellPrice = item.sellPrice;
             arrItem.count = 1;
+            arrItem.leftCount = item.count;
             arrItem.total =
               parseFloat(arrItem.sellPrice) * parseInt(arrItem.count);
             arr.push(arrItem);
@@ -249,10 +251,10 @@ export default {
       this.vipOrder.totalPrice = parseFloat(money.toFixed(2));
       return money;
     },
-    vipTable() {
+    vipTable() {  
       let vip = [];
       vip[0] = this.vipInfo;
-      this.vipOrder.cusInfo = vip;
+      this.vipOrder.cusInfo = this.vipInfo;
       return vip;
     }
   },
@@ -407,7 +409,7 @@ export default {
     },
     checkBalance() {
       let lack =
-        parseFloat(this.vipOrder.cusInfo[0].balance) -
+        parseFloat(this.vipOrder.cusInfo.balance) -
         parseFloat(this.vipOrder.totalPrice);
       let money = currency(-lack, "¥");
       if (lack < 0) {

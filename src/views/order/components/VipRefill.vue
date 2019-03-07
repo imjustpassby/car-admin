@@ -93,7 +93,7 @@ export default {
       vipInfo: {},
       vipRefill: {
         orderType: "会员充值",
-        cusInfo: [],
+        cusInfo: {},
         date: null,
         services: ["会员充值"],
         content: [],
@@ -113,7 +113,7 @@ export default {
     vipTable() {
       let vip = [];
       vip[0] = this.vipInfo;
-      this.vipRefill.cusInfo = vip;
+      this.vipRefill.cusInfo = this.vipInfo;
       return vip;
     }
   },

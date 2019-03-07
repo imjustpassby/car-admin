@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var orderSchema = new Schema({
   "id": String,
   "orderType": String,
-  "cusInfo": [{
+  "cusInfo": {
     "name": String,
     "phone": String,
     "plate": String,
@@ -12,7 +12,7 @@ var orderSchema = new Schema({
     "date": String,
     "balance": Number,
     "point": Number
-  }],
+  },
   "date": String,
   "services": Array,
   "content": [{

@@ -13,22 +13,22 @@
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="客户姓名">
-              <span>{{ props.row.cusInfo[0].name }}</span>
+              <span>{{ props.row.cusInfo.name }}</span>
             </el-form-item>
             <el-form-item label="客户手机">
-              <span>{{ props.row.cusInfo[0].phone }}</span>
+              <span>{{ props.row.cusInfo.phone }}</span>
             </el-form-item>
             <el-form-item label="客户车牌">
-              <span>{{ props.row.cusInfo[0].plate }}</span>
+              <span>{{ props.row.cusInfo.plate }}</span>
             </el-form-item>
             <el-form-item label="汽车品牌">
-              <span>{{ props.row.cusInfo[0].brand }}</span>
+              <span>{{ props.row.cusInfo.brand }}</span>
             </el-form-item>
             <el-form-item label="客户余额">
-              <span>{{ props.row.cusInfo[0].balance | currency('¥') }}</span>
+              <span>{{ props.row.cusInfo.balance | currency('¥') }}</span>
             </el-form-item>
             <el-form-item label="客户积分">
-              <span>{{ props.row.cusInfo[0].point }}</span>
+              <span>{{ props.row.cusInfo.point }}</span>
             </el-form-item>
             <el-form-item label="配件清单">
               <div v-for="(item,index) in props.row.fittings" :key="item.name">
@@ -76,7 +76,11 @@ export default {
   data() {
     return {
       loading: true,
-      orderTable: []
+      orderTable: [],
+      downloadLoading: false,
+      filename: "订单详情",
+      autoWidth: true,
+      bookType: "xlsx"
     };
   },
 
