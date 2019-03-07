@@ -1,10 +1,6 @@
 <template>
   <div>
-    <el-tabs type="card" v-model="activeCard">
-      <el-tab-pane label="订单总览" name="allOrder">
-        <all-order></all-order>
-      </el-tab-pane>
-    </el-tabs>
+    <all-order></all-order>
   </div>
 </template>
 
@@ -15,7 +11,6 @@
     props:[''],
     data () {
       return {
-        activeCard: "allOrder"
       };
     },
 

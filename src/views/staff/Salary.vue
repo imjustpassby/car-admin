@@ -2,6 +2,13 @@
   <div>
     <el-tabs v-model="activeCard" type="card">
       <el-tab-pane label="工资总览" name="salaryOverview">
+        <el-button
+          :loading="downloadLoading"
+          style="margin:0 0 20px 0;"
+          type="primary"
+          icon="document"
+          @click="handleDownload"
+        >导出Excel</el-button>
         <el-table
           :data="salaryTable"
           :summary-method="getSummaries"
@@ -57,7 +64,11 @@ export default {
         baseSalary: null,
         welfare: null,
         extra: null
-      }
+      },
+      downloadLoading: false,
+      filename: "工资详情",
+      autoWidth: true,
+      bookType: "xlsx"
     };
   },
 
@@ -125,14 +136,50 @@ export default {
         }
       });
       return sums;
+    },
+    handleDownload() {
+      this.downloadLoading = true;
+      import("@/vendor/Export2Excel").then(excel => {
+        const tHeader = [
+          "入职日期",
+          "姓名",
+          "基本工资（元）",
+          "福利（元）",
+          "额外（元）",
+          "总和（元）"
+        ];
+        const filterVal = ["date", "name", "baseSalary", "welfare", "extra","total"];
+        const data = this.formatJson(filterVal, this.salaryTable);
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType
+        });
+        this.downloadLoading = false;
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === "baseSalary" || j === "welfare" || j==="extra"|| j==="total") {
+            return currency(v[j], "¥");
+          } else {
+            return v[j];
+          }
+        })
+      );
     }
   }
 };
 </script>
+
 <style scoped>
 .el-input {
   width: 50%;
 }
+
 .el-button {
   width: 100px;
 }

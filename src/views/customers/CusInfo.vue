@@ -1,5 +1,12 @@
 <template>
   <div>
+    <el-button
+      :loading="downloadLoading"
+      style="margin:0 0 20px 0;"
+      type="primary"
+      icon="document"
+      @click="handleDownload"
+    >导出Excel</el-button>
     <el-tabs type="card" v-model="activeCard">
       <el-tab-pane label="会员总览" name="showCus">
         <el-table
@@ -63,7 +70,11 @@ export default {
       search: "",
       activeCard: "showCus",
       tableData: [],
-      cusInfo: {}
+      cusInfo: {},
+      downloadLoading: false,
+      filename: "会员详情",
+      autoWidth: true,
+      bookType: "xlsx"
     };
   },
 
@@ -191,6 +202,31 @@ export default {
             duration: 2000
           });
         });
+    },
+    handleDownload() {
+      this.downloadLoading = true;
+      import("@/vendor/Export2Excel").then(excel => {
+        const tHeader = ["id","姓名","电话","车牌","汽车品牌","日期","余额","积分"];
+        const filterVal = ['id', 'name', 'phone', 'plate', 'brand','date','balance','point']
+        const data = this.formatJson(filterVal, this.tableData);
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType
+        });
+        this.downloadLoading = false;
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        if (j === 'balance') {
+          return currency(v[j],'¥')
+        } else {
+          return v[j]
+        }
+      }))
     }
   }
 };

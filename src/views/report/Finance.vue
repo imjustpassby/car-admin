@@ -14,6 +14,7 @@ import { getMonthlyPay } from "@/api/monthlyPay.js";
 import { getPurchasePay } from "@/api/purchasePay.js";
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/line");
+require("echarts/lib/chart/bar");
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/title");
 export default {
@@ -277,7 +278,7 @@ export default {
         legend: {
           data: ["每月支出"],
           textStyle: {
-            color: "#FCAF67",
+            color: "#9671C7",
             fontSize: 16
           }
         },
@@ -312,7 +313,7 @@ export default {
             itemStyle: {
               normal: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#FCAF67" }
+                  { offset: 0, color: "#9671C7" }
                 ])
               }
             },
@@ -327,7 +328,8 @@ export default {
               normal: {
                 barBorderRadius: 5,
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#FCAF67" }
+                  { offset: 1, color: "#FFEBFF" },
+                  { offset: 0, color: "#9671C7" }
                 ])
               }
             },
@@ -346,7 +348,7 @@ export default {
         legend: {
           data: ["采购支出"],
           textStyle: {
-            color: "#FCAF67",
+            color: "#9671C7",
             fontSize: 16
           }
         },
@@ -381,7 +383,7 @@ export default {
             itemStyle: {
               normal: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#FCAF67" }
+                  { offset: 0, color: "#9671C7" }
                 ])
               }
             },
@@ -397,7 +399,8 @@ export default {
               normal: {
                 barBorderRadius: 5,
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#FCAF67" }
+                  { offset: 1, color: "#FFEBFF" },
+                  { offset: 0, color: "#9671C7" }
                 ])
               }
             },

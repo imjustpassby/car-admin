@@ -76,7 +76,7 @@ export default {
         title: {
           text: "近一年新会员统计",
           textStyle: {
-            color: "#14c8d4"
+            color: "#57617B"
           }
         },
         tooltip: {
@@ -86,7 +86,11 @@ export default {
           }
         },
         legend: {
-          data: ["新会员数量"]
+          data: ["新会员数量"],
+          textStyle: {
+            fontSize: 16,
+            color: '#57617B'
+          }
         },
         xAxis: {
           type: "category",
@@ -113,6 +117,29 @@ export default {
             showAllSymbol: true,
             symbol: "emptyCircle",
             symbolSize: 15,
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: "rgba(0, 136, 212, 0.3)"
+                    },
+                    {
+                      offset: 0.8,
+                      color: "rgba(0, 136, 212, 0)"
+                    }
+                  ],
+                  false
+                ),
+                shadowColor: "rgba(0, 0, 0, 0.1)",
+                shadowBlur: 10
+              }
+            },
             data: this.vipCount
           },
           {

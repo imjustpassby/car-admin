@@ -1,5 +1,12 @@
 <template>
   <div>
+    <el-button
+      :loading="downloadLoading"
+      style="margin:0 0 20px 0;"
+      type="primary"
+      icon="document"
+      @click="handleDownload"
+    >导出Excel</el-button>
     <el-tabs v-model="activeCard" type="card">
       <el-tab-pane label="员工管理" name="staffManage">
         <el-table :data="tableData" style="width: 100%;" highlight-current-row>
@@ -38,7 +45,11 @@ export default {
     return {
       activeCard: "staffManage",
       tableData: [],
-      staffInfo: {}
+      staffInfo: {},
+      downloadLoading: false,
+      filename: "员工信息",
+      autoWidth: true,
+      bookType: "xlsx"
     };
   },
 
@@ -97,6 +108,27 @@ export default {
             duration: 2000
           });
         });
+    },
+    handleDownload() {
+      this.downloadLoading = true;
+      import("@/vendor/Export2Excel").then(excel => {
+        const tHeader = ["入职日期","姓名","性别","电话","职位","地址"];
+        const filterVal = ['date', 'name', 'sex', 'phone','position','address']
+        const data = this.formatJson(filterVal, this.tableData);
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType
+        });
+        this.downloadLoading = false;
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        return v[j]
+      }))
     }
   }
 };

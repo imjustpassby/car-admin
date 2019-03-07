@@ -1,5 +1,12 @@
 <template>
   <div>
+    <el-button
+      :loading="downloadLoading"
+      style="margin:0 0 20px 0;"
+      type="primary"
+      icon="document"
+      @click="handleDownload"
+    >导出Excel</el-button>
     <el-tabs v-model="activeCard" type="card">
       <el-tab-pane label="库存总览" name="storageOverview">
         <el-table
@@ -49,7 +56,11 @@ export default {
       activeCard: "storageOverview",
       search: "",
       searchWarning: "",
-      storageTable: []
+      storageTable: [],
+      downloadLoading: false,
+      filename: "库存详情",
+      autoWidth: true,
+      bookType: "xlsx"
     };
   },
 
@@ -152,6 +163,31 @@ export default {
             duration: 2000
           });
         });
+    },
+    handleDownload() {
+      this.downloadLoading = true;
+      import("@/vendor/Export2Excel").then(excel => {
+        const tHeader = ["配件名","数量（个）","进货价","出售价","上次进货日期"];
+        const filterVal = ['name', 'count', 'buyPrice', 'sellPrice','date']
+        const data = this.formatJson(filterVal, this.storageTable);
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType
+        });
+        this.downloadLoading = false;
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        if (j === 'buyPrice' || j === 'sellPrice') {
+          return currency(v[j],'¥')
+        } else {
+          return v[j]
+        }
+      }))
     }
   }
 };
