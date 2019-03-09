@@ -4,7 +4,7 @@
       :loading="downloadLoading"
       style="margin:0 0 20px 0;"
       type="primary"
-      icon="document"
+      icon="el-icon-download"
       @click="handleDownload"
     >导出Excel</el-button>
     <el-tabs v-model="activeCard" type="card">

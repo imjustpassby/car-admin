@@ -138,7 +138,7 @@ export default {
         legend: {
           data: ["每月利润"],
           textStyle: {
-            color: "#14c8d4",
+            color: "#9671C7",
             fontSize: 16
           }
         },
@@ -188,8 +188,8 @@ export default {
                 barBorderRadius: 5,
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   { offset: 0, color: "#D2A9B0" },
-                  { offset: 0.5, color: "#E1C0DB" },
-                  { offset: 1, color: "#F1CFE5" }
+                  { offset: 0.3, color: "#E1C0DB" },
+                  { offset: 1, color: "#FFEBFF" }
                 ])
               }
             },
@@ -208,7 +208,7 @@ export default {
         legend: {
           data: ["订单收入"],
           textStyle: {
-            color: "#14c8d4",
+            color: "#9671C7",
             fontSize: 16
           }
         },
@@ -258,8 +258,8 @@ export default {
                 barBorderRadius: 5,
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   { offset: 0, color: "#D2A9B0" },
-                  { offset: 0.5, color: "#E1C0DB" },
-                  { offset: 1, color: "#F1CFE5" }
+                  { offset: 0.3, color: "#E1C0DB" },
+                  { offset: 1, color: "#FFEBFF" }
                 ])
               }
             },

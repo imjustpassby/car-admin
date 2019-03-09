@@ -1,5 +1,12 @@
 <template>
   <div>
+    <el-button
+      :loading="downloadLoading"
+      style="margin:0 0 20px 0;"
+      type="primary"
+      icon="el-icon-download"
+      @click="handleDownload"
+    >导出Excel</el-button>
     <el-table
       v-loading="loading"
       :data="orderTable"
@@ -164,6 +171,53 @@ export default {
         }
       });
       return sums;
+    },
+    handleDownload() {
+      this.downloadLoading = true;
+      import("@/vendor/Export2Excel").then(excel => {
+        const tHeader = ["日期","消费类型","业务项目","服务项目","总额","客户姓名","客户手机","客户车牌","汽车品牌","配件清单"];
+        const filterVal = ["date","orderType","services","content","totalPrice","cusInfo-name","cusInfo-phone","cusInfo-plate","cusInfo-brand","fittings"]
+        const data = this.formatJson(filterVal, this.orderTable);
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.filename,
+          autoWidth: this.autoWidth,
+          bookType: this.bookType
+        });
+        this.downloadLoading = false;
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        if (j === 'content') {
+          let content= "";
+          v[j].forEach((e,index)=>{
+            let cost = currency(e.cost,"¥");
+            content += `(${index+1}) ${e.item}  ${cost}  `;
+          })
+          return content;
+        } else if (j=== "totalPrice"){
+          return currency(v[j],"¥");
+        } else if (j==="cusInfo-name"){
+          return v.cusInfo.name;
+        } else if (j==="cusInfo-phone"){
+          return v.cusInfo.phone;
+        } else if (j==="cusInfo-plate"){
+          return v.cusInfo.plate;
+        } else if (j==="cusInfo-brand"){
+          return v.cusInfo.brand;
+        } else if (j==="fittings"){
+          let content = "";
+          v[j].forEach((e,index)=>{
+            content += `(${index+1}) ${e.name}  ${e.count}个  `;
+          })
+          return content;
+        }
+        else {
+          return v[j]
+        }
+      }))
     }
   }
 };
