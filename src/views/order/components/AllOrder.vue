@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="page-component-up" v-show="isShowScrollTop" @click="scrollToTop">
+      <i class="icon el-icon-arrow-up"></i>
+    </div>
     <el-button
       :loading="downloadLoading"
       style="margin:0 0 20px 0;"
@@ -77,6 +80,8 @@
 <script>
 import { getOrderList } from "@/api/order.js";
 import { currency } from "@/utils/currency";
+import { scrollTo } from "@/utils/scrollTo";
+import { debounce } from "@/utils/index";
 export default {
   name: "AllOrder",
   props: [""],
@@ -87,7 +92,8 @@ export default {
       downloadLoading: false,
       filename: "订单详情",
       autoWidth: true,
-      bookType: "xlsx"
+      bookType: "xlsx",
+      isShowScrollTop: false
     };
   },
 
@@ -133,6 +139,26 @@ export default {
       this.orderTable = res.result;
       this.loading = false;
     });
+    this.__scrollHandler = debounce(() => {
+      var scrollHeight =
+        document.documentElement.scrollTop ||
+        window.pageYOffset ||
+        document.body.scrollTop;
+      var windowHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+      );
+      if (scrollHeight > 0.1 * windowHeight) {
+        this.isShowScrollTop = true;
+        return 0;
+      }
+      this.isShowScrollTop = false;
+    }, 200);
+    window.addEventListener("scroll", this.__scrollHandler);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.__scrollHandler);
   },
 
   methods: {
@@ -175,8 +201,30 @@ export default {
     handleDownload() {
       this.downloadLoading = true;
       import("@/vendor/Export2Excel").then(excel => {
-        const tHeader = ["日期","消费类型","业务项目","服务项目","总额","客户姓名","客户手机","客户车牌","汽车品牌","配件清单"];
-        const filterVal = ["date","orderType","services","content","totalPrice","cusInfo-name","cusInfo-phone","cusInfo-plate","cusInfo-brand","fittings"]
+        const tHeader = [
+          "日期",
+          "消费类型",
+          "业务项目",
+          "服务项目",
+          "总额",
+          "客户姓名",
+          "客户手机",
+          "客户车牌",
+          "汽车品牌",
+          "配件清单"
+        ];
+        const filterVal = [
+          "date",
+          "orderType",
+          "services",
+          "content",
+          "totalPrice",
+          "cusInfo-name",
+          "cusInfo-phone",
+          "cusInfo-plate",
+          "cusInfo-brand",
+          "fittings"
+        ];
         const data = this.formatJson(filterVal, this.orderTable);
         excel.export_json_to_excel({
           header: tHeader,
@@ -189,35 +237,53 @@ export default {
       });
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'content') {
-          let content= "";
-          v[j].forEach((e,index)=>{
-            let cost = currency(e.cost,"¥");
-            content += `(${index+1}) ${e.item}  ${cost}  `;
-          })
-          return content;
-        } else if (j=== "totalPrice"){
-          return currency(v[j],"¥");
-        } else if (j==="cusInfo-name"){
-          return v.cusInfo.name;
-        } else if (j==="cusInfo-phone"){
-          return v.cusInfo.phone;
-        } else if (j==="cusInfo-plate"){
-          return v.cusInfo.plate;
-        } else if (j==="cusInfo-brand"){
-          return v.cusInfo.brand;
-        } else if (j==="fittings"){
-          let content = "";
-          v[j].forEach((e,index)=>{
-            content += `(${index+1}) ${e.name}  ${e.count}个  `;
-          })
-          return content;
-        }
-        else {
-          return v[j]
-        }
-      }))
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === "content") {
+            let content = "";
+            v[j].forEach((e, index) => {
+              let cost = currency(e.cost, "¥");
+              content += `(${index + 1}) ${e.item}  ${cost}  `;
+            });
+            return content;
+          } else if (j === "totalPrice") {
+            return currency(v[j], "¥");
+          } else if (j === "cusInfo-name") {
+            return v.cusInfo.name;
+          } else if (j === "cusInfo-phone") {
+            return v.cusInfo.phone;
+          } else if (j === "cusInfo-plate") {
+            return v.cusInfo.plate;
+          } else if (j === "cusInfo-brand") {
+            return v.cusInfo.brand;
+          } else if (j === "fittings") {
+            let content = "";
+            v[j].forEach((e, index) => {
+              content += `(${index + 1}) ${e.name}  ${e.count}个  `;
+            });
+            return content;
+          } else {
+            return v[j];
+          }
+        })
+      );
+    },
+    showScrollTop() {
+      var scrollHeight =
+        document.documentElement.scrollTop ||
+        window.pageYOffset ||
+        document.body.scrollTop;
+      var windowHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+      );
+      if (scrollHeight > 0.2 * windowHeight) {
+        this.isShowScrollTop = true;
+      }
+      this.isShowScrollTop = false;
+    },
+    scrollToTop() {
+      scrollTo(0, 1000);
     }
   }
 };
@@ -237,6 +303,32 @@ export default {
     margin-right: 0;
     margin-bottom: 0;
     width: 33%;
+  }
+}
+.page-component-up {
+  background-color: #fff;
+  position: fixed;
+  right: 50px;
+  bottom: 100px;
+  width: 40px;
+  height: 40px;
+  size: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  z-index: 5;
+  & i {
+    color: #409eff;
+    display: block;
+    line-height: 40px;
+    text-align: center;
+    font-size: 18px;
+    &:hover {
+      color: #111111;
+      border-radius: 20px;
+      box-shadow: 0px 0px 6px rgba(55, 119, 100, 0.849);
+    }
   }
 }
 </style>

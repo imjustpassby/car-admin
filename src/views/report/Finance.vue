@@ -12,6 +12,7 @@ import "echarts/theme/macarons.js";
 import { getOrderList } from "@/api/order.js";
 import { getMonthlyPay } from "@/api/monthlyPay.js";
 import { getPurchasePay } from "@/api/purchasePay.js";
+import { debounce } from "@/utils/index";
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/line");
 require("echarts/lib/chart/bar");
@@ -24,7 +25,11 @@ export default {
     return {
       purchaseData: [],
       payData: [],
-      orderData: []
+      orderData: [],
+      myChart1: null,
+      myChart2: null,
+      myChart3: null,
+      myChart4: null
     };
   },
 
@@ -109,6 +114,19 @@ export default {
 
   mounted() {
     this.init();
+    this.__resizeHandler = debounce(() => {
+      if (this.myChart1 || this.myChart2 || this.myChart3 || this.myChart4) {
+        this.myChart1.resize();
+        this.myChart2.resize();
+        this.myChart3.resize();
+        this.myChart4.resize();
+      }
+    }, 200);
+    window.addEventListener("resize", this.__resizeHandler);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("resize", this.__resizeHandler);
   },
 
   methods: {
@@ -138,7 +156,7 @@ export default {
         legend: {
           data: ["每月利润"],
           textStyle: {
-            color: "#9671C7",
+            color: "#1E1E1E",
             fontSize: 16
           }
         },
@@ -146,8 +164,11 @@ export default {
           type: "category",
           axisLine: {
             lineStyle: {
-              color: "#14c8d4"
+              color: "#1E1E1E"
             }
+          },
+          axisLabel:{
+            fontSize: 14
           },
           data: this.months
         },
@@ -156,10 +177,35 @@ export default {
             splitLine: { show: false },
             axisLine: {
               lineStyle: {
-                color: "#14c8d4"
+                color: "#1E1E1E"
               }
             },
             type: "value"
+          }
+        ],
+        dataZoom: [
+          {
+            show: true,
+            height: 30,
+            xAxisIndex: [0],
+            bottom: 30,
+            start: 50,
+            end: 100,
+            handleSize: "90%",
+            handleStyle: {
+              color: "#d3dee5"
+            },
+            textStyle:{
+              color: "#1E1E1E"
+            },
+            bottom: 8
+          },
+          {
+            type: "inside",
+            show: true,
+            height: 15,
+            start: 1,
+            end: 35
           }
         ],
         series: [
@@ -208,7 +254,7 @@ export default {
         legend: {
           data: ["订单收入"],
           textStyle: {
-            color: "#9671C7",
+            color: "#1E1E1E",
             fontSize: 16
           }
         },
@@ -216,8 +262,11 @@ export default {
           type: "category",
           axisLine: {
             lineStyle: {
-              color: "#14c8d4"
+              color: "#1E1E1E"
             }
+          },
+          axisLabel:{
+            fontSize: 14
           },
           data: this.months
         },
@@ -226,10 +275,35 @@ export default {
             splitLine: { show: false },
             axisLine: {
               lineStyle: {
-                color: "#14c8d4"
+                color: "#1E1E1E"
               }
             },
             type: "value"
+          }
+        ],
+        dataZoom: [
+          {
+            show: true,
+            height: 30,
+            xAxisIndex: [0],
+            bottom: 30,
+            start: 50,
+            end: 100,
+            handleSize: "90%",
+            handleStyle: {
+              color: "#d3dee5"
+            },
+            textStyle:{
+              color: "#1E1E1E"
+            },
+            bottom: 8
+          },
+          {
+            type: "inside",
+            show: true,
+            height: 15,
+            start: 1,
+            end: 35
           }
         ],
         series: [
@@ -278,7 +352,7 @@ export default {
         legend: {
           data: ["每月支出"],
           textStyle: {
-            color: "#9671C7",
+            color: "#1E1E1E",
             fontSize: 16
           }
         },
@@ -286,8 +360,11 @@ export default {
           type: "category",
           axisLine: {
             lineStyle: {
-              color: "#14c8d4"
+              color: "#1E1E1E"
             }
+          },
+          axisLabel:{
+            fontSize: 14
           },
           data: this.months
         },
@@ -296,10 +373,35 @@ export default {
             splitLine: { show: false },
             axisLine: {
               lineStyle: {
-                color: "#14c8d4"
+                color: "#1E1E1E"
               }
             },
             type: "value"
+          }
+        ],
+        dataZoom: [
+          {
+            show: true,
+            height: 30,
+            xAxisIndex: [0],
+            bottom: 30,
+            start: 50,
+            end: 100,
+            handleSize: "90%",
+            handleStyle: {
+              color: "#d3dee5"
+            },
+            textStyle:{
+              color: "#1E1E1E"
+            },
+            bottom: 8
+          },
+          {
+            type: "inside",
+            show: true,
+            height: 15,
+            start: 1,
+            end: 35
           }
         ],
         series: [
@@ -348,7 +450,7 @@ export default {
         legend: {
           data: ["采购支出"],
           textStyle: {
-            color: "#9671C7",
+            color: "#1E1E1E",
             fontSize: 16
           }
         },
@@ -356,8 +458,11 @@ export default {
           type: "category",
           axisLine: {
             lineStyle: {
-              color: "#14c8d4"
+              color: "#1E1E1E"
             }
+          },
+          axisLabel:{
+            fontSize: 14
           },
           data: this.months
         },
@@ -366,10 +471,35 @@ export default {
             splitLine: { show: false },
             axisLine: {
               lineStyle: {
-                color: "#14c8d4"
+                color: "#1E1E1E"
               }
             },
             type: "value"
+          }
+        ],
+        dataZoom: [
+          {
+            show: true,
+            height: 30,
+            xAxisIndex: [0],
+            bottom: 30,
+            start: 50,
+            end: 100,
+            handleSize: "90%",
+            handleStyle: {
+              color: "#d3dee5"
+            },
+            textStyle:{
+              color: "#1E1E1E"
+            },
+            bottom: 8
+          },
+          {
+            type: "inside",
+            show: true,
+            height: 15,
+            start: 1,
+            end: 35
           }
         ],
         series: [
@@ -409,29 +539,29 @@ export default {
         ]
       };
 
-      let myChart1 = echarts.init(
+      this.myChart1 = echarts.init(
         document.getElementById("myChart1"),
         "macarons"
       );
-      myChart1.setOption(chartData1);
+      this.myChart1.setOption(chartData1);
 
-      let myChart2 = echarts.init(
+      this.myChart2 = echarts.init(
         document.getElementById("myChart2"),
         "macarons"
       );
-      myChart2.setOption(chartData2);
+      this.myChart2.setOption(chartData2);
 
-      let myChart3 = echarts.init(
+      this.myChart3 = echarts.init(
         document.getElementById("myChart3"),
         "macarons"
       );
-      myChart3.setOption(chartData3);
+      this.myChart3.setOption(chartData3);
 
-      let myChart4 = echarts.init(
+      this.myChart4 = echarts.init(
         document.getElementById("myChart4"),
         "macarons"
       );
-      myChart4.setOption(chartData4);
+      this.myChart4.setOption(chartData4);
     }
   }
 };
@@ -440,6 +570,7 @@ export default {
 <style lang="scss" scoped>
 .flex-box {
   width: 100%;
+  height: 750px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;

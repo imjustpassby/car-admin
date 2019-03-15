@@ -67,11 +67,11 @@ export default {
         title: {
           text: "每月工资统计",
           textStyle: {
-            color: "#14c8d4"
+            color: "#1e1e1e"
           }
         },
         tooltip: {
-          trigger: "item",
+          trigger: "axis",
           axisPointer: {
             type: "shadow"
           },
@@ -84,8 +84,11 @@ export default {
           type: "category",
           axisLine: {
             lineStyle: {
-              color: "#14c8d4"
+              color: "#1e1e1e"
             }
+          },
+          axisLabel:{
+            fontSize: 14
           },
           data: this.month
         },
@@ -93,10 +96,35 @@ export default {
           splitLine: { show: false },
           axisLine: {
             lineStyle: {
-              color: "#14c8d4"
+              color: "#1e1e1e"
             }
           }
         },
+        dataZoom: [
+          {
+            show: true,
+            height: 30,
+            xAxisIndex: [0],
+            bottom: 30,
+            start: 50,
+            end: 100,
+            handleSize: "90%",
+            handleStyle: {
+              color: "#d3dee5"
+            },
+            textStyle:{
+              color: "#1E1E1E"
+            },
+            bottom: 8
+          },
+          {
+            type: "inside",
+            show: true,
+            height: 15,
+            start: 1,
+            end: 35
+          }
+        ],
         series: [
           {
             name: "每月工资支出",
