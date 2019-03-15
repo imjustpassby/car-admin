@@ -157,6 +157,14 @@ export default {
         {
           value: "汽车保养",
           label: "汽车保养"
+        },
+        {
+          value: "汽车检测",
+          label: "汽车检测"
+        },
+        {
+          value: "汽车改装",
+          label: "汽车改装"
         }
       ],
       content: [
