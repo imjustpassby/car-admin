@@ -16,7 +16,7 @@
           <el-table-column prop="phone" label="电话" fit align="center"></el-table-column>
           <el-table-column prop="position" label="职位" fit align="center"></el-table-column>
           <el-table-column prop="address" label="地址" align="center"></el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" align="center">
             <template slot-scope="scope">
               <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
               <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>

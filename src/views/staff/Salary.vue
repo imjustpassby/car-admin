@@ -176,11 +176,4 @@ export default {
 </script>
 
 <style scoped>
-.el-input {
-  width: 50%;
-}
-
-.el-button {
-  width: 100px;
-}
 </style>

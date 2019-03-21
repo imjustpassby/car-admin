@@ -131,7 +131,10 @@ export default {
       const chartData = {
         title: {
           text: this.selectDate + "业务总览",
-          x: "center"
+          x: "center",
+          textStyle:{
+            fontSize: 24
+          }
         },
         tooltip: {
           trigger: "item",
@@ -140,7 +143,10 @@ export default {
         legend: {
           orient: "vertical",
           left: "left",
-          data: ["普通客户", "会员消费", "会员充值", "新会员加入"]
+          data: ["普通客户", "会员消费", "会员充值", "新会员加入"],
+          textStyle:{
+            fontSize: 16
+          }
         },
         series: [
           {
