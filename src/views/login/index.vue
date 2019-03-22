@@ -304,12 +304,10 @@ $lg_input: #3f3736;
   }
   .login-form {
     position: absolute;
-    left: 0;
-    right: 0;
-    width: 750px;
-    max-width: 100%;
+    left: 50%;
+    top: 50%;
     padding: 35px 35px 15px 35px;
-    margin: 120px auto;
+    transform: translate(-50%,-50%);
   }
   .tips {
     width: 80%;
