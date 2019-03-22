@@ -67,7 +67,8 @@ export default {
         title: {
           text: "每月工资统计",
           textStyle: {
-            color: "#1e1e1e"
+            color: "#1e1e1e",
+            fontSize: 24
           }
         },
         tooltip: {
@@ -78,7 +79,10 @@ export default {
           formatter: "{a} <br/>{b} : ¥{c}"
         },
         legend: {
-          data: ["每月工资支出"]
+          data: ["每月工资支出"],
+          textStyle:{
+            fontSize: 16
+          }
         },
         xAxis: {
           type: "category",

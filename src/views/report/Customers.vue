@@ -76,7 +76,8 @@ export default {
         title: {
           text: "近一年新会员统计",
           textStyle: {
-            color: "#57617B"
+            color: "#57617B",
+            fontSize: 24
           }
         },
         tooltip: {

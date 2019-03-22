@@ -1,22 +1,21 @@
 <template>
   <div>
-    <el-table v-loading="listLoading" :data="tableData" style="width:100%" highlight-current-row>
+    <el-table
+      v-loading="listLoading"
+      :data="tableData"
+      show-summary
+      :summary-method="getSummaries"
+      style="width:100%"
+      highlight-current-row
+    >
       <el-table-column type="expand" fit>
         <template slot-scope="scope">
           <p class="details">具体支出项：</p>
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item
-              v-for="(item) in scope.row.basePay"
-              :key="item._id"
-              :label="item.item"
-            >
+            <el-form-item v-for="(item) in scope.row.basePay" :key="item._id" :label="item.item">
               <span>{{ item.cost | currency('¥') }}</span>
             </el-form-item>
-            <el-form-item
-              v-for="(item) in scope.row.salaryPay"
-              :key="item._id"
-              :label="item.item"
-            >
+            <el-form-item v-for="(item) in scope.row.salaryPay" :key="item._id" :label="item.item">
               <span>{{ item.cost | currency('¥') }}</span>
             </el-form-item>
             <el-form-item
@@ -30,22 +29,22 @@
         </template>
       </el-table-column>
       <el-table-column label="日期" prop="date"></el-table-column>
-      <el-table-column label="基本支出">
+      <el-table-column label="基本支出" prop="basePayTotal">
         <template slot-scope="scope">
           <span>{{scope.row.basePayTotal|currency("¥")}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="工资支出">
+      <el-table-column label="工资支出" prop="salaryPayTotal">
         <template slot-scope="scope">
           <span>{{scope.row.salaryPayTotal|currency("¥")}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="其他支出">
+      <el-table-column label="其他支出" prop="otherPayTotal">
         <template slot-scope="scope">
           <span>{{scope.row.otherPayTotal|currency("¥")}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="合计支出">
+      <el-table-column label="合计支出" prop="totalPay">
         <template slot-scope="scope">
           <span>{{scope.row.totalPay|currency("¥")}}</span>
         </template>
@@ -88,7 +87,43 @@ export default {
       .catch();
   },
 
-  methods: {}
+  methods: {
+    getSummaries(param) {
+      const { columns, data } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = "合计";
+          return;
+        }
+        const values = data.map(item => Number(item[column.property]));
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, cur) => {
+            const value = Number(cur);
+            if (!isNaN(value)) {
+              return prev + cur;
+            } else {
+              return prev;
+            }
+          }, 0);
+          switch (column.property) {
+            case "basePayTotal":
+            case "salaryPayTotal":
+            case "otherPayTotal":
+            case "totalPay":
+              sums[index] = currency(sums[index], "¥");
+              break;
+            default:
+              sums[index] = "";
+              break;
+          }
+        } else {
+          sums[index] = "";
+        }
+      });
+      return sums;
+    }
+  }
 };
 </script>
 <style lang='scss' scoped>

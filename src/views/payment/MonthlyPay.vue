@@ -304,7 +304,7 @@ export default {
           }
         } else {
           this.$message({
-            message: "订单提交失败！请检查信息是否填写正确！",
+            message: "表单提交失败！请检查信息是否填写正确！",
             type: "error",
             center: true,
             duration: 3000

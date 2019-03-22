@@ -8,7 +8,7 @@
       @click="handleDownload"
     >导出Excel</el-button>
     <el-tabs v-model="activeCard" type="card">
-      <el-tab-pane label="员工管理" name="staffManage">
+      <el-tab-pane label="员工总览" name="staffManage">
         <el-table :data="tableData" style="width: 100%;" highlight-current-row>
           <el-table-column prop="date" label="入职日期" fit align="center"></el-table-column>
           <el-table-column prop="name" label="姓名" fit align="center"></el-table-column>
